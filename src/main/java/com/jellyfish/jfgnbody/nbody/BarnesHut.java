@@ -1,34 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2015, Thomas.H Warner.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification, 
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice, 
- * this list of conditions and the following disclaimer in the documentation and/or 
- * other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its contributors 
- * may be used to endorse or promote products derived from this software without 
- * specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY 
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- *******************************************************************************/
-
-package com.jellyfish.fr.jfgnbody.nbody;
+package com.jellyfish.jfgnbody.nbody;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -108,9 +78,9 @@ public class BarnesHut extends javax.swing.JPanel {
             int blue = 255;
             int green = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
             Color color = new Color(red, green, blue);
-            bodies[i] = new Body(px, py, vx, vy, mass, color);
+            bodies[i] = new Body(i,px, py, vx, vy, mass, color);
         }
-        bodies[0] = new Body(0, 0, 0, 0, 1e6 * solarmass, Color.red);
+        bodies[0] = new Body(N + 1, 0, 0, 0, 0, 1e6 * solarmass, Color.red);
         //put a heavy body in the center
 
     }
@@ -138,7 +108,6 @@ public class BarnesHut extends javax.swing.JPanel {
     }
 
     //A function to return an exponential distribution for position
-
     public static double exp(double lambda) {
         return -Math.log(1 - Math.random()) / lambda;
     }

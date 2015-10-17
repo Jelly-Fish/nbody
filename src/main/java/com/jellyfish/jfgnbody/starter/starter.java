@@ -29,10 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE. 
  ******************************************************************************
  */
-package com.jellyfish.fr.jfgnbody.starter;
+package com.jellyfish.jfgnbody.starter;
 
-import com.jellyfish.fr.jfgnbody.gui.MainFrame;
-import com.jellyfish.fr.jfgnbody.nbody.BruteForce;
+import com.jellyfish.jfgnbody.gui.MainFrame;
+import com.jellyfish.jfgnbody.nbody.BruteForce;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -57,7 +57,7 @@ public class starter {
         }
         //</editor-fold>
         
-        final BruteForce bf = new BruteForce(100, 10);
+        final BruteForce bf = new BruteForce(2000, 100);
         final MainFrame mf = new MainFrame(bf);
     }
     
