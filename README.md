@@ -1,3 +1,4 @@
 # nbody
 2D gravity simulation experiment - N Body problem.
-TODO
+Original applet Code by Frans Pretorius : http://physics.princeton.edu/~fpretori/
+
