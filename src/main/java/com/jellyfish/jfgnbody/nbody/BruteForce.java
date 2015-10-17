@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  *
@@ -48,10 +47,12 @@ public class BruteForce extends javax.swing.JPanel {
     //<editor-fold defaultstate="collapsed" desc="methods">
     @Override
     public void paint(Graphics g) {
-
+        
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
+        
+        if (!(this.bodyMap.size() > 0)) return;
 
         for (Body b : this.bodyMap.values()) {
             

@@ -1,10 +1,10 @@
 package com.jellyfish.jfgnbody.gui;
 
+import com.jellyfish.jfgnbody.nbody.BruteForce;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
 
 /**
  *
@@ -13,17 +13,23 @@ import javax.swing.JPanel;
 public class MainFrame extends javax.swing.JFrame {
 
     /**
+     * Panel for graphic display.
+     */
+    private BruteForce panel;
+    
+    /**
      * Creates new form MainFrame
      * @param panel
      */
-    public MainFrame(final JPanel panel) {
+    public MainFrame(final BruteForce panel) {
         
         initComponents();
         this.getContentPane().setBackground(new Color(100,100,100));
         Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
         this.setIconImage(icon);
+        this.panel = panel;
         this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
+        this.add(this.panel, BorderLayout.CENTER);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -39,23 +45,27 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        simulationMenu = new javax.swing.JMenu();
+        newSimulationMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Gravity simulation - test 0.0.1");
+        setTitle("NBody - Gravity simulation");
         setBackground(new java.awt.Color(51, 51, 51));
         setIconImages(null);
         setName("mainframe"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jMenuBar1.setDoubleBuffered(true);
+        simulationMenu.setText("Simulation");
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        newSimulationMenuItem.setText("New simulation");
+        newSimulationMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newSimulationMenuItemActionPerformed(evt);
+            }
+        });
+        simulationMenu.add(newSimulationMenuItem);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(simulationMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -73,10 +83,25 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    // End of variables declaration//GEN-END:variables
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    private void newSimulationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationMenuItemActionPerformed
+        new NewSimulationDialog(this);
+    }//GEN-LAST:event_newSimulationMenuItemActionPerformed
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem newSimulationMenuItem;
+    private javax.swing.JMenu simulationMenu;
+    // End of variables declaration//GEN-END:variables
+    
+    public void resetSimulation(final int n, final int iSpeed) {
+        this.remove(this.panel);
+        this.panel = null;
+        this.panel = new BruteForce(n, iSpeed);
+        this.setLayout(new BorderLayout());
+        this.add(this.panel, BorderLayout.CENTER);
+        this.pack();
+        this.panel.repaint();
+    }
+    
 }
