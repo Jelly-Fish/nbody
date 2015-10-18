@@ -1,7 +1,5 @@
 package com.jellyfish.jfgnbody.utils;
 
-import com.jellyfish.jfgnbody.nbody.Body;
-
 /**
  *
  * @author thw
@@ -29,12 +27,20 @@ public class MassUtils {
     public static final int MIN_VMASS = 2;
     
     /**
-     * @param b Body instance.
+     * @param m Body's instance physical mass.
      * @return Body mass / ratio for performing draw or paint GUI actions.
      */
-    public static final int getVirtualIntegerMass(final Body b) {
-        final Double vMass = b.mass / MassUtils.MASS_DRAW_DIMENSION_RATIO;
+    public static final int getVirtualIntegerMass(final double m) {
+        final Double vMass = m / MassUtils.MASS_DRAW_DIMENSION_RATIO;
         return vMass < MassUtils.MIN_VMASS ? MassUtils.MIN_VMASS : vMass.intValue();
+    }
+    
+    /**
+     * @param virtualMass used for graphical display &/OR painting objects.
+     * @return true mass.
+     */
+    public static final double getMassByVirtualIntegerMass(final int virtualMass) {
+        return virtualMass * MassUtils.MASS_DRAW_DIMENSION_RATIO;
     }
     
 }

@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
+import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
 
 /**
@@ -58,7 +59,7 @@ public class Body {
     /**
      *  Radius for calculation of body's size to draw.
      */
-    public int graphicRadius;
+    public int graphicSize;
     
     /**
      * Has this been swallowed by another body.
@@ -95,6 +96,7 @@ public class Body {
         this.mass = mass;
         this.color = color;
         this.key = key;
+        this.graphicSize = MassUtils.getVirtualIntegerMass(mass);
     }
     //</editor-fold>
     
@@ -165,23 +167,34 @@ public class Body {
             b.swallow(this);
         }
     }
+    
+    /**
+     * Is this, as a graphical object suject to being draw, in GUI's bounds or not ?
+     * @param width
+     * @param height
+     * @return true if out of bounds else false.
+     */
+    boolean isOutOfBounds(final int width, final int height) {
+        final int bx = (int) Math.round(this.rx * 250 / 1e18);
+        final int by = (int) Math.round(this.ry * 250 / 1e18);
+        return bx + (width / 2) < 0 || bx > width * 2 || by + (height / 2) < 0 || by > height * 2;
+    }
 
     /**
      * @param toSwallow the Body to swallow.
      */
     private void swallow(final Body toSwallow) {
-        this.graphicRadius += toSwallow.graphicRadius * 10;
+        
+        if (toSwallow instanceof SupermassiveBody) return;
+        
+        this.mass += toSwallow.mass;
+        this.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
         toSwallow.swallowed = true;
     }
 
     Body add(Body body, Body b) {
         throw new UnsupportedOperationException("Method add(b1, b2) not supported in class " +
                 Body.class.getSimpleName());
-    }
-    
-    @Override
-    public String toString() {
-        return "" + rx + ", " + ry + ", " + vx + ", " + vy + ", " + mass;
     }
     //</editor-fold>
     

@@ -8,6 +8,7 @@ package com.jellyfish.jfgnbody.gui;
 import com.jellyfish.jfgnbody.starter.Starter;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
 
 /**
  *
@@ -159,10 +160,12 @@ public class NewSimulationDialog extends javax.swing.JDialog {
 
     private void nbodyCountTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nbodyCountTextFieldKeyTyped
         checkKeyEventIntegerOnly(evt);
+        checkIntegerValue(this.nbodyCountTextField, 0, 10000, 1000);
     }//GEN-LAST:event_nbodyCountTextFieldKeyTyped
 
     private void iterationSpeedTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_iterationSpeedTextFieldKeyTyped
         checkKeyEventIntegerOnly(evt);
+        checkIntegerValue(this.iterationSpeedTextField, 10, 1000, 100);
     }//GEN-LAST:event_iterationSpeedTextFieldKeyTyped
 
     private void checkKeyEventIntegerOnly(KeyEvent evt) {
@@ -172,6 +175,20 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         } catch (final NumberFormatException nfex) {
             evt.consume();
         }
+    }
+        
+    private void checkIntegerValue(final JTextField field, final int min, 
+            final int max, final int resetValue) {
+        
+        boolean reset = false;
+        try {
+            final int fieldIntegerValue = Integer.parseInt(String.valueOf(field.getText()));
+            reset = fieldIntegerValue > max - 1 || fieldIntegerValue < min + 1;
+        } catch (final NumberFormatException nfex) {
+            reset = true;
+        }
+        
+        if (reset) field.setText(String.valueOf(resetValue)); 
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

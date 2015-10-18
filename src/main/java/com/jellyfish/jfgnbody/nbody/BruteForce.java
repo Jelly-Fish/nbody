@@ -1,11 +1,11 @@
 package com.jellyfish.jfgnbody.nbody;
 
-import com.jellyfish.jfgnbody.utils.MassUtils;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *
@@ -55,13 +55,12 @@ public class BruteForce extends javax.swing.JPanel {
         if (!(this.bodyMap.size() > 0)) return;
 
         for (Body b : this.bodyMap.values()) {
-            
-            if (b instanceof SupermassiveBody) continue;
-            
-            b.graphicRadius = MassUtils.getVirtualIntegerMass(b);
+            boolean superMass = b instanceof SupermassiveBody;
             g.setColor(b.color);
             g.fillOval((int) Math.round(b.rx * 250 / 1e18),
-                    (int) Math.round(b.ry * 250 / 1e18), b.graphicRadius, b.graphicRadius);
+                (int) Math.round(b.ry * 250 / 1e18), b.graphicSize, b.graphicSize);
+                //superMass ? 4 : b.graphicSize, superMass ? 4 : b.graphicSize);
+
         }
 
         if (this.stopWatch.hasReachedMaxElapsedMS()) {
@@ -103,6 +102,7 @@ public class BruteForce extends javax.swing.JPanel {
         double px, py, magv, absangle, thetav, phiv, vx , vy, mass;
         int red, blue, green;
         Color color;
+        final Random rand = new Random();
 
         for (int i = 0; i < N; i++) {
 
@@ -120,20 +120,22 @@ public class BruteForce extends javax.swing.JPanel {
             // be oposite. Clockwise & counter-clockwise.
             //if (Math.random() <= .5) { vx = -vx; vy = -vy; }
 
-            mass = Math.random() * solarmass * 10 + 1e20; //10 + 1e20;
+            /* Use only for color effects depending on mass :
+            mass = Math.random() * solarmass * 10 + 1e20;
             // Color the masses in green gradients by mass.
             red = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
             blue = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
             green = 255;
-            color = new Color(red, green, blue);
-            mass = Math.random() * solarmass;
-            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, color));
+            color = new Color(red, green, blue);*/
+            
+            mass = Math.random() * solarmass; //* rand.nextInt((100000 - 10000) + 1) + 10000;
+            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, Color.WHITE));
         }
 
         // Put a supermassive body in the center. SupermassiveBody instances
         // will not be candidates to draw or paint methods.
         this.bodyMap.put(this.bodyMap.size(), new SupermassiveBody(this.bodyMap.size(), 
-                0, 0, 0, 0, 1e6 * solarmass, Color.RED));
+                0, 0, 0, 0, 1e6 * solarmass, Color.GRAY));
 
     }
 
@@ -153,8 +155,15 @@ public class BruteForce extends javax.swing.JPanel {
                 }
             }
         }
-        // Loop again and update the bodies using timestep param.
-        for (Body b : this.bodyMap.values()) b.update(1e11);
+        // Loop again and update the bodies using timestep param if tehy are still
+        // in the bounds of the GUI display.
+        for (Body b : this.bodyMap.values()) {
+            if (!b.isOutOfBounds(this.getWidth(), this.getHeight())) { 
+                b.update(1e11);
+            } else {
+                b.swallowed = true;
+            }
+        }
     }
 
     /**
@@ -179,7 +188,7 @@ public class BruteForce extends javax.swing.JPanel {
             }
         }
         
-        for (int j = 0; j < keys.length; j++) {
+        for (int j = 0; j < i; j++) {
             this.bodyMap.remove(keys[j]);
         }
     }

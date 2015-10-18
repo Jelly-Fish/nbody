@@ -1,6 +1,8 @@
 package com.jellyfish.jfgnbody.utils;
 
 import com.jellyfish.jfgnbody.nbody.Body;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
  *
@@ -10,21 +12,18 @@ public class CollisionUtils {
     
     /**
      * @param b superior in mass body.
-     * @param collider body that is potentially collinding with b
+     * @param c body that is potentially collinding with b
      * @return true if b contains collider.
      */
-    public static final boolean collidesWith(final Body b, final Body collider) {
+    public static final boolean collidesWith(final Body b, final Body c) {
+         
+        final Rectangle br = new Rectangle((int) Math.round(b.rx * 250 / 1e18), 
+            (int) Math.round(b.ry * 250 / 1e18), b.graphicSize, b.graphicSize);
+        final Point cp = new Point(
+            (int) Math.round(c.rx * 250 / 1e18) + (c.graphicSize / 2),
+            (int) Math.round(c.ry * 250 / 1e18) + (c.graphicSize / 2));
         
-        // FIXME : lossy calculations.
-        /*
-        if (collider.mass > b.mass) return false;     
-        return (collider.rx > b.rx && 
-                collider.rx + collider.mass < b.rx + b.mass &&
-                collider.ry > b.ry && 
-                collider.ry + collider.mass < b.ry + b.mass);
-        */
-        
-        return false;
+        return br.contains(cp);
     }
     
 }
