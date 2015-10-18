@@ -5,7 +5,7 @@
  */
 package com.jellyfish.jfgnbody.gui;
 
-import com.jellyfish.jfgnbody.starter.Starter;
+import com.jellyfish.jfgnbody.starter.Main;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
@@ -151,7 +151,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_newSimulationCancelButtonActionPerformed
 
     private void newSimulationStartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationStartButtonActionPerformed
-        Starter.start((MainFrame) this.getParent(), Integer.valueOf(this.nbodyCountTextField.getText()),
+        Main.start((MainFrame) this.getParent(), Integer.valueOf(this.nbodyCountTextField.getText()),
             Integer.valueOf(this.iterationSpeedTextField.getText()));
         this.setVisible(false);
         this.getParent().repaint();

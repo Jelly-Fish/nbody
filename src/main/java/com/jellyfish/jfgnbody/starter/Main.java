@@ -40,7 +40,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author thw
  */
-public class starter {
+public class Main {
     
     /**
      * @param args the command line arguments
@@ -57,8 +57,13 @@ public class starter {
         }
         //</editor-fold>
         
-        final BruteForce bf = new BruteForce(2000, 100);
+        final BruteForce bf = new BruteForce(100, 10);
         final MainFrame mf = new MainFrame(bf);
+    }
+
+    public static void start(final MainFrame mainFrame, final int n, 
+            final int iSpeed) {
+        mainFrame.resetSimulation(n, iSpeed);
     }
     
 }
