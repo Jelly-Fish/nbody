@@ -24,7 +24,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(final BruteForce panel) {
         
         initComponents();
-        this.getContentPane().setBackground(new Color(100,100,100));
+        this.setBackground(new Color(10,10,10));
+        this.getContentPane().setBackground(new Color(10,10,10));
         Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
         this.setIconImage(icon);
         this.panel = panel;
@@ -55,9 +56,14 @@ public class MainFrame extends javax.swing.JFrame {
         setName("mainframe"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
 
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        simulationMenu.setBorder(null);
         simulationMenu.setText("Simulation");
 
-        newSimulationMenuItem.setText("New simulation");
+        newSimulationMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newSimulationMenuItem.setText("Start a new simulation");
+        newSimulationMenuItem.setBorder(null);
         newSimulationMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newSimulationMenuItemActionPerformed(evt);
@@ -95,13 +101,7 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     public void resetSimulation(final int n, final int iSpeed) {
-        this.remove(this.panel);
-        this.panel = null;
-        this.panel = new BruteForce(n, iSpeed);
-        this.setLayout(new BorderLayout());
-        this.add(this.panel, BorderLayout.CENTER);
-        this.pack();
-        this.panel.repaint();
+        this.panel.restart(n, iSpeed);
     }
     
 }

@@ -17,7 +17,7 @@ public class BruteForce extends javax.swing.JPanel {
     /**
      * Count of Body classes to instanciate.
      */
-    public final int N;
+    public int N;
 
     /**
      * Collection of Body instances.
@@ -27,7 +27,7 @@ public class BruteForce extends javax.swing.JPanel {
     /**
      * Stop watch util.
      */
-    private final StopWatch stopWatch;
+    private StopWatch stopWatch;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructor">
@@ -39,27 +39,28 @@ public class BruteForce extends javax.swing.JPanel {
         this.N = n;
         this.startBodies(N);
         this.stopWatch = new StopWatch(iterationSpeed);
-        this.setSize(800, 600);
-        this.setBackground(Color.GRAY);
+        this.setBackground(new Color(10,10,10));
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="methods">
     @Override
     public void paint(Graphics g) {
-        
+
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
-        
-        if (!(this.bodyMap.size() > 0)) return;
+
+        if (!(this.bodyMap.size() > 0)) {
+            return;
+        }
 
         for (Body b : this.bodyMap.values()) {
             boolean superMass = b instanceof SupermassiveBody;
             g.setColor(b.color);
             g.fillOval((int) Math.round(b.rx * 250 / 1e18),
-                (int) Math.round(b.ry * 250 / 1e18), b.graphicSize, b.graphicSize);
-                //superMass ? 4 : b.graphicSize, superMass ? 4 : b.graphicSize);
+                    (int) Math.round(b.ry * 250 / 1e18), b.graphicSize, b.graphicSize);
+            //superMass ? 4 : b.graphicSize, superMass ? 4 : b.graphicSize);
 
         }
 
@@ -99,7 +100,7 @@ public class BruteForce extends javax.swing.JPanel {
 
         double radius = 1e18; // radius of universe
         double solarmass = 1.98892e30; // = Math.pow(1.98892 * 10, 30) 
-        double px, py, magv, absangle, thetav, phiv, vx , vy, mass;
+        double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
         int red, blue, green;
         Color color;
         final Random rand = new Random();
@@ -121,21 +122,20 @@ public class BruteForce extends javax.swing.JPanel {
             //if (Math.random() <= .5) { vx = -vx; vy = -vy; }
 
             /* Use only for color effects depending on mass :
-            mass = Math.random() * solarmass * 10 + 1e20;
-            // Color the masses in green gradients by mass.
-            red = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
-            blue = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
-            green = 255;
-            color = new Color(red, green, blue);*/
-            
+             mass = Math.random() * solarmass * 10 + 1e20;
+             // Color the masses in green gradients by mass.
+             red = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
+             blue = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
+             green = 255;
+             color = new Color(red, green, blue);*/
             mass = Math.random() * solarmass; //* rand.nextInt((100000 - 10000) + 1) + 10000;
             this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, Color.WHITE));
         }
 
         // Put a supermassive body in the center. SupermassiveBody instances
         // will not be candidates to draw or paint methods.
-        this.bodyMap.put(this.bodyMap.size(), new SupermassiveBody(this.bodyMap.size(), 
-                0, 0, 0, 0, 1e6 * solarmass, Color.GRAY));
+        this.bodyMap.put(this.bodyMap.size(), new SupermassiveBody(this.bodyMap.size(),
+                0, 0, 0, 0, 1e6 * solarmass, Color.BLACK));
 
     }
 
@@ -158,7 +158,7 @@ public class BruteForce extends javax.swing.JPanel {
         // Loop again and update the bodies using timestep param if tehy are still
         // in the bounds of the GUI display.
         for (Body b : this.bodyMap.values()) {
-            if (!b.isOutOfBounds(this.getWidth(), this.getHeight())) { 
+            if (!b.isOutOfBounds(this.getWidth(), this.getHeight())) {
                 b.update(1e11);
             } else {
                 b.swallowed = true;
@@ -173,12 +173,12 @@ public class BruteForce extends javax.swing.JPanel {
     public static double exp(final double lambda) {
         return -Math.log(1 - Math.random()) / lambda;
     }
-    
+
     /**
      * Remove all bodies that have collided with more massiv bodies.
      */
     private void cleanBodyMap() {
-        
+
         final int[] keys = new int[this.bodyMap.size()];
         int i = 0;
         for (Body b : this.bodyMap.values()) {
@@ -187,10 +187,17 @@ public class BruteForce extends javax.swing.JPanel {
                 ++i;
             }
         }
-        
+
         for (int j = 0; j < i; j++) {
             this.bodyMap.remove(keys[j]);
         }
+    }
+
+    public void restart(int n, int iSpeed) {
+        this.N = n;
+        this.bodyMap.clear();
+        this.startBodies(N);
+        this.stopWatch = new StopWatch(iSpeed);
     }
     //</editor-fold>
 

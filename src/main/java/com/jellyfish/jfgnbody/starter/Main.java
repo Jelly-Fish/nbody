@@ -45,6 +45,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void main(String[] args) {
         
         // <editor-fold defaultstate="collapsed" desc="UI Manager">    
@@ -56,9 +57,8 @@ public class Main {
             System.err.println("Look & feel setup failed.");
         }
         //</editor-fold>
-        
-        final BruteForce bf = new BruteForce(100, 10);
-        final MainFrame mf = new MainFrame(bf);
+         
+        new MainFrame(new BruteForce(100, 10));
     }
 
     public static void start(final MainFrame mainFrame, final int n, 

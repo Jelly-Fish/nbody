@@ -7,8 +7,7 @@ package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.starter.Main;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
-import javax.swing.JTextField;
+import javax.swing.JSpinner.DefaultEditor;
 
 /**
  *
@@ -25,6 +24,8 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         super(parent, true);
         this.setLocation(new Point(parent.getX() + 30, parent.getY() + 80));
         initComponents();
+        ((DefaultEditor) this.nbodyCountSpinner.getEditor()).getTextField().setEditable(false);
+        ((DefaultEditor) this.iSpeedSpinner.getEditor()).getTextField().setEditable(false);
         this.setVisible(true);
     }
 
@@ -37,52 +38,32 @@ public class NewSimulationDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        iterationSpeedTextField = new javax.swing.JTextField();
         nbodyCountLabel = new javax.swing.JLabel();
         iterationSpeddLabel = new javax.swing.JLabel();
-        nbodyCountTextField = new javax.swing.JTextField();
         newSimulationSubtitleLabel = new javax.swing.JLabel();
         newSimulationStartButton = new javax.swing.JButton();
         newSimulationCancelButton = new javax.swing.JButton();
+        nbodyCountSpinner = new javax.swing.JSpinner();
+        iSpeedSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New NBody simulation");
         setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
-
-        iterationSpeedTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        iterationSpeedTextField.setText("100");
-        iterationSpeedTextField.setBorder(null);
-        iterationSpeedTextField.setDoubleBuffered(true);
-        iterationSpeedTextField.setMargin(new java.awt.Insets(4, 4, 4, 4));
-        iterationSpeedTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                iterationSpeedTextFieldKeyTyped(evt);
-            }
-        });
+        setResizable(false);
 
         nbodyCountLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        nbodyCountLabel.setText("Enter a body amount < 10,000 : ");
+        nbodyCountLabel.setText("Enter a body amount >= 100 & <= 10,000 : ");
 
         iterationSpeddLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        iterationSpeddLabel.setText("Iteration speed in milliseconds > 10 & < 1000 : ");
-
-        nbodyCountTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        nbodyCountTextField.setText("1000");
-        nbodyCountTextField.setBorder(null);
-        nbodyCountTextField.setDoubleBuffered(true);
-        nbodyCountTextField.setMargin(new java.awt.Insets(4, 4, 4, 4));
-        nbodyCountTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                nbodyCountTextFieldKeyTyped(evt);
-            }
-        });
+        iterationSpeddLabel.setText("Iteration speed in milliseconds >= 10 & <= 1000 : ");
 
         newSimulationSubtitleLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         newSimulationSubtitleLabel.setText("Please submit a body amout (N = solor mass count) and iteration\\nspeed for a new simulation.");
 
         newSimulationStartButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         newSimulationStartButton.setText("Start simulation");
+        newSimulationStartButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         newSimulationStartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newSimulationStartButtonActionPerformed(evt);
@@ -91,11 +72,22 @@ public class NewSimulationDialog extends javax.swing.JDialog {
 
         newSimulationCancelButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         newSimulationCancelButton.setText("Cancel");
+        newSimulationCancelButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         newSimulationCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newSimulationCancelButtonActionPerformed(evt);
             }
         });
+
+        nbodyCountSpinner.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        nbodyCountSpinner.setModel(new javax.swing.SpinnerNumberModel(1000, 100, 10000, 100));
+        nbodyCountSpinner.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        nbodyCountSpinner.setDoubleBuffered(true);
+
+        iSpeedSpinner.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        iSpeedSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1000, 10));
+        iSpeedSpinner.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        iSpeedSpinner.setDoubleBuffered(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,24 +95,23 @@ public class NewSimulationDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(newSimulationSubtitleLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(nbodyCountLabel)
                             .addComponent(iterationSpeddLabel))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(nbodyCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(iterationSpeedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(newSimulationSubtitleLabel))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(newSimulationCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(newSimulationStartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(nbodyCountSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                                .addComponent(iSpeedSpinner)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(newSimulationCancelButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(newSimulationStartButton)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,15 +121,15 @@ public class NewSimulationDialog extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nbodyCountLabel)
-                    .addComponent(nbodyCountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nbodyCountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(iterationSpeedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(iterationSpeddLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newSimulationStartButton)
-                    .addComponent(newSimulationCancelButton))
+                    .addComponent(iterationSpeddLabel)
+                    .addComponent(iSpeedSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(newSimulationCancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(newSimulationStartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -151,51 +142,17 @@ public class NewSimulationDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_newSimulationCancelButtonActionPerformed
 
     private void newSimulationStartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationStartButtonActionPerformed
-        Main.start((MainFrame) this.getParent(), Integer.valueOf(this.nbodyCountTextField.getText()),
-            Integer.valueOf(this.iterationSpeedTextField.getText()));
+        Main.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),
+                (int) this.iSpeedSpinner.getValue());
         this.setVisible(false);
-        this.getParent().repaint();
         this.dispose();
     }//GEN-LAST:event_newSimulationStartButtonActionPerformed
-
-    private void nbodyCountTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nbodyCountTextFieldKeyTyped
-        checkKeyEventIntegerOnly(evt);
-        checkIntegerValue(this.nbodyCountTextField, 0, 10000, 1000);
-    }//GEN-LAST:event_nbodyCountTextFieldKeyTyped
-
-    private void iterationSpeedTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_iterationSpeedTextFieldKeyTyped
-        checkKeyEventIntegerOnly(evt);
-        checkIntegerValue(this.iterationSpeedTextField, 10, 1000, 100);
-    }//GEN-LAST:event_iterationSpeedTextFieldKeyTyped
-
-    private void checkKeyEventIntegerOnly(KeyEvent evt) {
-        final char c = evt.getKeyChar();
-        try {
-            Integer.parseInt(String.valueOf(c));
-        } catch (final NumberFormatException nfex) {
-            evt.consume();
-        }
-    }
-        
-    private void checkIntegerValue(final JTextField field, final int min, 
-            final int max, final int resetValue) {
-        
-        boolean reset = false;
-        try {
-            final int fieldIntegerValue = Integer.parseInt(String.valueOf(field.getText()));
-            reset = fieldIntegerValue > max - 1 || fieldIntegerValue < min + 1;
-        } catch (final NumberFormatException nfex) {
-            reset = true;
-        }
-        
-        if (reset) field.setText(String.valueOf(resetValue)); 
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner iSpeedSpinner;
     private javax.swing.JLabel iterationSpeddLabel;
-    private javax.swing.JTextField iterationSpeedTextField;
     private javax.swing.JLabel nbodyCountLabel;
-    private javax.swing.JTextField nbodyCountTextField;
+    private javax.swing.JSpinner nbodyCountSpinner;
     private javax.swing.JButton newSimulationCancelButton;
     private javax.swing.JButton newSimulationStartButton;
     private javax.swing.JLabel newSimulationSubtitleLabel;
