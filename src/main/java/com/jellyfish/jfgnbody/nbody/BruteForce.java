@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 /**
  *
@@ -57,11 +56,9 @@ public class BruteForce extends javax.swing.JPanel {
 
         for (Body b : this.bodyMap.values()) {
             boolean superMass = b instanceof SupermassiveBody;
-            g.setColor(b.color);
-            g.fillOval((int) Math.round(b.rx * 250 / 1e18),
-                    (int) Math.round(b.ry * 250 / 1e18), b.graphicSize, b.graphicSize);
-            //superMass ? 4 : b.graphicSize, superMass ? 4 : b.graphicSize);
-
+            g.setColor(b.graphics.color);
+            g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
+                    b.graphics.graphicSize);
         }
 
         if (this.stopWatch.hasReachedMaxElapsedMS()) {
@@ -98,12 +95,12 @@ public class BruteForce extends javax.swing.JPanel {
      */
     public final void startBodies(final int N) {
 
-        double radius = 1e18; // radius of universe
+        //double radius = 1e18; // radius of universe
         double solarmass = 1.98892e30; // = Math.pow(1.98892 * 10, 30) 
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
-        int red, blue, green;
-        Color color;
-        final Random rand = new Random();
+        //int red, blue, green;
+        //Color color;
+        //final Random rand = new Random();
 
         for (int i = 0; i < N; i++) {
 
@@ -147,7 +144,7 @@ public class BruteForce extends javax.swing.JPanel {
 
         for (Map.Entry<Integer, Body> entry : bodyMap.entrySet()) {
             entry.getValue().resetForce();
-            // FIXME : Notice-2 loops-->N^2 complexity :S
+            // FIXME : Notice,2 loops = N^2 complexity :S
             for (Map.Entry<Integer, Body> entryBis : bodyMap.entrySet()) {
                 if (!entry.getKey().equals(entryBis.getKey())) {
                     entry.getValue().addForce(entryBis.getValue());
@@ -183,7 +180,7 @@ public class BruteForce extends javax.swing.JPanel {
         int i = 0;
         for (Body b : this.bodyMap.values()) {
             if (b.swallowed) {
-                keys[i] = b.key;
+                keys[i] = b.graphics.key;
                 ++i;
             }
         }

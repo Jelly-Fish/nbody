@@ -1,5 +1,6 @@
 package com.jellyfish.jfgnbody.nbody;
 
+import com.jellyfish.jfgnbody.nbody.barneshut.Quad;
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
 import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
@@ -57,24 +58,14 @@ public class Body {
     public Double mass;
     
     /**
-     *  Radius for calculation of body's size to draw.
-     */
-    public int graphicSize;
-    
-    /**
      * Has this been swallowed by another body.
      */
     public boolean swallowed = false;
     
     /**
-     * Key used for reteiving object in collections.
+     * This body's graphical data.
      */
-    public final int key;
-    
-    /**
-     * Color.
-     */
-    public Color color;
+    public final BodyGraphics graphics;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructor">
@@ -94,9 +85,9 @@ public class Body {
         this.vx = vx;
         this.vy = vy;
         this.mass = mass;
-        this.color = color;
-        this.key = key;
-        this.graphicSize = MassUtils.getVirtualIntegerMass(mass);
+        this.graphics = new BodyGraphics(MassUtils.getVirtualIntegerMass(mass), 
+                (int) Math.round(this.rx * 250 / 1e18),
+                (int) Math.round(this.ry * 250 / 1e18), color, key);
     }
     //</editor-fold>
     
@@ -110,6 +101,8 @@ public class Body {
         vy += dt * fy / mass;
         rx += dt * vx;
         ry += dt * vy;
+        this.graphics.graphicX = (int) Math.round(this.rx * 250 / 1e18);
+        this.graphics.graphicY = (int) Math.round(this.ry * 250 / 1e18);
     }
 
     /**
@@ -188,11 +181,11 @@ public class Body {
         if (toSwallow instanceof SupermassiveBody) return;
         
         this.mass += toSwallow.mass;
-        this.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
+        this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
         toSwallow.swallowed = true;
     }
 
-    Body add(Body body, Body b) {
+    public Body add(Body body, Body b) {
         throw new UnsupportedOperationException("Method add(b1, b2) not supported in class " +
                 Body.class.getSimpleName());
     }

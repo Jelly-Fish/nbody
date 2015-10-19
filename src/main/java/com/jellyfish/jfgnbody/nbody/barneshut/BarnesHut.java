@@ -1,5 +1,7 @@
-package com.jellyfish.jfgnbody.nbody;
+package com.jellyfish.jfgnbody.nbody.barneshut;
 
+import com.jellyfish.jfgnbody.nbody.Body;
+import com.jellyfish.jfgnbody.nbody.barneshut.BHTree;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -31,7 +33,7 @@ public class BarnesHut extends javax.swing.JPanel {
         //check if we stopped the applet, and if not, draw the particles where they are
         if (shouldrun) {
             for (int i = 0; i < N; i++) {
-                g.setColor(bodies[i].color);
+                g.setColor(bodies[i].graphics.color);
                 g.fillOval((int) Math.round(bodies[i].rx * 250 / 1e18), (int) Math.round(bodies[i].ry * 250 / 1e18), 8, 8);
             }
             //go through the Barnes-Hut algorithm (see the function below)

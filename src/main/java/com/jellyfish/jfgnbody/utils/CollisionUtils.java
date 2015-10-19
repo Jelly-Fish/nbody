@@ -17,11 +17,11 @@ public class CollisionUtils {
      */
     public static final boolean collidesWith(final Body b, final Body c) {
          
-        final Rectangle br = new Rectangle((int) Math.round(b.rx * 250 / 1e18), 
-            (int) Math.round(b.ry * 250 / 1e18), b.graphicSize, b.graphicSize);
+        final Rectangle br = new Rectangle(b.graphics.graphicX, 
+            b.graphics.graphicY, b.graphics.graphicSize, b.graphics.graphicSize);
         final Point cp = new Point(
-            (int) Math.round(c.rx * 250 / 1e18) + (c.graphicSize / 2),
-            (int) Math.round(c.ry * 250 / 1e18) + (c.graphicSize / 2));
+            c.graphics.graphicX + (c.graphics.graphicSize / 2),
+            c.graphics.graphicY + (c.graphics.graphicSize / 2));
         
         return br.contains(cp);
     }

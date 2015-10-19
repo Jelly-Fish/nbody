@@ -1,4 +1,6 @@
-package com.jellyfish.jfgnbody.nbody;
+package com.jellyfish.jfgnbody.nbody.barneshut;
+
+import com.jellyfish.jfgnbody.nbody.Body;
 
 /**
  *
@@ -35,7 +37,6 @@ public class BHTree {
     }
 
     //We have to populate the tree with bodies. We start at the current tree and recursively travel through the branches
-
     public void insert(Body b) {
         //If there's not a body there already, put the body there.
         if (this.body == null) {
@@ -78,9 +79,10 @@ public class BHTree {
                     }
                 }
             }
-        } //If the node is external and contains another body, create BHTrees
-        //where the bodies should go, update the node, and end 
-        //(do not do anything recursively)
+        }
+        
+        //If the node is external and contains another body, create BHTrees
+        //where the bodies should go, update the node, and end (do not do anything recursively).
         else if (this.isExternal(this)) {
             Body c = this.body;
             Quad northwest = this.quad.NW();
@@ -115,10 +117,10 @@ public class BHTree {
             this.insert(b);
         }
     }
-  //Start at the main node of the tree. Then, recursively go each branch
+    
+    //Start at the main node of the tree. Then, recursively go each branch
     //Until either we reach an external node or we reach a node that is sufficiently
     //far away that the external nodes would not matter much.
-
     public void updateForce(Body b) {
         if (this.isExternal(this)) {
             if (this.body != b) {
@@ -143,7 +145,6 @@ public class BHTree {
     }
 
     // convert to string representation for output
-
     public String toString() {
         if (NE != null || NW != null || SW != null || SE != null) {
             return "*" + body + "\n" + NW + NE + SW + SE;
