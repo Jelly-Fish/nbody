@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.nbody.BruteForce;
+import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -15,7 +16,7 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Panel for graphic display.
      */
-    private BruteForce panel;
+    private final BruteForce panel;
     
     /**
      * Creates new form MainFrame
@@ -32,6 +33,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.setLayout(new BorderLayout());
         this.add(this.panel, BorderLayout.CENTER);
         this.pack();
+        this.panel.spatialArea = new SpatialArea(0, 0, this.panel.getWidth(), this.panel.getHeight());
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -55,6 +57,11 @@ public class MainFrame extends javax.swing.JFrame {
         setIconImages(null);
         setName("mainframe"); // NOI18N
         setPreferredSize(new java.awt.Dimension(800, 600));
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
 
         jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -93,6 +100,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void newSimulationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationMenuItemActionPerformed
         new NewSimulationDialog(this);
     }//GEN-LAST:event_newSimulationMenuItemActionPerformed
+
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+        this.panel.spatialArea.updateSize(this.panel.getWidth(), this.panel.getHeight());
+    }//GEN-LAST:event_formWindowStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;

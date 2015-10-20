@@ -1,8 +1,11 @@
 package com.jellyfish.jfgnbody.nbody;
 
+import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +13,7 @@ import java.util.Map;
  *
  * @author thw
  */
-public class BruteForce extends javax.swing.JPanel {
+public class BruteForce extends javax.swing.JPanel implements ComponentListener {
 
     //<editor-fold defaultstate="collapsed" desc="vars">
     /**
@@ -27,6 +30,11 @@ public class BruteForce extends javax.swing.JPanel {
      * Stop watch util.
      */
     private StopWatch stopWatch;
+    
+    /**
+     * Spatial partitioning area.
+     */
+    public SpatialArea spatialArea = null;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructor">
@@ -38,6 +46,7 @@ public class BruteForce extends javax.swing.JPanel {
         this.N = n;
         this.startBodies(N);
         this.stopWatch = new StopWatch(iterationSpeed);
+        //this.addComponentListener(this);
         this.setBackground(new Color(10,10,10));
     }
     //</editor-fold>
@@ -142,13 +151,19 @@ public class BruteForce extends javax.swing.JPanel {
     @SuppressWarnings({"BoxedValueEquality", "NumberEquality"})
     public void addforces() {
 
-        for (Map.Entry<Integer, Body> entry : bodyMap.entrySet()) {
-            entry.getValue().resetForce();
+        for (Map.Entry<Integer, Body> eA : bodyMap.entrySet()) {
+            eA.getValue().resetForce();
             // FIXME : Notice,2 loops = N^2 complexity :S
-            for (Map.Entry<Integer, Body> entryBis : bodyMap.entrySet()) {
-                if (!entry.getKey().equals(entryBis.getKey())) {
-                    entry.getValue().addForce(entryBis.getValue());
-                    entry.getValue().checkCollision(entryBis.getValue());
+            for (Map.Entry<Integer, Body> eB : bodyMap.entrySet()) {
+                if (!eA.getKey().equals(eB.getKey())) {
+                    //if (this.spatialArea.contains(
+                    //        new Point(eB.getValue().graphics.graphicX, eB.getValue().graphics.graphicY))) {
+                        eA.getValue().addForce(eB.getValue());
+                        eA.getValue().checkCollision(eB.getValue());
+                    //} else if (eB instanceof SupermassiveBody) {
+                        //eA.getValue().addForce(eB.getValue());
+                        //eA.getValue().checkCollision(eB.getValue());
+                    //}
                 }
             }
         }
@@ -195,7 +210,22 @@ public class BruteForce extends javax.swing.JPanel {
         this.bodyMap.clear();
         this.startBodies(N);
         this.stopWatch = new StopWatch(iSpeed);
+        this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
+    
+    @Override
+    public void componentResized(ComponentEvent evt) {
+        //if (this.spatialArea != null) this.spatialArea.updateSize(this.getWidth(), this.getHeight());
+    }
+    
+    @Override
+    public void componentMoved(ComponentEvent e) { }
+
+    @Override
+    public void componentShown(ComponentEvent e) { }
+
+    @Override
+    public void componentHidden(ComponentEvent e) { }
     //</editor-fold>
 
 }

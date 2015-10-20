@@ -21,4 +21,7 @@ public class SupermassiveBody extends Body {
         super(key, rx, ry, vx, vy, mass, color);
     }
     
+    @Override
+    public void update(double dt) { }
+    
 }

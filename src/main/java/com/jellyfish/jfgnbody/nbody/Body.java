@@ -168,6 +168,7 @@ public class Body {
      * @return true if out of bounds else false.
      */
     boolean isOutOfBounds(final int width, final int height) {
+        
         final int bx = (int) Math.round(this.rx * 250 / 1e18);
         final int by = (int) Math.round(this.ry * 250 / 1e18);
         return bx + (width / 2) < 0 || bx > width * 2 || by + (height / 2) < 0 || by > height * 2;
