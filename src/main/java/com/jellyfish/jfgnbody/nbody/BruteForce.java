@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
+import com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialSuperPartitionException;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,6 +9,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -46,7 +49,7 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
         this.N = n;
         this.startBodies(N);
         this.stopWatch = new StopWatch(iterationSpeed);
-        //this.addComponentListener(this);
+        this.addComponentListener(this);
         this.setBackground(new Color(10,10,10));
     }
     //</editor-fold>
@@ -72,7 +75,11 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
 
         if (this.stopWatch.hasReachedMaxElapsedMS()) {
             cleanBodyMap();
-            addforces();
+            try {
+                addforces();
+            } catch (final SpatialSuperPartitionException ex) {
+                Logger.getLogger(BruteForce.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (this.stopWatch != null) {
                 this.stopWatch.start();
             }
@@ -147,26 +154,22 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
 
     /**
      * Use the method in Body to reset the forces, then add all the new forces.
+     * @throws com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialSuperPartitionException
      */
     @SuppressWarnings({"BoxedValueEquality", "NumberEquality"})
-    public void addforces() {
+    public void addforces() throws SpatialSuperPartitionException {
 
         for (Map.Entry<Integer, Body> eA : bodyMap.entrySet()) {
             eA.getValue().resetForce();
-            // FIXME : Notice,2 loops = N^2 complexity :S
+            // FIXME : 2 loops = N^2 complexity...
             for (Map.Entry<Integer, Body> eB : bodyMap.entrySet()) {
                 if (!eA.getKey().equals(eB.getKey())) {
-                    //if (this.spatialArea.contains(
-                    //        new Point(eB.getValue().graphics.graphicX, eB.getValue().graphics.graphicY))) {
-                        eA.getValue().addForce(eB.getValue());
-                        eA.getValue().checkCollision(eB.getValue());
-                    //} else if (eB instanceof SupermassiveBody) {
-                        //eA.getValue().addForce(eB.getValue());
-                        //eA.getValue().checkCollision(eB.getValue());
-                    //}
+                    eA.getValue().addForce(eB.getValue());
+                    eA.getValue().checkCollision(eB.getValue());   
                 }
             }
         }
+        
         // Loop again and update the bodies using timestep param if tehy are still
         // in the bounds of the GUI display.
         for (Body b : this.bodyMap.values()) {
@@ -215,7 +218,7 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
     
     @Override
     public void componentResized(ComponentEvent evt) {
-        //if (this.spatialArea != null) this.spatialArea.updateSize(this.getWidth(), this.getHeight());
+        if (this.spatialArea != null) this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
     
     @Override

@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jellyfish.jfgnbody.nbody.space;
 
 import com.jellyfish.jfgnbody.nbody.space.partitioning.PartitionableSpatialArea;
 import com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialAreaPartition;
+import com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialSuperPartitionException;
 
 /**
  *
@@ -37,10 +33,13 @@ public class SpatialArea extends PartitionableSpatialArea {
     }
     
     @Override
-    public boolean contains(final java.awt.Point p) {
+    public boolean superContains(final java.awt.Point pA, final java.awt.Point pB) throws SpatialSuperPartitionException {
         for (java.util.Map.Entry<int[], SpatialAreaPartition> entry : grid.entrySet()) {
-            if (entry.getValue().contains(p)) return this.contains(entry.getKey(), p);
+            if (entry.getValue().contains(pA)) {
+                return this.contains(entry.getKey(), pB);
+            }
         }
+        System.out.println("pA is not found.");
         return false;
     }
     
@@ -53,19 +52,28 @@ public class SpatialArea extends PartitionableSpatialArea {
     private boolean contains(final int[] xy, final java.awt.Point p) {
         
         for (int[] c : this.getNeighboorsAreas(xy)) {
-            if (this.grid.containsKey(xy) && this.grid.get(c).contains(p)) return true;
+            if (this.grid.get(c) == null) {
+                System.out.println("neighboor is null.");
+            }
+            if (this.grid.containsKey(xy) && this.grid.get(c) != null && this.grid.get(c).contains(p)) {
+                System.out.println("pA area contains p");
+                return true;
+            }
         }
         return false;
     }
 
     @Override
     public void updateSize(final int w, final int h) {
+        
         this.area.setSize(w, h);
+        this.grid.clear();
         this.partition(SpatialArea.partitionSize, w, h);
     }
 
     @Override
     public final void partition(final int pSize, final int motherX, final int motherY) {
+        
         for (int i = 0; i < this.width; i += pSize) {
             for (int j = 0; j < this.height; j += pSize) {
                 int[] xy = new int[] { i, j + i };
@@ -92,5 +100,10 @@ public class SpatialArea extends PartitionableSpatialArea {
         keys.add(new int[] {xy[0] + 1, xy[1] + 1});
         return keys;
     } 
+
+    @Override
+    public boolean contains(final java.awt.Point p) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
         
 }

@@ -130,14 +130,22 @@ public class Body {
      * @param b
      */
     public void addForce(final Body b) {
-        Body a = this;
+        /*Body a = this;
         double EPS = 3E4; // softening parameter (just to avoid infinities)
         double dx = b.rx - a.rx;
         double dy = b.ry - a.ry;
         double dist = Math.sqrt(dx * dx + dy * dy);
         double F = (G * a.mass * b.mass) / (dist * dist + EPS * EPS);
         a.fx += F * dx / dist;
-        a.fy += F * dy / dist;
+        a.fy += F * dy / dist;*/
+        
+        double EPS = 3E4; // softening parameter (just to avoid infinities)
+        double dx = b.rx - this.rx;
+        double dy = b.ry - this.ry;
+        double dist = Math.sqrt(dx * dx + dy * dy);
+        double F = (G * this.mass * b.mass) / (dist * dist + EPS * EPS);
+        this.fx += F * dx / dist;
+        this.fy += F * dy / dist;
     }
 
     /**

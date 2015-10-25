@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jellyfish.jfgnbody.nbody.space.partitioning;
 
 /**
@@ -32,5 +27,10 @@ public class SpatialAreaPartition extends PartitionableSpatialArea {
 
     @Override
     public void partition(final int pSize, final int motherX, final int motherY) {}
+
+    @Override
+    public boolean superContains(final java.awt.Point pA, final java.awt.Point pB) throws SpatialSuperPartitionException { 
+        throw new SpatialSuperPartitionException();
+    }
     
 }

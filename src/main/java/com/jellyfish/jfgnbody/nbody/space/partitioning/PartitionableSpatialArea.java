@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jellyfish.jfgnbody.nbody.space.partitioning;
 
 /**
@@ -45,9 +40,18 @@ public abstract class PartitionableSpatialArea {
     }
     
     /**
-     * Does this area contain Point p.
-     * @param p
+     * Does the neighboor areas of pA (pA included) contain Point pB ?
+     * @param pA
+     * @param pB
      * @return true if so.
+     * @throws com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialSuperPartitionException
+     */
+    public abstract boolean superContains(final java.awt.Point pA, final java.awt.Point pB) throws SpatialSuperPartitionException;
+    
+    /**
+     * Does this area contain point p ?
+     * @param p
+     * @return 
      */
     public abstract boolean contains(final java.awt.Point p);
     
