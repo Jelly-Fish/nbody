@@ -1,22 +1,21 @@
 package com.jellyfish.jfgnbody.nbody;
 
+import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
+import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
-import com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialSuperPartitionException;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author thw
  */
-public class BruteForce extends javax.swing.JPanel implements ComponentListener {
+public class NBody extends javax.swing.JPanel implements ComponentListener {
 
     //<editor-fold defaultstate="collapsed" desc="vars">
     /**
@@ -38,6 +37,27 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
      * Spatial partitioning area.
      */
     public SpatialArea spatialArea = null;
+    
+    /**
+     * The draw counter constant - reduce to perform drawing at lower interval - 
+     * If = 64, then drawinf or painting will be performed every 64 iterations.
+     */
+    private static final int DRAW_COUNTER = 64;
+    
+    /**
+     * Drow count - do not perform draw on every iteration.
+     */
+    private int drawCount = 0;
+    
+    /**
+     * Global space quandrant.
+     */
+    private final Quadrant q = new Quadrant(0, 0, 2 * 1e18);
+    
+    /**
+     * Interface for updating forces.
+     */
+    private final NBodyForceComputable fu = new ForceUpdater();
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructor">
@@ -45,12 +65,12 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
      * @param n number of bodies.
      * @param iterationSpeed iteration speed for StopWatch.
      */
-    public BruteForce(final int n, final double iterationSpeed) {
+    public NBody(final int n, final double iterationSpeed) {
         this.N = n;
         this.startBodies(N);
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
-        this.setBackground(new Color(10,10,10));
+        this.setBackground(new Color(250,250,250));
     }
     //</editor-fold>
 
@@ -58,15 +78,18 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
     @Override
     public void paint(Graphics g) {
 
+        if (!performPaint()) {
+            super.repaint();
+            return;
+        }
+        
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-        if (!(this.bodyMap.size() > 0)) {
-            return;
-        }
-
-        for (Body b : this.bodyMap.values()) {
+        if (!(this.bodyMap.size() > 0)) return;
+        
+        for (Body b : this.bodyMap.values()) {            
             boolean superMass = b instanceof SupermassiveBody;
             g.setColor(b.graphics.color);
             g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
@@ -74,12 +97,9 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
         }
 
         if (this.stopWatch.hasReachedMaxElapsedMS()) {
+            
             cleanBodyMap();
-            try {
-                addforces();
-            } catch (final SpatialSuperPartitionException ex) {
-                Logger.getLogger(BruteForce.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            fu.addForces(getWidth(), getHeight(), q, bodyMap);
             if (this.stopWatch != null) {
                 this.stopWatch.start();
             }
@@ -111,12 +131,8 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
      */
     public final void startBodies(final int N) {
 
-        //double radius = 1e18; // radius of universe
         double solarmass = 1.98892e30; // = Math.pow(1.98892 * 10, 30) 
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
-        //int red, blue, green;
-        //Color color;
-        //final Random rand = new Random();
 
         for (int i = 0; i < N; i++) {
 
@@ -130,55 +146,17 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
             vx = -1 * Math.signum(py) * Math.cos(thetav) * magv;
             vy = Math.signum(px) * Math.sin(thetav) * magv;
 
-            // Orient a random 2D circular orbit. Use when orbir directions can
-            // be oposite. Clockwise & counter-clockwise.
-            //if (Math.random() <= .5) { vx = -vx; vy = -vy; }
-
-            /* Use only for color effects depending on mass :
-             mass = Math.random() * solarmass * 10 + 1e20;
-             // Color the masses in green gradients by mass.
-             red = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
-             blue = (int) Math.floor(mass * 254 / (solarmass * 10 + 1e20));
-             green = 255;
-             color = new Color(red, green, blue);*/
             mass = Math.random() * solarmass; //* rand.nextInt((100000 - 10000) + 1) + 10000;
-            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, Color.WHITE));
+            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, Color.DARK_GRAY));
         }
 
-        // Put a supermassive body in the center. SupermassiveBody instances
-        // will not be candidates to draw or paint methods.
+        /**
+         * Put a supermassive body in the center - SupermassiveBody instances
+         * will not be candidates to draw or paint methods.
+         */
         this.bodyMap.put(this.bodyMap.size(), new SupermassiveBody(this.bodyMap.size(),
-                0, 0, 0, 0, 1e6 * solarmass, Color.BLACK));
+                0, 0, 0, 0, 1e6 * solarmass, Color.DARK_GRAY));
 
-    }
-
-    /**
-     * Use the method in Body to reset the forces, then add all the new forces.
-     * @throws com.jellyfish.jfgnbody.nbody.space.partitioning.SpatialSuperPartitionException
-     */
-    @SuppressWarnings({"BoxedValueEquality", "NumberEquality"})
-    public void addforces() throws SpatialSuperPartitionException {
-
-        for (Map.Entry<Integer, Body> eA : bodyMap.entrySet()) {
-            eA.getValue().resetForce();
-            // FIXME : 2 loops = N^2 complexity...
-            for (Map.Entry<Integer, Body> eB : bodyMap.entrySet()) {
-                if (!eA.getKey().equals(eB.getKey())) {
-                    eA.getValue().addForce(eB.getValue());
-                    eA.getValue().checkCollision(eB.getValue());   
-                }
-            }
-        }
-        
-        // Loop again and update the bodies using timestep param if tehy are still
-        // in the bounds of the GUI display.
-        for (Body b : this.bodyMap.values()) {
-            if (!b.isOutOfBounds(this.getWidth(), this.getHeight())) {
-                b.update(1e11);
-            } else {
-                b.swallowed = true;
-            }
-        }
     }
 
     /**
@@ -208,6 +186,11 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
         }
     }
 
+    /**
+     * Restart a new simulation.
+     * @param n
+     * @param iSpeed 
+     */
     public void restart(int n, int iSpeed) {
         this.N = n;
         this.bodyMap.clear();
@@ -216,6 +199,19 @@ public class BruteForce extends javax.swing.JPanel implements ComponentListener 
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
     
+    private boolean performPaint() {
+        
+        if (NBody.DRAW_COUNTER > this.drawCount) {
+            this.drawCount++;
+            return false;
+        } else {
+            this.drawCount = 0;
+            return true;
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="javax.swing.JPanel overrides">
     @Override
     public void componentResized(ComponentEvent evt) {
         if (this.spatialArea != null) this.spatialArea.updateSize(this.getWidth(), this.getHeight());

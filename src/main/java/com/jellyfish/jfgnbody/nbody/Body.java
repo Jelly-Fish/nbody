@@ -1,6 +1,6 @@
 package com.jellyfish.jfgnbody.nbody;
 
-import com.jellyfish.jfgnbody.nbody.barneshut.Quad;
+import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
 import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
@@ -130,15 +130,6 @@ public class Body {
      * @param b
      */
     public void addForce(final Body b) {
-        /*Body a = this;
-        double EPS = 3E4; // softening parameter (just to avoid infinities)
-        double dx = b.rx - a.rx;
-        double dy = b.ry - a.ry;
-        double dist = Math.sqrt(dx * dx + dy * dy);
-        double F = (G * a.mass * b.mass) / (dist * dist + EPS * EPS);
-        a.fx += F * dx / dist;
-        a.fy += F * dy / dist;*/
-        
         double EPS = 3E4; // softening parameter (just to avoid infinities)
         double dx = b.rx - this.rx;
         double dy = b.ry - this.ry;
@@ -150,9 +141,9 @@ public class Body {
 
     /**
      * @param q
-     * @return does quad contain Quad ?
+     * @return does Quaddrant contain this ?
      */
-    public boolean in(Quad q) {
+    public boolean in(final Quadrant q) {
         return q.contains(this.rx, this.ry);
     }
       
@@ -160,7 +151,7 @@ public class Body {
      * Check for a collision between a > in mass body with this.
      * @param b the body candidate to swallow this instance.
      */
-    void checkCollision(final Body b) {
+    public void checkCollision(final Body b) {
         
         if (this.mass > b.mass) return;
         
@@ -175,7 +166,7 @@ public class Body {
      * @param height
      * @return true if out of bounds else false.
      */
-    boolean isOutOfBounds(final int width, final int height) {
+    public boolean isOutOfBounds(final int width, final int height) {
         
         final int bx = (int) Math.round(this.rx * 250 / 1e18);
         final int by = (int) Math.round(this.ry * 250 / 1e18);
@@ -185,18 +176,13 @@ public class Body {
     /**
      * @param toSwallow the Body to swallow.
      */
-    private void swallow(final Body toSwallow) {
+    public void swallow(final Body toSwallow) {
         
         if (toSwallow instanceof SupermassiveBody) return;
         
         this.mass += toSwallow.mass;
         this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
         toSwallow.swallowed = true;
-    }
-
-    public Body add(Body body, Body b) {
-        throw new UnsupportedOperationException("Method add(b1, b2) not supported in class " +
-                Body.class.getSimpleName());
     }
     //</editor-fold>
     

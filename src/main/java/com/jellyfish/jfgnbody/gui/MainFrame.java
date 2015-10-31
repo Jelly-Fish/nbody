@@ -1,11 +1,12 @@
 package com.jellyfish.jfgnbody.gui;
 
-import com.jellyfish.jfgnbody.nbody.BruteForce;
+import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import javax.swing.JFrame;
 
 /**
  *
@@ -16,17 +17,17 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Panel for graphic display.
      */
-    private final BruteForce panel;
+    private final NBody panel;
     
     /**
      * Creates new form MainFrame
      * @param panel
      */
-    public MainFrame(final BruteForce panel) {
+    public MainFrame(final NBody panel) {
         
         initComponents();
-        this.setBackground(new Color(10,10,10));
-        this.getContentPane().setBackground(new Color(10,10,10));
+        this.setBackground(new Color(250,250,250));
+        this.getContentPane().setBackground(new Color(250,250,250));
         Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
         this.setIconImage(icon);
         this.panel = panel;
@@ -35,6 +36,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.pack();
         this.panel.spatialArea = new SpatialArea(0, 0, this.panel.getWidth(), this.panel.getHeight());
         this.setLocationRelativeTo(null);
+        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
     }
 

@@ -21,8 +21,13 @@ public class Quad {
         return length;
     }
 
-    //Check if the current quadrant contains a point
-    public boolean contains(double xmid, double ymid) {
+    /**
+     * Does quadrant contains a point ?
+     * @param x
+     * @param y
+     * @return true if so.
+     */
+    public boolean contains(final double x, final double y) {
         if (xmid <= this.xmid + this.length / 2.0 && xmid >= this.xmid - this.length / 2.0 && ymid <= this.ymid + this.length / 2.0 && ymid >= this.ymid - this.length / 2.0) {
             return true;
         } else {
