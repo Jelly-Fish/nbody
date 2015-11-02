@@ -1,6 +1,8 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
+import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -52,6 +54,8 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         simulationMenu = new javax.swing.JMenu();
         newSimulationMenuItem = new javax.swing.JMenuItem();
+        bruteForceMenuItem = new javax.swing.JMenuItem();
+        bhtreeMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("NBody - Gravity simulation");
@@ -80,6 +84,22 @@ public class MainFrame extends javax.swing.JFrame {
         });
         simulationMenu.add(newSimulationMenuItem);
 
+        bruteForceMenuItem.setText("Switch to brute force gravity calculation");
+        bruteForceMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bruteForceMenuItemActionPerformed(evt);
+            }
+        });
+        simulationMenu.add(bruteForceMenuItem);
+
+        bhtreeMenuItem.setText("Switch to Barnes-Hut tree gravity calculation");
+        bhtreeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bhtreeMenuItemActionPerformed(evt);
+            }
+        });
+        simulationMenu.add(bhtreeMenuItem);
+
         jMenuBar1.add(simulationMenu);
 
         setJMenuBar(jMenuBar1);
@@ -107,7 +127,17 @@ public class MainFrame extends javax.swing.JFrame {
         this.panel.spatialArea.updateSize(this.panel.getWidth(), this.panel.getHeight());
     }//GEN-LAST:event_formWindowStateChanged
 
+    private void bruteForceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bruteForceMenuItemActionPerformed
+        this.panel.swapForceUpdater(new ForceUpdater());
+    }//GEN-LAST:event_bruteForceMenuItemActionPerformed
+
+    private void bhtreeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bhtreeMenuItemActionPerformed
+        this.panel.swapForceUpdater(new BHTreeForceUpdater());
+    }//GEN-LAST:event_bhtreeMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem bhtreeMenuItem;
+    private javax.swing.JMenuItem bruteForceMenuItem;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem newSimulationMenuItem;
     private javax.swing.JMenu simulationMenu;

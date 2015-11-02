@@ -67,7 +67,7 @@ public class BarnesHutTree {
              * then recursively update the nodes below it.
              */
             
-            //this.body = b.add(this.body, b);
+            this.b = b.add(this.b, b);
             
             final Quadrant nW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NW);
                     

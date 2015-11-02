@@ -2,6 +2,7 @@ package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import com.jellyfish.jfgnbody.utils.StopWatch;
@@ -52,12 +53,12 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     /**
      * Global space quandrant.
      */
-    private final Quadrant q = new Quadrant(0, 0, 2 * 1e18);
+    private final Quadrant q = new Quadrant(0, 0, 8 * 1e18); // Previously new Quadrant(0, 0, 2 * 1e18)
     
     /**
      * Interface for updating forces.
      */
-    private final NBodyForceComputable fu = new ForceUpdater();
+    private NBodyForceComputable fu = new BHTreeForceUpdater();
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructor">
@@ -65,6 +66,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * @param n number of bodies.
      * @param iterationSpeed iteration speed for StopWatch.
      */
+    @SuppressWarnings("LeakingThisInConstructor")
     public NBody(final int n, final double iterationSpeed) {
         this.N = n;
         this.startBodies(N);
@@ -96,8 +98,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
                     b.graphics.graphicSize);
         }
 
-        if (this.stopWatch.hasReachedMaxElapsedMS()) {
-            
+        if (this.stopWatch.hasReachedMaxElapsedMS()) {          
             cleanBodyMap();
             fu.addForces(getWidth(), getHeight(), q, bodyMap);
             if (this.stopWatch != null) {
@@ -208,6 +209,14 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
             this.drawCount = 0;
             return true;
         }
+    }
+    
+    /**
+     * Switch or swap interface.
+     * @param fu 
+     */
+    public void swapForceUpdater(final NBodyForceComputable fu) {
+        this.fu = fu;
     }
     //</editor-fold>
     

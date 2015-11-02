@@ -58,6 +58,11 @@ public class Body {
     public Double mass;
     
     /**
+     * Key in hashmap.
+     */
+    public final int key;
+    
+    /**
      * Has this been swallowed by another body.
      */
     public boolean swallowed = false;
@@ -68,7 +73,7 @@ public class Body {
     public final BodyGraphics graphics;
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="constructor">
+    //<editor-fold defaultstate="collapsed" desc="constructors">
     /**
      * @param key
      * @param rx the cartesian position x
@@ -85,6 +90,7 @@ public class Body {
         this.vx = vx;
         this.vy = vy;
         this.mass = mass;
+        this.key = key;
         this.graphics = new BodyGraphics(MassUtils.getVirtualIntegerMass(mass), 
                 (int) Math.round(this.rx * 250 / 1e18),
                 (int) Math.round(this.ry * 250 / 1e18), color, key);
@@ -147,6 +153,18 @@ public class Body {
         return q.contains(this.rx, this.ry);
     }
       
+    /**
+     * @param a
+     * @param b
+     * @return new Body instance with key = a.key.
+     */
+    public static Body add(final Body a, final Body b) {
+        final double nRx = (a.rx * a.mass + b.rx * b.mass) / (a.mass + b.mass);
+        final double nRy = (a.ry * a.mass + b.ry * b.mass) / (a.mass + b.mass);
+        final double nMass = a.mass + b.mass;
+        return new Body(a.key, nRx, nRy, 0, 0, nMass, Color.DARK_GRAY);
+    }
+    
     /**
      * Check for a collision between a > in mass body with this.
      * @param b the body candidate to swallow this instance.
