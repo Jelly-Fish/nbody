@@ -1,9 +1,9 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
+import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
-import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
@@ -59,6 +59,11 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Interface for updating forces.
      */
     private NBodyForceComputable fu = new BHTreeForceUpdater();
+    
+    /**
+     * Data output writer.
+     */
+    private Writable writer = null;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructor">
@@ -80,32 +85,33 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     @Override
     public void paint(Graphics g) {
 
-        if (!performPaint()) {
-            super.repaint();
-            return;
-        }
-        
-        g.clearRect(0, 0, this.getWidth(), this.getHeight());
-        // Originally the origin is in the top right. Put it in its normal place :
-        g.translate(this.getWidth() / 2, this.getHeight() / 2);
+        if (performPaint() && this.stopWatch.hasReachedMaxElapsedMS()) {
+            NBodyData.bodyCount = 0;
+            g.clearRect(0, 0, this.getWidth(), this.getHeight());
+            // Originally the origin is in the top right. Put it in its normal place :
+            g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-        if (!(this.bodyMap.size() > 0)) return;
-        
-        for (Body b : this.bodyMap.values()) {            
-            boolean superMass = b instanceof SupermassiveBody;
-            g.setColor(b.graphics.color);
-            g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
-                    b.graphics.graphicSize);
-        }
+            if (!(this.bodyMap.size() > 0)) return;
 
-        if (this.stopWatch.hasReachedMaxElapsedMS()) {          
+            for (Body b : this.bodyMap.values()) {   
+                NBodyData.bodyCount++;
+                NBodyData.superMassiveBodyMass = b instanceof SupermassiveBody ?
+                        b.mass : NBodyData.superMassiveBodyMass;
+                g.setColor(b.graphics.color);
+                g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
+                        b.graphics.graphicSize);
+            }
+            
+            NBodyData.iterationCount++;
             cleanBodyMap();
             fu.addForces(getWidth(), getHeight(), q, bodyMap);
             if (this.stopWatch != null) {
                 this.stopWatch.start();
             }
         }
-
+        
+        if (this.writer != null) this.writer.appendData();
+        
         super.repaint();
     }
 
@@ -198,6 +204,9 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
         this.startBodies(N);
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
+        NBodyData.bodyCount = 0;
+        NBodyData.iterationCount = 0;
+        NBodyData.superMassiveBodyMass = 0.0;
     }
     
     private boolean performPaint() {
@@ -211,6 +220,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
         }
     }
     
+    //<editor-fold defaultstate="collapsed" desc="GUI called methods">
     /**
      * Switch or swap interface.
      * @param fu 
@@ -218,6 +228,16 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     public void swapForceUpdater(final NBodyForceComputable fu) {
         this.fu = fu;
     }
+
+    public void setWriter(final Writable w) {
+        this.writer = w;
+    }
+    
+    public Writable getWriter() {
+        return this.writer;
+    }
+    //</editor-fold>
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="javax.swing.JPanel overrides">

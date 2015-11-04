@@ -1,5 +1,6 @@
 package com.jellyfish.jfgnbody.gui;
 
+import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
@@ -8,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
 
 /**
  *
@@ -19,26 +19,26 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Panel for graphic display.
      */
-    private final NBody panel;
+    private final NBody nBodyPanel;
     
     /**
      * Creates new form MainFrame
-     * @param panel
+     * @param nBodyPanel
      */
-    public MainFrame(final NBody panel) {
+    public MainFrame(final NBody nBodyPanel) {
         
         initComponents();
         this.setBackground(new Color(250,250,250));
         this.getContentPane().setBackground(new Color(250,250,250));
         Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
         this.setIconImage(icon);
-        this.panel = panel;
+        this.nBodyPanel = nBodyPanel;
         this.setLayout(new BorderLayout());
-        this.add(this.panel, BorderLayout.CENTER);
+        this.add(this.nBodyPanel, BorderLayout.CENTER);
         this.pack();
-        this.panel.spatialArea = new SpatialArea(0, 0, this.panel.getWidth(), this.panel.getHeight());
+        this.nBodyPanel.spatialArea = new SpatialArea(0, 0, this.nBodyPanel.getWidth(), this.nBodyPanel.getHeight());
         this.setLocationRelativeTo(null);
-        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
     }
 
@@ -51,11 +51,14 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
+        menuBar = new javax.swing.JMenuBar();
         simulationMenu = new javax.swing.JMenu();
         newSimulationMenuItem = new javax.swing.JMenuItem();
+        separator1 = new javax.swing.JPopupMenu.Separator();
         bruteForceMenuItem = new javax.swing.JMenuItem();
         bhtreeMenuItem = new javax.swing.JMenuItem();
+        separator2 = new javax.swing.JPopupMenu.Separator();
+        displayOutputMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("NBody - Gravity simulation");
@@ -69,7 +72,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        menuBar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         simulationMenu.setBorder(null);
         simulationMenu.setText("Simulation");
@@ -83,6 +86,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         simulationMenu.add(newSimulationMenuItem);
+        simulationMenu.add(separator1);
 
         bruteForceMenuItem.setText("Switch to brute force gravity calculation");
         bruteForceMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -99,10 +103,19 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         simulationMenu.add(bhtreeMenuItem);
+        simulationMenu.add(separator2);
 
-        jMenuBar1.add(simulationMenu);
+        displayOutputMenuItem.setText("Display all simulation data as output");
+        displayOutputMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayOutputMenuItemActionPerformed(evt);
+            }
+        });
+        simulationMenu.add(displayOutputMenuItem);
 
-        setJMenuBar(jMenuBar1);
+        menuBar.add(simulationMenu);
+
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,27 +137,36 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_newSimulationMenuItemActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-        this.panel.spatialArea.updateSize(this.panel.getWidth(), this.panel.getHeight());
+        this.nBodyPanel.spatialArea.updateSize(this.nBodyPanel.getWidth(), this.nBodyPanel.getHeight());
     }//GEN-LAST:event_formWindowStateChanged
 
     private void bruteForceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bruteForceMenuItemActionPerformed
-        this.panel.swapForceUpdater(new ForceUpdater());
+        this.nBodyPanel.swapForceUpdater(new ForceUpdater());
     }//GEN-LAST:event_bruteForceMenuItemActionPerformed
 
     private void bhtreeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bhtreeMenuItemActionPerformed
-        this.panel.swapForceUpdater(new BHTreeForceUpdater());
+        this.nBodyPanel.swapForceUpdater(new BHTreeForceUpdater());
     }//GEN-LAST:event_bhtreeMenuItemActionPerformed
 
+    private void displayOutputMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayOutputMenuItemActionPerformed
+        if (this.nBodyPanel.getWriter() != null) return;
+        final Writable w = new DataSimulationDisplayer();
+        this.nBodyPanel.setWriter(w);
+    }//GEN-LAST:event_displayOutputMenuItemActionPerformed
+
+    public void resetSimulation(final int n, final int iSpeed) {
+        this.nBodyPanel.restart(n, iSpeed);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem bhtreeMenuItem;
     private javax.swing.JMenuItem bruteForceMenuItem;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem displayOutputMenuItem;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newSimulationMenuItem;
+    private javax.swing.JPopupMenu.Separator separator1;
+    private javax.swing.JPopupMenu.Separator separator2;
     private javax.swing.JMenu simulationMenu;
     // End of variables declaration//GEN-END:variables
-    
-    public void resetSimulation(final int n, final int iSpeed) {
-        this.panel.restart(n, iSpeed);
-    }
-    
+       
 }
