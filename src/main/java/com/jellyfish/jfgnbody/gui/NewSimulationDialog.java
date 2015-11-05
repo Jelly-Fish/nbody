@@ -1,5 +1,6 @@
 package com.jellyfish.jfgnbody.gui;
 
+import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.starter.Main;
 import javax.swing.JSpinner.DefaultEditor;
 
@@ -139,6 +140,12 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         Main.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),
                 (int) this.iSpeedSpinner.getValue());
         this.setVisible(false);
+        final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();
+        if (w != null) w.writeln(
+                String.format("--------------------------------------------------------\n" + 
+                    "-    New simulation :\n-    Body count = %d\n-    Iteration speed = %d\n" +
+                    "--------------------------------------------------------", 
+                (int) this.nbodyCountSpinner.getValue(), (int) this.iSpeedSpinner.getValue()));
         this.dispose();
     }//GEN-LAST:event_newSimulationStartButtonActionPerformed
     

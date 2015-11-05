@@ -6,6 +6,7 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.Writable;
+import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.NBodyData;
 import java.awt.Color;
 import java.awt.Image;
@@ -17,6 +18,11 @@ import java.awt.image.BufferedImage;
  */
 public class DataSimulationDisplayer extends javax.swing.JFrame implements Writable {
 
+    /**
+     * Parent panel.
+     */
+    private NBody nb = null;
+    
     /**
      * Creates new form DataSimulationDisplayer
      */
@@ -42,8 +48,13 @@ public class DataSimulationDisplayer extends javax.swing.JFrame implements Writa
         scrollPane = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("NBody simulation data output");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         scrollPane.setBorder(null);
         scrollPane.setDoubleBuffered(true);
@@ -59,15 +70,22 @@ public class DataSimulationDisplayer extends javax.swing.JFrame implements Writa
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
+            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        GUIDTO.displayOutput = false;
+        this.setVisible(false);
+        this.dispose();
+        if (this.nb != null) this.nb.setWriter(null);
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane scrollPane;
@@ -75,14 +93,22 @@ public class DataSimulationDisplayer extends javax.swing.JFrame implements Writa
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void writeln(final String l) { }
+    public void writeln(final String l) { 
+        this.textArea.append(l + "\n");
+    }
 
     @Override
     public void write(final String l) { }
 
     @Override
-    public void appendData() { 
-        this.textArea.append(NBodyData.getFormattedData() + "\n");
+    public void appendData(final String data) { 
+        this.textArea.append(data + "\n");
+        this.textArea.setCaretPosition(this.textArea.getDocument().getLength());
+    }
+
+    @Override
+    public void setParent(final NBody nb) {
+        this.nb = nb;
     }
     
 }

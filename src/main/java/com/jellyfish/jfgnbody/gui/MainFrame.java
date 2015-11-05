@@ -59,6 +59,8 @@ public class MainFrame extends javax.swing.JFrame {
         bhtreeMenuItem = new javax.swing.JMenuItem();
         separator2 = new javax.swing.JPopupMenu.Separator();
         displayOutputMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        pauseSimulationCheckBoxMenuItem = new javax.swing.JCheckBoxMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("NBody - Gravity simulation");
@@ -112,6 +114,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         simulationMenu.add(displayOutputMenuItem);
+        simulationMenu.add(jSeparator1);
+
+        pauseSimulationCheckBoxMenuItem.setText("Pause NBody simulation");
+        pauseSimulationCheckBoxMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pauseSimulationCheckBoxMenuItemActionPerformed(evt);
+            }
+        });
+        simulationMenu.add(pauseSimulationCheckBoxMenuItem);
 
         menuBar.add(simulationMenu);
 
@@ -152,18 +163,29 @@ public class MainFrame extends javax.swing.JFrame {
         if (this.nBodyPanel.getWriter() != null) return;
         final Writable w = new DataSimulationDisplayer();
         this.nBodyPanel.setWriter(w);
+        GUIDTO.displayOutput = true;
     }//GEN-LAST:event_displayOutputMenuItemActionPerformed
+
+    private void pauseSimulationCheckBoxMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseSimulationCheckBoxMenuItemActionPerformed
+        GUIDTO.pause = this.pauseSimulationCheckBoxMenuItem.isSelected();
+    }//GEN-LAST:event_pauseSimulationCheckBoxMenuItemActionPerformed
 
     public void resetSimulation(final int n, final int iSpeed) {
         this.nBodyPanel.restart(n, iSpeed);
+    }
+    
+    public NBody getnBodyPanel() {
+        return this.nBodyPanel;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem bhtreeMenuItem;
     private javax.swing.JMenuItem bruteForceMenuItem;
     private javax.swing.JMenuItem displayOutputMenuItem;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newSimulationMenuItem;
+    private javax.swing.JCheckBoxMenuItem pauseSimulationCheckBoxMenuItem;
     private javax.swing.JPopupMenu.Separator separator1;
     private javax.swing.JPopupMenu.Separator separator2;
     private javax.swing.JMenu simulationMenu;

@@ -31,6 +31,7 @@
  */
 package com.jellyfish.jfgnbody.starter;
 
+import com.jellyfish.jfgnbody.gui.DataSimulationDisplayer;
 import com.jellyfish.jfgnbody.gui.MainFrame;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import javax.swing.UIManager;
@@ -58,7 +59,8 @@ public class Main {
         }
         //</editor-fold>
          
-        new MainFrame(new NBody(100, 10));
+        
+        new MainFrame(new NBody(100, 10, new DataSimulationDisplayer()));
     }
 
     public static void start(final MainFrame mainFrame, final int n, 
