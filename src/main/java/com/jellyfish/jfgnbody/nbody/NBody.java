@@ -65,6 +65,16 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Data output writer.
      */
     private Writable writer = null;
+    
+    /**
+     * Simulation background color.
+     */
+    public static final Color BG_COLOR = new Color(8,19,35);
+    
+    /**
+     * Body color.
+     */
+    public static final Color BODY_COLOR = new Color(255,255,225);
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
@@ -78,7 +88,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
         this.startBodies(N);
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
-        this.setBackground(new Color(250,250,250));
+        this.setBackground(new Color(8,19,35));
     }
     
     /**
@@ -109,8 +119,8 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
 
             for (Body b : this.bodyMap.values()) {   
                 NBodyData.bodyCount++;
-                NBodyData.superMassiveBodyMass = b instanceof SupermassiveBody ?
-                        b.mass : NBodyData.superMassiveBodyMass;
+                //NBodyData.superMassiveBodyMass = b instanceof SupermassiveBody ?
+                //        b.mass : NBodyData.superMassiveBodyMass;
                 g.setColor(b.graphics.color);
                 g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
                         b.graphics.graphicSize);
@@ -156,7 +166,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
 
         double solarmass = 1.98892e30; // = Math.pow(1.98892 * 10, 30) 
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
-
+        int iterator = -1;
         for (int i = 0; i < N; i++) {
 
             px = 1e18 * exp(-1.8) * (.5 - Math.random());
@@ -170,15 +180,20 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
             vy = Math.signum(px) * Math.sin(thetav) * magv;
 
             mass = Math.random() * solarmass; //* rand.nextInt((100000 - 10000) + 1) + 10000;
-            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, Color.DARK_GRAY));
+            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, NBody.BODY_COLOR));
+            iterator = i;
         }
 
         /**
          * Put a supermassive body in the center - SupermassiveBody instances
          * will not be candidates to draw or paint methods.
          */
-        this.bodyMap.put(this.bodyMap.size(), new SupermassiveBody(this.bodyMap.size(),
-                0, 0, 0, 0, 1e6 * solarmass, Color.DARK_GRAY));
+        ++iterator;
+        this.bodyMap.put(iterator, new SupermassiveBody(iterator,
+                0, 0, 0, 0, 1e6 * solarmass, NBody.BODY_COLOR));
+        /*++iterator;
+        this.bodyMap.put(iterator, new SupermassiveBody(iterator,
+                1e18 * exp(-1.8), 1e18 * exp(-1.8), 0, 0, 1e6 * solarmass, NBody.BODY_COLOR));*/
 
     }
 

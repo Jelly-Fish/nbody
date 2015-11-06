@@ -51,6 +51,10 @@ public class BarnesHutTree {
     /**
      * We have to populate the tree with bodies,
      * start at the current tree and recursively travel through the branches.
+     * 
+     * Barnes–Hut simulation :
+     * 
+     * 
      * @param b
      */
     public void insert(final Body b) {

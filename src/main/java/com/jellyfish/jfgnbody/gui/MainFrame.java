@@ -21,6 +21,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     private final NBody nBodyPanel;
     
+    
+    
     /**
      * Creates new form MainFrame
      * @param nBodyPanel
@@ -28,8 +30,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(final NBody nBodyPanel) {
         
         initComponents();
-        this.setBackground(new Color(250,250,250));
-        this.getContentPane().setBackground(new Color(250,250,250));
+        this.setBackground(NBody.BG_COLOR);
+        this.getContentPane().setBackground(NBody.BG_COLOR);
         Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
         this.setIconImage(icon);
         this.nBodyPanel = nBodyPanel;

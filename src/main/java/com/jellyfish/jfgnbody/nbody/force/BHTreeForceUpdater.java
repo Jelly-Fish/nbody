@@ -21,6 +21,8 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
         // If the body is still on the screen, add it to the tree
         for (Body b : m.values()) {
             if (b.in(q)) bhT.insert(b);
+            
+            // TODO : Add smb, their may be count of them > 1.
             if (b instanceof SupermassiveBody) smb = (SupermassiveBody) b;
         }
             
