@@ -1,6 +1,6 @@
 package com.jellyfish.jfgnbody.utils;
 
-import com.jellyfish.jfgnbody.nbody.Body;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 import java.awt.Point;
 import java.awt.Rectangle;
 

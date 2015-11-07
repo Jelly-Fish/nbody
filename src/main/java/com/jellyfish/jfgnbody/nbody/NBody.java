@@ -3,9 +3,13 @@ package com.jellyfish.jfgnbody.nbody;
 import com.jellyfish.jfgnbody.gui.GUIDTO;
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.interfaces.Writable;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
+import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
+import com.jellyfish.jfgnbody.utils.BodyGenerationUtils;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -28,7 +32,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     /**
      * Collection of Body instances.
      */
-    private final HashMap<Integer, Body> bodyMap = new HashMap<>();
+    public final HashMap<Integer, Body> bodyMap = new HashMap<>();
 
     /**
      * Stop watch util.
@@ -54,7 +58,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     /**
      * Global space quandrant.
      */
-    private final Quadrant q = new Quadrant(0, 0, 8 * 1e18); // Previously new Quadrant(0, 0, 2 * 1e18)
+    private final Quadrant q = new Quadrant(0, 0, 8 * NBodyConst.NBODY_MASS_CONST); // Previously new Quadrant(0, 0, 2 * 1e18)
     
     /**
      * Interface for updating forces.
@@ -65,16 +69,6 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Data output writer.
      */
     private Writable writer = null;
-    
-    /**
-     * Simulation background color.
-     */
-    public static final Color BG_COLOR = new Color(8,19,35);
-    
-    /**
-     * Body color.
-     */
-    public static final Color BODY_COLOR = new Color(255,255,225);
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
@@ -85,7 +79,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     @SuppressWarnings("LeakingThisInConstructor")
     public NBody(final int n, final double iterationSpeed) {
         this.N = n;
-        this.startBodies(N);
+        BodyGenerationUtils.startBodies(N, this);
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
         this.setBackground(new Color(8,19,35));
@@ -118,12 +112,16 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
             if (!(this.bodyMap.size() > 0)) return;
 
             for (Body b : this.bodyMap.values()) {   
+                
                 NBodyData.bodyCount++;
-                //NBodyData.superMassiveBodyMass = b instanceof SupermassiveBody ?
-                //        b.mass : NBodyData.superMassiveBodyMass;
                 g.setColor(b.graphics.color);
-                g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
+                if (b instanceof SupermassiveBody) {
+                    g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
                         b.graphics.graphicSize);
+                } else {
+                    g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
+                        b.graphics.graphicSize);
+                }
             }
 
             if (!GUIDTO.pause) {
@@ -139,70 +137,6 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
         }
         
         super.repaint();
-    }
-
-    /**
-     * the bodies are initialized in circular orbits around the central mass,
-     * some physics to do so.
-     *
-     * @param rx
-     * @param ry
-     * @return
-     */
-    public static double circleV(final double rx, final double ry) {
-
-        double solarmass = 1.98892e30;
-        double r2 = Math.sqrt(rx * rx + ry * ry);
-        double numerator = (6.67e-11) * 1e6 * solarmass;
-        return Math.sqrt(numerator / r2);
-    }
-
-    /**
-     * Initialize N bodies with random positions and circular velocities.
-     *
-     * @param N
-     */
-    public final void startBodies(final int N) {
-
-        double solarmass = 1.98892e30; // = Math.pow(1.98892 * 10, 30) 
-        double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
-        int iterator = -1;
-        for (int i = 0; i < N; i++) {
-
-            px = 1e18 * exp(-1.8) * (.5 - Math.random());
-            py = 1e18 * exp(-1.8) * (.5 - Math.random());
-            magv = circleV(px, py);
-
-            absangle = Math.atan(Math.abs(py / px));
-            thetav = Math.PI / 2 - absangle;
-            phiv = Math.random() * Math.PI;
-            vx = -1 * Math.signum(py) * Math.cos(thetav) * magv;
-            vy = Math.signum(px) * Math.sin(thetav) * magv;
-
-            mass = Math.random() * solarmass; //* rand.nextInt((100000 - 10000) + 1) + 10000;
-            this.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, NBody.BODY_COLOR));
-            iterator = i;
-        }
-
-        /**
-         * Put a supermassive body in the center - SupermassiveBody instances
-         * will not be candidates to draw or paint methods.
-         */
-        ++iterator;
-        this.bodyMap.put(iterator, new SupermassiveBody(iterator,
-                0, 0, 0, 0, 1e6 * solarmass, NBody.BODY_COLOR));
-        /*++iterator;
-        this.bodyMap.put(iterator, new SupermassiveBody(iterator,
-                1e18 * exp(-1.8), 1e18 * exp(-1.8), 0, 0, 1e6 * solarmass, NBody.BODY_COLOR));*/
-
-    }
-
-    /**
-     * @param lambda
-     * @return
-     */
-    public static double exp(final double lambda) {
-        return -Math.log(1 - Math.random()) / lambda;
     }
 
     /**
@@ -232,7 +166,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     public void restart(int n, int iSpeed) {
         this.N = n;
         this.bodyMap.clear();
-        this.startBodies(N);
+        BodyGenerationUtils.startBodies(N, this);
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
         NBodyData.bodyCount = 0;

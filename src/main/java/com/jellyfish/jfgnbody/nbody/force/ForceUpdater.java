@@ -1,7 +1,7 @@
 package com.jellyfish.jfgnbody.nbody.force;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
-import com.jellyfish.jfgnbody.nbody.Body;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.HashMap;
 import java.util.Map;

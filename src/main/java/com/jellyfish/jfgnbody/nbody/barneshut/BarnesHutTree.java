@@ -1,6 +1,6 @@
 package com.jellyfish.jfgnbody.nbody.barneshut;
 
-import com.jellyfish.jfgnbody.nbody.Body;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 
 /**
  *

@@ -2,6 +2,7 @@ package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
@@ -30,8 +31,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(final NBody nBodyPanel) {
         
         initComponents();
-        this.setBackground(NBody.BG_COLOR);
-        this.getContentPane().setBackground(NBody.BG_COLOR);
+        this.setBackground(NBodyConst.BG_COLOR);
+        this.getContentPane().setBackground(NBodyConst.BG_COLOR);
         Image icon = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB_PRE);
         this.setIconImage(icon);
         this.nBodyPanel = nBodyPanel;

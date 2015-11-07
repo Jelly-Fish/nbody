@@ -1,6 +1,6 @@
 package com.jellyfish.jfgnbody.interfaces;
 
-import com.jellyfish.jfgnbody.nbody.Body;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.HashMap;
 

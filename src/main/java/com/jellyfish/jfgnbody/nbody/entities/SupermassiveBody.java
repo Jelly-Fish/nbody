@@ -1,4 +1,4 @@
-package com.jellyfish.jfgnbody.nbody;
+package com.jellyfish.jfgnbody.nbody.entities;
 
 import java.awt.Color;
 
@@ -6,7 +6,7 @@ import java.awt.Color;
  *
  * @author thw
  */
-public class SupermassiveBody extends Body {
+public class SupermassiveBody extends MassiveBody {
 
     /**
      * @param key
@@ -22,6 +22,6 @@ public class SupermassiveBody extends Body {
     }
     
     @Override
-    public void update(double dt) { }
+    public void update(double dt) {}
     
 }

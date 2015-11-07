@@ -1,10 +1,12 @@
 package com.jellyfish.jfgnbody.nbody.force;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
-import com.jellyfish.jfgnbody.nbody.Body;
-import com.jellyfish.jfgnbody.nbody.SupermassiveBody;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
+import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.barneshut.BarnesHutTree;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,14 +18,12 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
         
-        SupermassiveBody smb = null;
+        final ArrayList<MassiveBody> smb = new ArrayList<>();
         final BarnesHutTree bhT = new BarnesHutTree(q);
         // If the body is still on the screen, add it to the tree
         for (Body b : m.values()) {
             if (b.in(q)) bhT.insert(b);
-            
-            // TODO : Add smb, their may be count of them > 1.
-            if (b instanceof SupermassiveBody) smb = (SupermassiveBody) b;
+            if (b instanceof MassiveBody) smb.add((MassiveBody) b);
         }
             
         /**

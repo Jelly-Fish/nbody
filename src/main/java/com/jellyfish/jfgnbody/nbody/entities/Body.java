@@ -1,9 +1,13 @@
-package com.jellyfish.jfgnbody.nbody;
+package com.jellyfish.jfgnbody.nbody.entities;
 
+import com.jellyfish.jfgnbody.nbody.BodyGraphics;
+import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
 import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -92,8 +96,8 @@ public class Body {
         this.mass = mass;
         this.key = key;
         this.graphics = new BodyGraphics(MassUtils.getVirtualIntegerMass(mass), 
-                (int) Math.round(this.rx * 250 / 1e18),
-                (int) Math.round(this.ry * 250 / 1e18), color, key);
+                (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST),
+                (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST), color, key);
     }
     //</editor-fold>
     
@@ -107,8 +111,8 @@ public class Body {
         vy += dt * fy / mass;
         rx += dt * vx;
         ry += dt * vy;
-        this.graphics.graphicX = (int) Math.round(this.rx * 250 / 1e18);
-        this.graphics.graphicY = (int) Math.round(this.ry * 250 / 1e18);
+        this.graphics.graphicX = (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
+        this.graphics.graphicY = (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
     }
 
     /**
@@ -179,6 +183,18 @@ public class Body {
     }
     
     /**
+     * Check for a collision between a super massive body with this.
+     * @param smbList
+     */
+    public void checkCollision(final ArrayList<MassiveBody> smbList) {
+        
+        for (MassiveBody smb : smbList) {
+            this.checkCollision(smb);
+        }
+    }
+    
+    
+    /**
      * Is this, as a graphical object suject to being draw, in GUI's bounds or not ?
      * @param width
      * @param height
@@ -186,8 +202,8 @@ public class Body {
      */
     public boolean isOutOfBounds(final int width, final int height) {
         
-        final int bx = (int) Math.round(this.rx * 250 / 1e18);
-        final int by = (int) Math.round(this.ry * 250 / 1e18);
+        final int bx = (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
+        final int by = (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
         return bx + (width / 2) < 0 || bx > width * 2 || by + (height / 2) < 0 || by > height * 2;
     }
 
@@ -203,5 +219,5 @@ public class Body {
         toSwallow.swallowed = true;
     }
     //</editor-fold>
-    
+
 }
