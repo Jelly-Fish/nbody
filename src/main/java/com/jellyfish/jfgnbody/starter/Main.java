@@ -64,8 +64,8 @@ public class Main {
     }
 
     public static void start(final MainFrame mainFrame, final int n, 
-            final int iSpeed) {
-        mainFrame.resetSimulation(n, iSpeed);
+            final int iSpeed, final Integer mN) {
+        mainFrame.resetSimulation(n, iSpeed, mN);
     }
     
 }

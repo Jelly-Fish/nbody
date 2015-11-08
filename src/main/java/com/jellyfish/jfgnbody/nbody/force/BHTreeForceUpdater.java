@@ -18,12 +18,13 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
         
-        final ArrayList<MassiveBody> smb = new ArrayList<>();
+        final ArrayList<MassiveBody> mb = new ArrayList<>();
         final BarnesHutTree bhT = new BarnesHutTree(q);
+        
         // If the body is still on the screen, add it to the tree
         for (Body b : m.values()) {
             if (b.in(q)) bhT.insert(b);
-            if (b instanceof MassiveBody) smb.add((MassiveBody) b);
+            if (b instanceof MassiveBody) mb.add((MassiveBody) b);
         }
             
         /**
@@ -32,12 +33,17 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          * instances - Only work for and if there is only 1 SupermassiveBody instance.
          */
         for (Body b : m.values()) {
-            b.resetForce();
-            b.checkCollision(smb);
-            if (b.in(q)) {
-                bhT.updateForce(b);
-                // Calculate the new positions on a time step dt (1e11 here) :
-                b.update(1e11);
+            if (!b.isOutOfBounds(w, h)) {
+                b.resetForce();
+                b.checkCollision(mb);
+                if (b.in(q)) {
+                    bhT.updateForce(b);
+                    // Calculate the new positions on a time step dt (1e11 here) :
+                    b.update(1e11);
+                }
+            } else {
+                System.out.println("out of bounds...");
+                b.swallowed = true;
             }
         }
     }

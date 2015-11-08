@@ -1,7 +1,6 @@
 package com.jellyfish.jfgnbody.nbody.entities;
 
 import com.jellyfish.jfgnbody.nbody.BodyGraphics;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
@@ -184,12 +183,12 @@ public class Body {
     
     /**
      * Check for a collision between a super massive body with this.
-     * @param smbList
+     * @param mbList
      */
-    public void checkCollision(final ArrayList<MassiveBody> smbList) {
+    public void checkCollision(final ArrayList<MassiveBody> mbList) {
         
-        for (MassiveBody smb : smbList) {
-            this.checkCollision(smb);
+        for (MassiveBody mb : mbList) {
+            this.checkCollision(mb);
         }
     }
     
@@ -212,7 +211,7 @@ public class Body {
      */
     public void swallow(final Body toSwallow) {
         
-        if (toSwallow instanceof SupermassiveBody) return;
+        if (toSwallow instanceof MassiveBody) return;
         
         this.mass += toSwallow.mass;
         this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);

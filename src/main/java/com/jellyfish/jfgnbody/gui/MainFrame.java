@@ -56,7 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuBar = new javax.swing.JMenuBar();
         simulationMenu = new javax.swing.JMenu();
-        newSimulationMenuItem = new javax.swing.JMenuItem();
+        start1MenuItem = new javax.swing.JMenuItem();
         separator1 = new javax.swing.JPopupMenu.Separator();
         bruteForceMenuItem = new javax.swing.JMenuItem();
         bhtreeMenuItem = new javax.swing.JMenuItem();
@@ -82,15 +82,15 @@ public class MainFrame extends javax.swing.JFrame {
         simulationMenu.setBorder(null);
         simulationMenu.setText("Simulation");
 
-        newSimulationMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        newSimulationMenuItem.setText("Start a new simulation");
-        newSimulationMenuItem.setBorder(null);
-        newSimulationMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        start1MenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        start1MenuItem.setText("Start a new simulation");
+        start1MenuItem.setBorder(null);
+        start1MenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newSimulationMenuItemActionPerformed(evt);
+                start1MenuItemActionPerformed(evt);
             }
         });
-        simulationMenu.add(newSimulationMenuItem);
+        simulationMenu.add(start1MenuItem);
         simulationMenu.add(separator1);
 
         bruteForceMenuItem.setText("Switch to brute force gravity calculation");
@@ -146,9 +146,9 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    private void newSimulationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationMenuItemActionPerformed
+    private void start1MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_start1MenuItemActionPerformed
         new NewSimulationDialog(this);
-    }//GEN-LAST:event_newSimulationMenuItemActionPerformed
+    }//GEN-LAST:event_start1MenuItemActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
         this.nBodyPanel.spatialArea.updateSize(this.nBodyPanel.getWidth(), this.nBodyPanel.getHeight());
@@ -173,8 +173,8 @@ public class MainFrame extends javax.swing.JFrame {
         GUIDTO.pause = this.pauseSimulationCheckBoxMenuItem.isSelected();
     }//GEN-LAST:event_pauseSimulationCheckBoxMenuItemActionPerformed
 
-    public void resetSimulation(final int n, final int iSpeed) {
-        this.nBodyPanel.restart(n, iSpeed);
+    public void resetSimulation(final int n, final int iSpeed, final Integer mN) {
+        this.nBodyPanel.restart(n, iSpeed, mN);
     }
     
     public NBody getnBodyPanel() {
@@ -187,11 +187,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem displayOutputMenuItem;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem newSimulationMenuItem;
     private javax.swing.JCheckBoxMenuItem pauseSimulationCheckBoxMenuItem;
     private javax.swing.JPopupMenu.Separator separator1;
     private javax.swing.JPopupMenu.Separator separator2;
     private javax.swing.JMenu simulationMenu;
+    private javax.swing.JMenuItem start1MenuItem;
     // End of variables declaration//GEN-END:variables
        
 }

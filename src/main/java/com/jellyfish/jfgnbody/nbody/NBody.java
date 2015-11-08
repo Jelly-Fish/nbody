@@ -79,7 +79,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     @SuppressWarnings("LeakingThisInConstructor")
     public NBody(final int n, final double iterationSpeed) {
         this.N = n;
-        BodyGenerationUtils.startBodies(N, this);
+        BodyGenerationUtils.startBodies(N, this, 1);
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
         this.setBackground(new Color(8,19,35));
@@ -162,11 +162,16 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Restart a new simulation.
      * @param n
      * @param iSpeed 
+     * @param mN 
      */
-    public void restart(int n, int iSpeed) {
+    public void restart(int n, int iSpeed, final Integer mN) {
         this.N = n;
         this.bodyMap.clear();
-        BodyGenerationUtils.startBodies(N, this);
+        if (mN == 0) {
+            BodyGenerationUtils.startBodies(N, this);
+        } else {
+            BodyGenerationUtils.startBodies(N, this, mN);
+        }
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
         NBodyData.bodyCount = 0;
