@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author thw
  */
-public class Body {
+public class Body extends AbstractBody {
 
     //<editor-fold defaultstate="collapsed" desc="vars">
     /**
@@ -100,11 +100,8 @@ public class Body {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="methods">
-    /**
-     * update the velocity and position using a timestep dt.
-     * @param dt
-     */
+    //<editor-fold defaultstate="collapsed" desc="overriden methods">
+    @Override
     public void update(double dt) {
         vx += dt * fx / mass;
         vy += dt * fy / mass;
@@ -114,30 +111,20 @@ public class Body {
         this.graphics.graphicY = (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
     }
 
-    /**
-     * returns the distance between two bodies.
-     * @param b
-     * @return 
-     */
+    @Override
     public double distanceTo(Body b) {
         double dx = rx - b.rx;
         double dy = ry - b.ry;
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    /**
-     * set the force to 0 for the next iteration.
-     */
+    @Override
     public void resetForce() {
         fx = 0.0;
         fy = 0.0;
     }
 
-    /**
-     * compute the net force acting between the body a and b, and 
-     * add to the net force acting on a.
-     * @param b
-     */
+    @Override
     public void addForce(final Body b) {
         double EPS = 3E4; // softening parameter (just to avoid infinities)
         double dx = b.rx - this.rx;
@@ -148,30 +135,20 @@ public class Body {
         this.fy += F * dy / dist;
     }
 
-    /**
-     * @param q
-     * @return does Quaddrant contain this ?
-     */
+    @Override
     public boolean in(final Quadrant q) {
         return q.contains(this.rx, this.ry);
     }
-      
-    /**
-     * @param a
-     * @param b
-     * @return new Body instance with key = a.key.
-     */
-    public static Body add(final Body a, final Body b) {
+    
+    @Override
+    public Body add(final Body a, final Body b) {
         final double nRx = (a.rx * a.mass + b.rx * b.mass) / (a.mass + b.mass);
         final double nRy = (a.ry * a.mass + b.ry * b.mass) / (a.mass + b.mass);
         final double nMass = a.mass + b.mass;
         return new Body(a.key, nRx, nRy, 0, 0, nMass, Color.DARK_GRAY);
     }
-    
-    /**
-     * Check for a collision between a > in mass body with this.
-     * @param b the body candidate to swallow this instance.
-     */
+
+    @Override
     public void checkCollision(final Body b) {
         
         if (this.mass > b.mass) return;
@@ -181,24 +158,15 @@ public class Body {
         }
     }
     
-    /**
-     * Check for a collision between a super massive body with this.
-     * @param mbList
-     */
+    @Override
     public void checkCollision(final ArrayList<MassiveBody> mbList) {
         
         for (MassiveBody mb : mbList) {
             this.checkCollision(mb);
         }
     }
-    
-    
-    /**
-     * Is this, as a graphical object suject to being draw, in GUI's bounds or not ?
-     * @param width
-     * @param height
-     * @return true if out of bounds else false.
-     */
+
+    @Override
     public boolean isOutOfBounds(final int width, final int height) {
         
         final int bx = (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
@@ -206,9 +174,7 @@ public class Body {
         return bx + (width / 2) < 0 || bx > width * 2 || by + (height / 2) < 0 || by > height * 2;
     }
 
-    /**
-     * @param toSwallow the Body to swallow.
-     */
+    @Override
     public void swallow(final Body toSwallow) {
         
         if (toSwallow instanceof MassiveBody) return;

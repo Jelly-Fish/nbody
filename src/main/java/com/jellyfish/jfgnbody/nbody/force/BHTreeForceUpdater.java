@@ -2,7 +2,6 @@ package com.jellyfish.jfgnbody.nbody.force;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.barneshut.BarnesHutTree;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
@@ -42,7 +41,6 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
                     b.update(1e11);
                 }
             } else {
-                System.out.println("out of bounds...");
                 b.swallowed = true;
             }
         }

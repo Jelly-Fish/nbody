@@ -73,7 +73,7 @@ public class BodyGenerationUtils {
             vy = Math.signum(px) * Math.sin(thetav) * magv;
             
             nBody.bodyMap.put(nBody.bodyMap.size() + i, new MassiveBody(nBody.bodyMap.size() + i,
-                NBodyConst.NBODY_MASS_CONST * (1.4), 1, vx, vy, 1e6 * (NBodyConst.SOLARMASS / 3), 
+                NBodyConst.NBODY_MASS_CONST * (1.4), 1, vx, vy, 1e6 * (NBodyConst.SOLARMASS / 4), 
                 NBodyConst.M_BODY_COLOR));            
         }
     }
