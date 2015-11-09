@@ -7,7 +7,6 @@ package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.NBody;
-import com.jellyfish.jfgnbody.nbody.NBodyData;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;

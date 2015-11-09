@@ -1,7 +1,9 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.Writable;
+import com.jellyfish.jfgnbody.nbody.constants.NbobySimulationList;
 import com.jellyfish.jfgnbody.starter.Main;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner.DefaultEditor;
 
 /**
@@ -20,7 +22,9 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         initComponents();
         ((DefaultEditor) this.nbodyCountSpinner.getEditor()).getTextField().setEditable(false);
         ((DefaultEditor) this.iSpeedSpinner.getEditor()).getTextField().setEditable(false);
-        ((DefaultEditor) this.massiveBodyCountSpinner.getEditor()).getTextField().setEditable(false);
+        this.simulationComboBox.setEditable(false);
+        this.simulationComboBox.setModel(new DefaultComboBoxModel(NbobySimulationList.SIM_LIST.toArray()));
+        this.simulationComboBox.setSelectedIndex(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -41,8 +45,8 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         newSimulationCancelButton = new javax.swing.JButton();
         nbodyCountSpinner = new javax.swing.JSpinner();
         iSpeedSpinner = new javax.swing.JSpinner();
-        massiveBodyCountSpinner = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
+        simulationComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New NBody simulation");
@@ -87,13 +91,11 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         iSpeedSpinner.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         iSpeedSpinner.setDoubleBuffered(true);
 
-        massiveBodyCountSpinner.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        massiveBodyCountSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 1, 1));
-        massiveBodyCountSpinner.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        massiveBodyCountSpinner.setDoubleBuffered(true);
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Extra massiv bodies added to simulation :");
+        jLabel1.setText("Select simulation type :");
+
+        simulationComboBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        simulationComboBox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,7 +103,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(newSimulationSubtitleLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(376, 376, 376)
@@ -109,20 +111,20 @@ public class NewSimulationDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(newSimulationStartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(60, 60, 60)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(simulationComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(nbodyCountLabel)
                                     .addComponent(iterationSpeddLabel))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(26, 26, 26)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nbodyCountSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                            .addComponent(iSpeedSpinner)
-                            .addComponent(massiveBodyCountSpinner))))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(nbodyCountSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                                    .addComponent(iSpeedSpinner))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -140,9 +142,9 @@ public class NewSimulationDialog extends javax.swing.JDialog {
                     .addComponent(iSpeedSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(massiveBodyCountSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(simulationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newSimulationStartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newSimulationCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -159,9 +161,9 @@ public class NewSimulationDialog extends javax.swing.JDialog {
 
     @SuppressWarnings("UnnecessaryBoxing")
     private void newSimulationStartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationStartButtonActionPerformed
+        final int i = this.simulationComboBox.getSelectedIndex();
         Main.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),
-                (int) this.iSpeedSpinner.getValue(), 
-                new Integer((int) this.massiveBodyCountSpinner.getValue()));
+                (int) this.iSpeedSpinner.getValue(), i);
         this.setVisible(false);
         final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();
         if (w != null) w.writeln(
@@ -176,12 +178,12 @@ public class NewSimulationDialog extends javax.swing.JDialog {
     private javax.swing.JSpinner iSpeedSpinner;
     private javax.swing.JLabel iterationSpeddLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JSpinner massiveBodyCountSpinner;
     private javax.swing.JLabel nbodyCountLabel;
     private javax.swing.JSpinner nbodyCountSpinner;
     private javax.swing.JButton newSimulationCancelButton;
     private javax.swing.JButton newSimulationStartButton;
     private javax.swing.JLabel newSimulationSubtitleLabel;
+    private javax.swing.JComboBox simulationComboBox;
     // End of variables declaration//GEN-END:variables
 
 }

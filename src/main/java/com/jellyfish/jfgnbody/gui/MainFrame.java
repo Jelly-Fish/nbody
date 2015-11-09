@@ -21,9 +21,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Panel for graphic display.
      */
     private final NBody nBodyPanel;
-    
-    
-    
+
     /**
      * Creates new form MainFrame
      * @param nBodyPanel
@@ -173,8 +171,8 @@ public class MainFrame extends javax.swing.JFrame {
         GUIDTO.pause = this.pauseSimulationCheckBoxMenuItem.isSelected();
     }//GEN-LAST:event_pauseSimulationCheckBoxMenuItemActionPerformed
 
-    public void resetSimulation(final int n, final int iSpeed, final Integer mN) {
-        this.nBodyPanel.restart(n, iSpeed, mN);
+    public void resetSimulation(final int n, final int iSpeed, final int simulationN) {
+        this.nBodyPanel.restart(n, iSpeed, simulationN);
     }
     
     public NBody getnBodyPanel() {

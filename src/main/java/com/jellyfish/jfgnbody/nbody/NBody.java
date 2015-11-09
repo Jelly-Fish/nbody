@@ -9,7 +9,7 @@ import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
-import com.jellyfish.jfgnbody.utils.BodyGenerationUtils;
+import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -79,10 +79,10 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     @SuppressWarnings("LeakingThisInConstructor")
     public NBody(final int n, final double iterationSpeed) {
         this.N = n;
-        BodyGenerationUtils.startBodies(N, this, 1);
+        BodySimulationGenUtils.startBodies0(N, this);
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
-        this.setBackground(new Color(8,19,35));
+        this.setBackground(NBodyConst.BG_COLOR);
     }
     
     /**
@@ -162,16 +162,12 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Restart a new simulation.
      * @param n
      * @param iSpeed 
-     * @param mN 
+     * @param simultionN 
      */
-    public void restart(int n, int iSpeed, final Integer mN) {
+    public void restart(int n, int iSpeed, final int simultionN) {
         this.N = n;
         this.bodyMap.clear();
-        if (mN == 0) {
-            BodyGenerationUtils.startBodies(N, this);
-        } else {
-            BodyGenerationUtils.startBodies(N, this, mN);
-        }
+        BodySimulationGenUtils.start(N, this, simultionN);        
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
         NBodyData.bodyCount = 0;

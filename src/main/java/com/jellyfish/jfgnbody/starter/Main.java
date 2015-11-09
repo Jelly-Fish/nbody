@@ -59,13 +59,12 @@ public class Main {
         }
         //</editor-fold>
          
-        
-        new MainFrame(new NBody(100, 10, new DataSimulationDisplayer()));
+        new MainFrame(new NBody(1000, 10, new DataSimulationDisplayer()));
     }
 
-    public static void start(final MainFrame mainFrame, final int n, 
-            final int iSpeed, final Integer mN) {
-        mainFrame.resetSimulation(n, iSpeed, mN);
+    public static void start(final MainFrame mainFrame, final int n, final int iSpeed,
+            final int simulationN) {
+        mainFrame.resetSimulation(n, iSpeed, simulationN);
     }
     
 }
