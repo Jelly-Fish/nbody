@@ -1,7 +1,8 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.Writable;
-import com.jellyfish.jfgnbody.nbody.constants.NbobySimulationList;
+import com.jellyfish.jfgnbody.nbody.constants.NBodySimulations;
+import com.jellyfish.jfgnbody.nbody.simulations.*;
 import com.jellyfish.jfgnbody.starter.Main;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner.DefaultEditor;
@@ -22,8 +23,8 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         initComponents();
         ((DefaultEditor) this.nbodyCountSpinner.getEditor()).getTextField().setEditable(false);
         ((DefaultEditor) this.iSpeedSpinner.getEditor()).getTextField().setEditable(false);
+        this.simulationComboBox.setModel(new DefaultComboBoxModel(NBodySimulations.sims));
         this.simulationComboBox.setEditable(false);
-        this.simulationComboBox.setModel(new DefaultComboBoxModel(NbobySimulationList.SIM_LIST.toArray()));
         this.simulationComboBox.setSelectedIndex(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -92,7 +93,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         iSpeedSpinner.setDoubleBuffered(true);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Select simulation type :");
+        jLabel1.setText("Select simulation :");
 
         simulationComboBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         simulationComboBox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -161,9 +162,10 @@ public class NewSimulationDialog extends javax.swing.JDialog {
 
     @SuppressWarnings("UnnecessaryBoxing")
     private void newSimulationStartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationStartButtonActionPerformed
-        final int i = this.simulationComboBox.getSelectedIndex();
+        final AbstractSimulation sim = 
+            (AbstractSimulation) this.simulationComboBox.getItemAt(this.simulationComboBox.getSelectedIndex());
         Main.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),
-                (int) this.iSpeedSpinner.getValue(), i);
+                (int) this.iSpeedSpinner.getValue(), sim);
         this.setVisible(false);
         final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();
         if (w != null) w.writeln(

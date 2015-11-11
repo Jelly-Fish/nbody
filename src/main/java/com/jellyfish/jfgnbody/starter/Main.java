@@ -34,6 +34,8 @@ package com.jellyfish.jfgnbody.starter;
 import com.jellyfish.jfgnbody.gui.DataSimulationDisplayer;
 import com.jellyfish.jfgnbody.gui.MainFrame;
 import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
+import com.jellyfish.jfgnbody.nbody.simulations.Simulation1;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -59,12 +61,12 @@ public class Main {
         }
         //</editor-fold>
          
-        new MainFrame(new NBody(1000, 10, new DataSimulationDisplayer()));
+        new MainFrame(new NBody(1000, 10, new DataSimulationDisplayer(), new Simulation1()));
     }
 
-    public static void start(final MainFrame mainFrame, final int n, final int iSpeed,
-            final int simulationN) {
-        mainFrame.resetSimulation(n, iSpeed, simulationN);
+    public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 
+            final AbstractSimulation sim) {
+        mainFrame.resetSimulation(n, iSpeed, sim);
     }
     
 }

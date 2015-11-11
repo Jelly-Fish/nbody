@@ -5,9 +5,9 @@ import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
+import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
@@ -171,8 +171,8 @@ public class MainFrame extends javax.swing.JFrame {
         GUIDTO.pause = this.pauseSimulationCheckBoxMenuItem.isSelected();
     }//GEN-LAST:event_pauseSimulationCheckBoxMenuItemActionPerformed
 
-    public void resetSimulation(final int n, final int iSpeed, final int simulationN) {
-        this.nBodyPanel.restart(n, iSpeed, simulationN);
+    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim) {
+        this.nBodyPanel.restart(n, iSpeed, sim);
     }
     
     public NBody getnBodyPanel() {

@@ -8,10 +8,9 @@ import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
+import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
-import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
 import com.jellyfish.jfgnbody.utils.StopWatch;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -69,17 +68,24 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Data output writer.
      */
     private Writable writer = null;
+    
+    /**
+     * Simulation instance.
+     */
+    private AbstractSimulation sim;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
     /**
      * @param n number of bodies.
      * @param iterationSpeed iteration speed for StopWatch.
+     * @param sim
      */
     @SuppressWarnings("LeakingThisInConstructor")
-    public NBody(final int n, final double iterationSpeed) {
+    public NBody(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         this.N = n;
-        BodySimulationGenUtils.startBodies0(N, this);
+        this.sim = sim;
+        sim.start(N, this);
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
         this.setBackground(NBodyConst.BG_COLOR);
@@ -89,10 +95,11 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * @param n
      * @param iterationSpeed
      * @param writer 
+     * @param sim 
      */
     @SuppressWarnings("LeakingThisInConstructor")
-    public NBody(final int n, final double iterationSpeed, final Writable writer) {
-        this(n, iterationSpeed);
+    public NBody(final int n, final double iterationSpeed, final Writable writer, final AbstractSimulation sim) {
+        this(n, iterationSpeed, sim);
         this.writer = writer;
         this.writer.setParent(this);
     }
@@ -162,17 +169,18 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * Restart a new simulation.
      * @param n
      * @param iSpeed 
-     * @param simultionN 
+     * @param sim 
      */
-    public void restart(int n, int iSpeed, final int simultionN) {
-        this.N = n;
-        this.bodyMap.clear();
-        BodySimulationGenUtils.start(N, this, simultionN);        
-        this.stopWatch = new StopWatch(iSpeed);
-        this.spatialArea.updateSize(this.getWidth(), this.getHeight());
+    public void restart(int n, int iSpeed, final AbstractSimulation sim) {
         NBodyData.bodyCount = 0;
         NBodyData.iterationCount = 0;
         NBodyData.superMassiveBodyMass = 0.0;
+        this.N = n;
+        this.bodyMap.clear();
+        this.sim = sim;
+        sim.start(N, this);        
+        this.stopWatch = new StopWatch(iSpeed);
+        this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
     
     private boolean performPaint() {
