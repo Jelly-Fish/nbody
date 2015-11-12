@@ -5,6 +5,7 @@ import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.BarnesHutTree;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
+import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,13 +18,13 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
         
-        final ArrayList<MassiveBody> mb = new ArrayList<>();
+        final ArrayList<Body> mb = new ArrayList<>();
         final BarnesHutTree bhT = new BarnesHutTree(q);
         
         // If the body is still on the screen, add it to the tree
         for (Body b : m.values()) {
             if (b.in(q)) bhT.insert(b);
-            if (b instanceof MassiveBody) mb.add((MassiveBody) b);
+            if (b instanceof MassiveBody) mb.add(b);
         }
             
         /**
@@ -41,7 +42,7 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
                     b.update(1e11);
                 }
             } else {
-                b.swallowed = true;
+                b.setSwallowed(true);
             }
         }
     }

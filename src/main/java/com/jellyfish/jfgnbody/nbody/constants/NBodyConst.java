@@ -38,11 +38,11 @@ public class NBodyConst {
     /**
      * Masisive body color.
      */
-    public static final Color M_BODY_COLOR = Color.RED;
+    public static final Color M_BODY_COLOR = Color.CYAN;
     
     /**
      * Super massive Body color.
      */
-    public static final Color SM_BODY_COLOR = Color.BLACK;
+    public static final Color SM_STATIC_BODY_COLOR = Color.RED;
     
 }

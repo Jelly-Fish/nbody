@@ -68,8 +68,8 @@ public class Body extends AbstractBody {
     /**
      * Has this been swallowed by another body.
      */
-    public boolean swallowed = false;
-    
+    private boolean swallowed = false;
+
     /**
      * This body's graphical data.
      */
@@ -159,10 +159,10 @@ public class Body extends AbstractBody {
     }
     
     @Override
-    public void checkCollision(final ArrayList<MassiveBody> mbList) {
+    public void checkCollision(final ArrayList<Body> bList) {
         
-        for (MassiveBody mb : mbList) {
-            this.checkCollision(mb);
+        for (Body b : bList) {
+            this.checkCollision(b);
         }
     }
 
@@ -182,6 +182,16 @@ public class Body extends AbstractBody {
         this.mass += toSwallow.mass;
         this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
         toSwallow.swallowed = true;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="getters & setters">
+    public boolean isSwallowed() {
+        return this.swallowed;
+    }
+
+    public void setSwallowed(final boolean swallowed) {
+        this.swallowed = swallowed;
     }
     //</editor-fold>
 

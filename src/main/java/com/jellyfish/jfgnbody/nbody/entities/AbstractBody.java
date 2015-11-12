@@ -61,9 +61,9 @@ abstract class AbstractBody {
     
     /**
      * Check for a collision between a super massive body with this.
-     * @param mbList
+     * @param bList
      */
-    public abstract void checkCollision(final ArrayList<MassiveBody> mbList);
+    public abstract void checkCollision(final ArrayList<Body> bList);
     
     
     /**

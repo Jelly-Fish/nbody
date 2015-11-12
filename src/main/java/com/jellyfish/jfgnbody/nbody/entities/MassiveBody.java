@@ -1,6 +1,5 @@
 package com.jellyfish.jfgnbody.nbody.entities;
 
-import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
 
 /**
@@ -9,8 +8,14 @@ import java.awt.Color;
  */
 public class MassiveBody extends Body {
     
-    public MassiveBody(int key, double rx, double ry, double vx, double vy, double mass, Color color) {
+    public MassiveBody(final int key, final double rx, final double ry, final double vx, 
+        final double vy, final double mass, final Color color) {
         super(key, rx, ry, vx, vy, mass, color);
+    }
+    
+    @Override
+    public boolean isSwallowed() {
+        return false;
     }
     
 }

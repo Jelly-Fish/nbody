@@ -17,11 +17,12 @@ public class SupermassiveBody extends MassiveBody {
      * @param mass mass of the body
      * @param color body's display color for fun.
      */
-    public SupermassiveBody(int key, double rx, double ry, double vx, double vy, double mass, Color color) {
+    public SupermassiveBody(final int key, final double rx, final double ry, final double vx, 
+        final double vy, final double mass, final Color color) {
         super(key, rx, ry, vx, vy, mass, color);
     }
     
     @Override
-    public void update(double dt) {}
+    public void swallow(final Body toSwallow) { }
     
 }

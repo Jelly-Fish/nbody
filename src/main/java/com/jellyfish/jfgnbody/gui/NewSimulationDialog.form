@@ -160,7 +160,7 @@
           <Font name="Tahoma" size="16" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="1000" maximum="1410065408" minimum="100" numberType="java.lang.Integer" stepSize="1000" type="number"/>
+          <SpinnerModel initial="5000" maximum="1410065408" minimum="100" numberType="java.lang.Integer" stepSize="1000" type="number"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -176,7 +176,7 @@
           <Font name="Tahoma" size="16" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="100" maximum="1000" minimum="10" numberType="java.lang.Integer" stepSize="10" type="number"/>
+          <SpinnerModel initial="10" maximum="1000" minimum="10" numberType="java.lang.Integer" stepSize="10" type="number"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">

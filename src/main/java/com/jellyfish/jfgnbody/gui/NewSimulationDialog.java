@@ -83,12 +83,12 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         });
 
         nbodyCountSpinner.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        nbodyCountSpinner.setModel(new javax.swing.SpinnerNumberModel(1000, 100, 1410065408, 1000));
+        nbodyCountSpinner.setModel(new javax.swing.SpinnerNumberModel(5000, 100, 1410065408, 1000));
         nbodyCountSpinner.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         nbodyCountSpinner.setDoubleBuffered(true);
 
         iSpeedSpinner.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        iSpeedSpinner.setModel(new javax.swing.SpinnerNumberModel(100, 10, 1000, 10));
+        iSpeedSpinner.setModel(new javax.swing.SpinnerNumberModel(10, 10, 1000, 10));
         iSpeedSpinner.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         iSpeedSpinner.setDoubleBuffered(true);
 

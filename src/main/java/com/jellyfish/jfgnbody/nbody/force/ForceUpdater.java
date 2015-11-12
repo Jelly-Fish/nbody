@@ -32,7 +32,7 @@ public class ForceUpdater implements NBodyForceComputable {
             if (!b.isOutOfBounds(w, h)) {
                 b.update(1e11);
             } else {
-                b.swallowed = true;
+                b.setSwallowed(true);
             }
         }
     }

@@ -3,7 +3,7 @@ package com.jellyfish.jfgnbody.nbody.simulations;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
+import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
 
 /**
@@ -36,13 +36,13 @@ public class Simulation1 extends AbstractSimulation {
          * Put a supermassive body in the center - SupermassiveBody instances
          * will not be candidates to draw or paint methods.
          */
-        nBody.bodyMap.put(nBody.bodyMap.size(), new SupermassiveBody(nBody.bodyMap.size(),
-                0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.M_BODY_COLOR));
+        nBody.bodyMap.put(nBody.bodyMap.size(), new SupermassiveStaticBody(nBody.bodyMap.size(),
+                0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR));
     }
     
     @Override
     public String toString() {
-        return "Initialize N bodies with random positions and circular velocities.";
+        return "Initialize N bodies with random positions and circular velocities";
     }
     
 }
