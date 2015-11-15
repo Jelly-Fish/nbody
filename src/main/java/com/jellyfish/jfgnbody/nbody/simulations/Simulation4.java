@@ -18,8 +18,9 @@ public class Simulation4 extends AbstractSimulation {
     @Override
     public void start(final int N, final NBody nBody) {
         new Simulation1().start(N, nBody);
-        nBody.bodyMap.put(nBody.bodyMap.size() + 1, 
-            new MassiveBody(nBody.bodyMap.size() + 1,
+        final int k = nBody.bodyMap.size() + 1;
+        nBody.bodyMap.put(k, 
+            new MassiveBody(k,
                 NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
                 -28617.639985581613, 
                 -1787.297295869821, 

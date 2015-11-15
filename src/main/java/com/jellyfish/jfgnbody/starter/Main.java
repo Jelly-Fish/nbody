@@ -61,7 +61,7 @@ public class Main {
         }
         //</editor-fold>
          
-        new MainFrame(new NBody(1000, 10, new DataSimulationDisplayer(), new Simulation1()));
+        new MainFrame(new NBody(1000, 10, new Simulation1()));
     }
 
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 

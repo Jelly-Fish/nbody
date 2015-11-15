@@ -152,7 +152,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     private void cleanBodyMap() {
 
         final int[] keys = new int[this.bodyMap.size()];
-        int i = 0;
+        int i = 1;
         for (Body b : this.bodyMap.values()) {
             if (b.isSwallowed()) {
                 keys[i] = b.graphics.key;
