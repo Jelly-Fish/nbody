@@ -22,7 +22,4 @@ public class SupermassiveBody extends MassiveBody {
         super(key, rx, ry, vx, vy, mass, color);
     }
     
-    @Override
-    public void swallow(final Body toSwallow) { }
-    
 }

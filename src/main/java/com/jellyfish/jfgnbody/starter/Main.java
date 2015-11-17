@@ -31,7 +31,6 @@
  */
 package com.jellyfish.jfgnbody.starter;
 
-import com.jellyfish.jfgnbody.gui.DataSimulationDisplayer;
 import com.jellyfish.jfgnbody.gui.MainFrame;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
@@ -60,7 +59,7 @@ public class Main {
             System.err.println("Look & feel setup failed.");
         }
         //</editor-fold>
-         
+        
         new MainFrame(new NBody(1000, 10, new Simulation1()));
     }
 

@@ -50,7 +50,7 @@ public class StopWatch {
     /**
      * Stop.
      */
-    private void stop() {
+    public void stop() {
         started = false;
     }
     
@@ -89,6 +89,9 @@ public class StopWatch {
      * @return boolean MAX_ELAPSED_TIME greater than System elapsed time.
      */
     public boolean hasReachedMaxElapsedS() {
+        
+        if (!started) return false;
+        
         try {
             return this.maxElapsedTime < elapsedTimeS();
         } catch (final StopWatchNotStartedException swex) {
@@ -107,6 +110,9 @@ public class StopWatch {
      * @return boolean MAX_ELAPSED_TIME greater than System elapsed time.
      */
     public boolean hasReachedMaxElapsedMS() {
+        
+        if (!started) return false;
+        
         try {
             return this.maxElapsedTime < elapsedTimeMS();
         } catch (final StopWatchNotStartedException swex) {

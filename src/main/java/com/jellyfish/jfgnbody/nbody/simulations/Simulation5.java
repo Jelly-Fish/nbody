@@ -18,11 +18,9 @@ public class Simulation5 extends AbstractSimulation {
         new Simulation1().start(N, nBody);
         this.velocityX = -28617.0 / 50.0;
         this.velocityY = -1787.0 / 50.0;
-        nBody.bodyMap.put(nBody.bodyMap.size() + 1, 
-            new SupermassiveBody(nBody.bodyMap.size() + 1,
-                NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
-                this.velocityX, 
-                this.velocityY, 
+        final int k = nBody.bodyMap.size();
+        nBody.bodyMap.put(k, new SupermassiveBody(k, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
+                this.velocityX, this.velocityY, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
                 NBodyConst.M_BODY_COLOR)); 
     }

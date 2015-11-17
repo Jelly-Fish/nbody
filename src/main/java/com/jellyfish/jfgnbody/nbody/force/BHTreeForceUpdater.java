@@ -6,7 +6,7 @@ import com.jellyfish.jfgnbody.nbody.barneshut.BarnesHutTree;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -20,7 +20,7 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
     private final ArrayList<Body> mb = new ArrayList<>();
     
     @Override
-    public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
+    public void addForces(final int w, final int h, final Quadrant q, final LinkedHashMap<Integer, Body> m) {
         
         this.mb.clear();
         final BarnesHutTree bhT = new BarnesHutTree(q);

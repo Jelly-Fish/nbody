@@ -3,6 +3,7 @@ package com.jellyfish.jfgnbody.gui;
 import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
@@ -55,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         simulationMenu = new javax.swing.JMenu();
         start1MenuItem = new javax.swing.JMenuItem();
+        clearMenuItem = new javax.swing.JMenuItem();
         separator1 = new javax.swing.JPopupMenu.Separator();
         bruteForceMenuItem = new javax.swing.JMenuItem();
         bhtreeMenuItem = new javax.swing.JMenuItem();
@@ -89,6 +91,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         simulationMenu.add(start1MenuItem);
+
+        clearMenuItem.setText("Clear simulation");
+        clearMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearMenuItemActionPerformed(evt);
+            }
+        });
+        simulationMenu.add(clearMenuItem);
         simulationMenu.add(separator1);
 
         bruteForceMenuItem.setText("Switch to brute force gravity calculation");
@@ -171,6 +181,13 @@ public class MainFrame extends javax.swing.JFrame {
         GUIDTO.pause = this.pauseSimulationCheckBoxMenuItem.isSelected();
     }//GEN-LAST:event_pauseSimulationCheckBoxMenuItemActionPerformed
 
+    private void clearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearMenuItemActionPerformed
+        this.nBodyPanel.bodyMap.clear();
+        this.nBodyPanel.N = 0;
+        this.nBodyPanel.stopWatch.stop();
+        this.nBodyPanel.getParent().repaint();
+    }//GEN-LAST:event_clearMenuItemActionPerformed
+
     public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim) {
         this.nBodyPanel.restart(n, iSpeed, sim);
     }
@@ -182,6 +199,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem bhtreeMenuItem;
     private javax.swing.JMenuItem bruteForceMenuItem;
+    private javax.swing.JMenuItem clearMenuItem;
     private javax.swing.JMenuItem displayOutputMenuItem;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar menuBar;
