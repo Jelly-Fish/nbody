@@ -6,6 +6,7 @@
 package com.jellyfish.jfgnbody.nbody.simulations;
 
 import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
 
@@ -29,6 +30,11 @@ public class Simulation4 extends AbstractSimulation {
     @Override
     public String toString() {
         return "N + 1 massive body mass = (solarmass/1.2)";
+    }
+
+    @Override
+    public void start(final int N, final NbodyCollection m) {
+        throw new UnsupportedOperationException();
     }
     
 }

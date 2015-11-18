@@ -47,22 +47,22 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * The draw counter constant - reduce to perform drawing at lower interval -
      * If = 64, then drawinf or painting will be performed every 64 iterations.
      */
-    private static final int DRAW_COUNTER = 64;
+    protected static final int DRAW_COUNTER = 64;
 
     /**
      * Drow count - do not perform draw on every iteration.
      */
-    private int drawCount = 0;
+    protected int drawCount = 0;
 
     /**
      * Global space quandrant.
      */
-    private final Quadrant q = new Quadrant(0, 0, 8 * NBodyConst.NBODY_MASS_CONST); // Previously new Quadrant(0, 0, 2 * 1e18)
+    protected final Quadrant q = new Quadrant(0, 0, 8 * NBodyConst.NBODY_MASS_CONST); // Previously new Quadrant(0, 0, 2 * 1e18)
 
     /**
      * Interface for updating forces.
      */
-    private NBodyForceComputable fu = new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new BHTreeForceUpdater();
 
     /**
      * Data output writer.
@@ -72,7 +72,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     /**
      * Simulation instance.
      */
-    private AbstractSimulation sim;
+    protected AbstractSimulation sim;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="constructors">
@@ -155,7 +155,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     /**
      * Remove all bodies that have collided with more massiv bodies.
      */
-    private void cleanBodyMap() {
+    void cleanBodyMap() {
 
         final int[] keys = new int[this.bodyMap.size()];
         int i = 1;
@@ -190,7 +190,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
 
-    private boolean performPaint() {
+    boolean performPaint() {
 
         if (NBody.DRAW_COUNTER > this.drawCount) {
             this.drawCount++;

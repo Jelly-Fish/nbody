@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody.force;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
+import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.BarnesHutTree;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
@@ -37,6 +38,40 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          * instances - Only work for and if there is only 1 SupermassiveBody instance.
          */
         for (Body b : m.values()) {
+            if (!b.isOutOfBounds(w, h)) {
+                b.resetForce();
+                b.checkCollision(this.mb);
+                if (b.in(q)) {
+                    bhT.updateForce(b);
+                    // Calculate the new positions on a time step dt (1e11 here) :
+                    b.update(1e11);
+                }
+            } else {
+                b.setSwallowed(true);
+            }
+        }
+    }
+
+    @Override
+    public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
+        
+        this.mb.clear();
+        final BarnesHutTree bhT = new BarnesHutTree(q);
+        
+        // If the body is still on the screen, add it to the tree
+        for (Body b : m.collection) {
+            if (b == null) continue;
+            if (b.in(q)) bhT.insert(b);
+            if (b instanceof MassiveBody) this.mb.add(b);
+        }
+            
+        /**
+         * Use out methods in BarnesHutTree for updating forces traveling
+         * recursively through the tree - Only check collisions with SupermassiveBody 
+         * instances - Only work for and if there is only 1 SupermassiveBody instance.
+         */
+        for (Body b : m.collection) {
+            if (b == null) continue;
             if (!b.isOutOfBounds(w, h)) {
                 b.resetForce();
                 b.checkCollision(this.mb);

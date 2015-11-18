@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody.simulations;
 
 import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 
@@ -28,6 +29,11 @@ public class Simulation5 extends AbstractSimulation {
     @Override
     public String toString() {
         return "N + 1 supermassive body (solarmass/1.2) on slow collision course";
+    }
+
+    @Override
+    public void start(final int N, final NbodyCollection m) {
+        throw new UnsupportedOperationException();
     }
     
 }

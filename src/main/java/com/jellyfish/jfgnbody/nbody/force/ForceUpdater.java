@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody.force;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
+import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.LinkedHashMap;
@@ -35,6 +36,11 @@ public class ForceUpdater implements NBodyForceComputable {
                 b.setSwallowed(true);
             }
         }
+    }
+
+    @Override
+    public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
+        throw new UnsupportedOperationException();
     }
     
 }

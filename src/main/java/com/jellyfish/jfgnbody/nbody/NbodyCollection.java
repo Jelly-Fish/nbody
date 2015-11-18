@@ -10,10 +10,11 @@ public class NbodyCollection {
     
     public Body[] collection = null;
     
-    private int iC = 0;
+    private int iC;
 
     public NbodyCollection(final int n) {
         this.collection = new Body[n];
+        this.iC = 0;
     }
 
     public void add(final Body body) {
