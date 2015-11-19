@@ -33,6 +33,7 @@ package com.jellyfish.jfgnbody.starter;
 
 import com.jellyfish.jfgnbody.gui.MainFrame;
 import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.NBodyOpt;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.simulations.Simulation1;
 import javax.swing.UIManager;
@@ -60,7 +61,11 @@ public class Main {
         }
         //</editor-fold>
         
-        new MainFrame(new NBody(1000, 10, new Simulation1()));
+        final int n = 3000;
+        final NBody nB = new NBody(n, 10, new Simulation1());
+        //final NBody nB = new NBodyOpt(n, 10, new Simulation1());
+        //nB.getSim().start(n, ((NBodyOpt) nB).nBodies);
+        new MainFrame(nB);
     }
 
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 

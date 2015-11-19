@@ -32,7 +32,7 @@ public class NBodyOpt extends NBody {
             // Originally the origin is in the top right. Put it in its normal place :
             g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-            for (int i = 0; i < nBodies.collection.length; i++) {
+            for (int i = 0; i < nBodies.size(); i++) {
                 if (this.nBodies.collection[i] == null) continue;
                 NBodyData.bodyCount++;
                 g.setColor(nBodies.collection[i].graphics.color);
@@ -57,8 +57,6 @@ public class NBodyOpt extends NBody {
                     this.stopWatch.start();
                 }
             }
-        } else {
-            System.out.println("nBodies=" + this.nBodies);
         }
 
         // Always repaint.
@@ -82,7 +80,7 @@ public class NBodyOpt extends NBody {
 
         final int[] keys = new int[nBodies.collection.length];
         int k = 1;
-        for (int i = 0; i < nBodies.collection.length; i++) {
+        for (int i = 0; i < nBodies.size(); i++) {
             if (nBodies.collection[i] == null) continue;
             if (nBodies.collection[i].isSwallowed()) {
                 keys[i] = nBodies.collection[i].graphics.key;
@@ -91,7 +89,6 @@ public class NBodyOpt extends NBody {
         }
 
         for (int j = 0; j < k; j++) {
-            if (this.nBodies.collection[keys[j]] == null) continue;
             this.nBodies.discard(keys[j]);
         }
     }

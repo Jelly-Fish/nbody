@@ -8,7 +8,7 @@ import com.jellyfish.jfgnbody.nbody.NbodyCollection;
  * @author thw
  */
 public abstract class AbstractSimulation {
-      
+    
     /**
      * @param N body count.
      * @param nBody main handler instance.
@@ -17,8 +17,8 @@ public abstract class AbstractSimulation {
     
     /**
      * @param N 
-     * @param m 
+     * @param nBody 
      */
-    public abstract void start(final int N, final NbodyCollection m);
+    public abstract void start(final int N, final NbodyCollection nBody);
     
 }

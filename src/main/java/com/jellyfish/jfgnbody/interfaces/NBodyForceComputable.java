@@ -14,4 +14,5 @@ public interface NBodyForceComputable {
     void addForces(final int w, final int h, final Quadrant q, final LinkedHashMap<Integer, Body> m);
     
     void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m);
+    
 }

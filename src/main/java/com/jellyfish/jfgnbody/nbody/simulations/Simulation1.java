@@ -12,11 +12,8 @@ import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
  * @author thw
  */
 public class Simulation1 extends AbstractSimulation {
-
-    /**
-     * Count of supper massive or massive entites to add to NBody collection instance.
-     */
-    private final int M_COUNT = 1;
+    
+    private static final int M_COUNT = 1;
     
     @Override
     public void start(final int N, final NBody nBody) {
@@ -52,7 +49,7 @@ public class Simulation1 extends AbstractSimulation {
         
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
         
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N - Simulation1.M_COUNT; i++) {
 
             px = NBodyConst.NBODY_MASS_CONST * BodySimulationGenUtils.exp(-1.8) * (.5 - Math.random());
             py = NBodyConst.NBODY_MASS_CONST * BodySimulationGenUtils.exp(-1.8) * (.5 - Math.random());
@@ -72,7 +69,7 @@ public class Simulation1 extends AbstractSimulation {
          * Put a supermassive body in the center - SupermassiveBody instances
          * will not be candidates to draw or paint methods.
          */
-        m.add(new SupermassiveStaticBody(N + M_COUNT,
+        m.add(new SupermassiveStaticBody(N - Simulation1.M_COUNT,
                 0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR));
     }
     

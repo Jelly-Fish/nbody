@@ -81,13 +81,12 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * @param iterationSpeed iteration speed for StopWatch.
      * @param sim
      */
-    @SuppressWarnings("LeakingThisInConstructor")
     public NBody(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         this.N = n;
         this.sim = sim;
         sim.start(N, this);
         this.stopWatch = new StopWatch(iterationSpeed);
-        this.addComponentListener(this);
+        //this.addComponentListener(this);
         this.setBackground(NBodyConst.BG_COLOR);
     }
 
@@ -97,7 +96,6 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * @param writer
      * @param sim
      */
-    @SuppressWarnings("LeakingThisInConstructor")
     public NBody(final int n, final double iterationSpeed, final Writable writer, final AbstractSimulation sim) {
         this(n, iterationSpeed, sim);
         this.writer = writer;
@@ -220,6 +218,9 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     }
     //</editor-fold>
 
+    public AbstractSimulation getSim() {
+        return sim;
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="javax.swing.JPanel overrides">

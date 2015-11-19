@@ -59,10 +59,10 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
         final BarnesHutTree bhT = new BarnesHutTree(q);
         
         // If the body is still on the screen, add it to the tree
-        for (Body b : m.collection) {
-            if (b == null) continue;
-            if (b.in(q)) bhT.insert(b);
-            if (b instanceof MassiveBody) this.mb.add(b);
+        for (int i = 0; i < m.size(); ++i) {
+            if (m.collection[i] == null) continue;
+            if (m.collection[i].in(q)) bhT.insert(m.collection[i]);
+            if (m.collection[i] instanceof MassiveBody) this.mb.add(m.collection[i]);
         }
             
         /**
@@ -70,18 +70,18 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          * recursively through the tree - Only check collisions with SupermassiveBody 
          * instances - Only work for and if there is only 1 SupermassiveBody instance.
          */
-        for (Body b : m.collection) {
-            if (b == null) continue;
-            if (!b.isOutOfBounds(w, h)) {
-                b.resetForce();
-                b.checkCollision(this.mb);
-                if (b.in(q)) {
-                    bhT.updateForce(b);
+        for (int i = 0; i < m.size(); ++i) {
+            if (m.collection[i] == null) continue;
+            if (!m.collection[i].isOutOfBounds(w, h)) {
+                m.collection[i].resetForce();
+                m.collection[i].checkCollision(this.mb);
+                if (m.collection[i].in(q)) {
+                    bhT.updateForce(m.collection[i]);
                     // Calculate the new positions on a time step dt (1e11 here) :
-                    b.update(1e11);
+                    m.collection[i].update(1e11);
                 }
             } else {
-                b.setSwallowed(true);
+                m.collection[i].setSwallowed(true);
             }
         }
     }
