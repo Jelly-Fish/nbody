@@ -8,7 +8,6 @@ import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
 
 /**
- *
  * @author thw
  */
 public class Simulation1 extends AbstractSimulation {
@@ -45,8 +44,9 @@ public class Simulation1 extends AbstractSimulation {
     }
 
     @Override
-    public void start(final int N, final NbodyCollection m) {
+    public void start(final NBody n, final int N, final NbodyCollection m) {
         
+        this.nBody = n;
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
         
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {

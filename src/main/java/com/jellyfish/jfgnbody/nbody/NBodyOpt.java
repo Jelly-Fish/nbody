@@ -11,11 +11,6 @@ import java.awt.Graphics;
  * @author thw
  */
 public class NBodyOpt extends NBody {
-
-    /**
-     * Nbody collection of bodies instance.
-     */
-    public NbodyCollection nBodies;
     
     public NBodyOpt(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         super(n, iterationSpeed, sim);
@@ -33,25 +28,26 @@ public class NBodyOpt extends NBody {
             g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
             for (int i = 0; i < nBodies.size(); i++) {
-                if (this.nBodies.collection[i] == null) continue;
+                
+                if (this.nBodies.c[i] == null) continue;
+                
                 NBodyData.bodyCount++;
-                g.setColor(nBodies.collection[i].graphics.color);
-                if (nBodies.collection[i] instanceof SupermassiveBody) {
-                    g.drawOval(nBodies.collection[i].graphics.graphicX, 
-                            nBodies.collection[i].graphics.graphicY, 
-                            nBodies.collection[i].graphics.graphicSize,
-                            nBodies.collection[i].graphics.graphicSize);
+                g.setColor(nBodies.c[i].graphics.color);
+                if (nBodies.c[i] instanceof SupermassiveBody) {
+                    g.drawOval(nBodies.c[i].graphics.graphicX, 
+                            nBodies.c[i].graphics.graphicY, 
+                            nBodies.c[i].graphics.graphicSize,
+                            nBodies.c[i].graphics.graphicSize);
                 } else {
-                    g.fillOval(nBodies.collection[i].graphics.graphicX, 
-                            nBodies.collection[i].graphics.graphicY, 
-                            nBodies.collection[i].graphics.graphicSize,
-                            nBodies.collection[i].graphics.graphicSize);
+                    g.fillOval(nBodies.c[i].graphics.graphicX, 
+                            nBodies.c[i].graphics.graphicY, 
+                            nBodies.c[i].graphics.graphicSize,
+                            nBodies.c[i].graphics.graphicSize);
                 }
             }
 
             if (!GUIDTO.pause) {
                 NBodyData.iterationCount++;
-                cleanBodyMap();
                 fu.addForces(getWidth(), getHeight(), q, nBodies);
                 if (this.stopWatch != null) {
                     this.stopWatch.start();
@@ -76,31 +72,13 @@ public class NBodyOpt extends NBody {
     }
 
     @Override
-    void cleanBodyMap() {
-
-        final int[] keys = new int[nBodies.collection.length];
-        int k = 1;
-        for (int i = 0; i < nBodies.size(); i++) {
-            if (nBodies.collection[i] == null) continue;
-            if (nBodies.collection[i].isSwallowed()) {
-                keys[i] = nBodies.collection[i].graphics.key;
-                ++k;
-            }
-        }
-
-        for (int j = 0; j < k; j++) {
-            this.nBodies.discard(keys[j]);
-        }
-    }
-
-    @Override
     public void restart(int n, int iSpeed, final AbstractSimulation sim) {
         NBodyData.bodyCount = 0;
         NBodyData.iterationCount = 0;
         NBodyData.superMassiveBodyMass = 0.0;
         this.N = n;
         this.sim = sim;
-        sim.start(N, nBodies);
+        sim.start(this, N, nBodies);
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }

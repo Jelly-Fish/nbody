@@ -57,12 +57,18 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
         
         this.mb.clear();
         final BarnesHutTree bhT = new BarnesHutTree(q);
+        final int[] keys = new int[m.size()];
+        int k = 0; // keys max index.
         
-        // If the body is still on the screen, add it to the tree
         for (int i = 0; i < m.size(); ++i) {
-            if (m.collection[i] == null) continue;
-            if (m.collection[i].in(q)) bhT.insert(m.collection[i]);
-            if (m.collection[i] instanceof MassiveBody) this.mb.add(m.collection[i]);
+            
+            if (m.c[i] == null) continue;
+            
+            if (m.c[i].in(q)) {
+                bhT.insert(m.c[i]); // If body still on screen, add to tree.
+                keys[i] = m.c[i].graphics.key;
+                ++k;
+            } 
         }
             
         /**
@@ -70,18 +76,11 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          * recursively through the tree - Only check collisions with SupermassiveBody 
          * instances - Only work for and if there is only 1 SupermassiveBody instance.
          */
-        for (int i = 0; i < m.size(); ++i) {
-            if (m.collection[i] == null) continue;
-            if (!m.collection[i].isOutOfBounds(w, h)) {
-                m.collection[i].resetForce();
-                m.collection[i].checkCollision(this.mb);
-                if (m.collection[i].in(q)) {
-                    bhT.updateForce(m.collection[i]);
-                    // Calculate the new positions on a time step dt (1e11 here) :
-                    m.collection[i].update(1e11);
-                }
-            } else {
-                m.collection[i].setSwallowed(true);
+        for (int i = 0; i < k; ++i) {
+            m.c[keys[i]].resetForce();
+            if (m.c[keys[i]].in(q)) {
+                bhT.updateForce(m.c[keys[i]]);
+                m.c[keys[i]].update(1e11); // Calculate new positions on time step dt (1e11 here).
             }
         }
     }

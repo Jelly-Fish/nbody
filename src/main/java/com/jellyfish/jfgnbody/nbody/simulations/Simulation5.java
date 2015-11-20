@@ -25,15 +25,19 @@ public class Simulation5 extends AbstractSimulation {
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
                 NBodyConst.M_BODY_COLOR)); 
     }
+
+    @Override
+    public void start(final NBody n, final int N, final NbodyCollection m) {
+        new Simulation1().start(n, N - 1, m);
+        m.add(new SupermassiveBody(m.c.length - 1, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
+                this.velocityX, this.velocityY, 
+                1e6 * (NBodyConst.SOLARMASS / 1.2),
+                NBodyConst.M_BODY_COLOR));
+    }
     
     @Override
     public String toString() {
         return "N + 1 supermassive body (solarmass/1.2) on slow collision course";
-    }
-
-    @Override
-    public void start(final int N, final NbodyCollection m) {
-        throw new UnsupportedOperationException();
     }
     
 }

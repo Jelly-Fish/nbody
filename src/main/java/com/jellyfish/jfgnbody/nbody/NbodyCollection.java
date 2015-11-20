@@ -8,26 +8,26 @@ import com.jellyfish.jfgnbody.nbody.entities.Body;
  */
 public class NbodyCollection {
     
-    public Body[] collection = null;
+    public Body[] c = null;
     
     private int iC;
 
     public NbodyCollection(final int n) {
-        this.collection = new Body[n];
+        this.c = new Body[n];
         this.iC = 0;
     }
 
     public void add(final Body body) {
-        collection[iC] = body;
+        c[iC] = body;
         ++iC;
     }
-    
+
     public void discard(final int i) {
-        collection[i] = null;
+        c[i] = null;
     }
 
     public int size() {
-        return collection.length;
+        return c.length;
     }
       
 }

@@ -24,6 +24,11 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
 
     //<editor-fold defaultstate="collapsed" desc="vars">
     /**
+     * Nbody collection of bodies instance.
+     */
+    public NbodyCollection nBodies;
+    
+    /**
      * Count of Body classes to instanciate.
      */
     public int N;
@@ -84,9 +89,9 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     public NBody(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         this.N = n;
         this.sim = sim;
-        sim.start(N, this);
+        this.sim.start(N, this);
         this.stopWatch = new StopWatch(iterationSpeed);
-        //this.addComponentListener(this);
+        this.addComponentListener(this);
         this.setBackground(NBodyConst.BG_COLOR);
     }
 

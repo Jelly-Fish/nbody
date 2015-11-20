@@ -154,7 +154,8 @@ public class Body extends AbstractBody {
         if (this.mass > b.mass) return;
         
         if (CollisionUtils.collidesWith(b, this)) {
-            b.swallow(this);
+            //b.swallow(this);
+            this.swallowed = true;
         }
     }
     

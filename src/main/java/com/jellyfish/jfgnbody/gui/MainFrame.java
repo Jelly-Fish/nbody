@@ -187,15 +187,15 @@ public class MainFrame extends javax.swing.JFrame {
         this.nBodyPanel.stopWatch.stop();
         this.nBodyPanel.getParent().repaint();
     }//GEN-LAST:event_clearMenuItemActionPerformed
-
-    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim) {
-        this.nBodyPanel.restart(n, iSpeed, sim);
-    }
     
     public NBody getnBodyPanel() {
         return this.nBodyPanel;
     }
     
+    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim) {
+        this.nBodyPanel.restart(n, iSpeed, sim);
+    }
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem bhtreeMenuItem;
     private javax.swing.JMenuItem bruteForceMenuItem;

@@ -1,9 +1,10 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.Writable;
+import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodySimulations;
 import com.jellyfish.jfgnbody.nbody.simulations.*;
-import com.jellyfish.jfgnbody.starter.Main;
+import com.jellyfish.jfgnbody.starter.Starter;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner.DefaultEditor;
 
@@ -162,9 +163,10 @@ public class NewSimulationDialog extends javax.swing.JDialog {
 
     @SuppressWarnings("UnnecessaryBoxing")
     private void newSimulationStartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSimulationStartButtonActionPerformed
+        
         final AbstractSimulation sim = 
             (AbstractSimulation) this.simulationComboBox.getItemAt(this.simulationComboBox.getSelectedIndex());
-        Main.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),
+        Starter.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),
                 (int) this.iSpeedSpinner.getValue(), sim);
         this.setVisible(false);
         final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();
@@ -174,6 +176,22 @@ public class NewSimulationDialog extends javax.swing.JDialog {
                     "--------------------------------------------------------", 
                 (int) this.nbodyCountSpinner.getValue(), (int) this.iSpeedSpinner.getValue()));
         this.dispose();
+        
+        /*final AbstractSimulation sim = 
+            (AbstractSimulation) this.simulationComboBox.getItemAt(this.simulationComboBox.getSelectedIndex());
+        
+        ((MainFrame) this.getParent()).getnBodyPanel().nBodies = new NbodyCollection((int) this.nbodyCountSpinner.getValue());
+        sim.start(((MainFrame) this.getParent()).getnBodyPanel(), (int) this.nbodyCountSpinner.getValue(),
+            ((MainFrame) this.getParent()).getnBodyPanel().nBodies);
+        
+        this.setVisible(false);
+        final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();
+        if (w != null) w.writeln(
+                String.format("--------------------------------------------------------\n" + 
+                    "-    New simulation :\n-    Body count = %d\n-    Iteration speed = %d\n" +
+                    "--------------------------------------------------------", 
+                (int) this.nbodyCountSpinner.getValue(), (int) this.iSpeedSpinner.getValue()));
+        this.dispose();*/
     }//GEN-LAST:event_newSimulationStartButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

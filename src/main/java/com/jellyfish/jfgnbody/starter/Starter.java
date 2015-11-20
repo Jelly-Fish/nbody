@@ -43,7 +43,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author thw
  */
-public class Main {
+public class Starter {
     
     /**
      * @param args the command line arguments
@@ -61,13 +61,12 @@ public class Main {
         }
         //</editor-fold>
         
-        final int n = 3000;
+        final int n = 4000;
         final NBody nB = new NBody(n, 10, new Simulation1());
-        //final NBody nB = new NBodyOpt(n, 10, new Simulation1());
-        //nB.getSim().start(n, ((NBodyOpt) nB).nBodies);
+        //nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies);
         new MainFrame(nB);
     }
-
+    
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 
             final AbstractSimulation sim) {
         mainFrame.resetSimulation(n, iSpeed, sim);
