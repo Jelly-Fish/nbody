@@ -64,6 +64,8 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
             
             if (m.c[i] == null) continue;
             
+            if (m.c[i] instanceof MassiveBody) this.mb.add(m.c[i]);
+            
             if (m.c[i].in(q)) {
                 bhT.insert(m.c[i]); // If body still on screen, add to tree.
                 keys[i] = m.c[i].graphics.key;
@@ -77,7 +79,9 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          * instances - Only work for and if there is only 1 SupermassiveBody instance.
          */
         for (int i = 0; i < k; ++i) {
+            if (m.c[keys[i]] == null) continue;
             m.c[keys[i]].resetForce();
+            m.c[keys[i]].checkCollision(this.mb);
             if (m.c[keys[i]].in(q)) {
                 bhT.updateForce(m.c[keys[i]]);
                 m.c[keys[i]].update(1e11); // Calculate new positions on time step dt (1e11 here).

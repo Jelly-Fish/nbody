@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.gui.GUIDTO;
+import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.utils.StopWatch;
@@ -48,6 +49,7 @@ public class NBodyOpt extends NBody {
 
             if (!GUIDTO.pause) {
                 NBodyData.iterationCount++;
+                this.cleanBodyMap();
                 fu.addForces(getWidth(), getHeight(), q, nBodies);
                 if (this.stopWatch != null) {
                     this.stopWatch.start();
@@ -57,6 +59,24 @@ public class NBodyOpt extends NBody {
 
         // Always repaint.
         super.repaint();
+    }
+    
+    @Override
+    void cleanBodyMap() {
+
+        final int[] keys = new int[this.nBodies.size()];
+        int k = 1;
+        for (int i = 0; i < this.nBodies.size(); i++) {
+            if (this.nBodies.c[i] == null) continue;
+            if (this.nBodies.c[i].isSwallowed()) {
+                keys[i] = this.nBodies.c[i].graphics.key;
+                ++k;
+            }
+        }
+
+        for (int j = 0; j < k; j++) {
+            this.nBodies.discard(keys[j]);
+        }
     }
     
     @Override
