@@ -1,6 +1,6 @@
 package com.jellyfish.jfgnbody.nbody.simulations;
 
-import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
@@ -15,7 +15,7 @@ public class Simulation1 extends AbstractSimulation {
     private static final int M_COUNT = 1;
     
     @Override
-    public void start(final int N, final NBody nBody) {
+    public void start(final int N, final NBodyDrawable n) {
         
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
         
@@ -32,21 +32,21 @@ public class Simulation1 extends AbstractSimulation {
             vy = Math.signum(px) * Math.sin(thetav) * magv;
 
             mass = Math.random() * NBodyConst.SOLARMASS;
-            nBody.bodyMap.put(i, new Body(i, px, py, vx, vy, mass, NBodyConst.BODY_COLOR));
+            n.getNB().put(i, new Body(i, px, py, vx, vy, mass, NBodyConst.BODY_COLOR));
         }
 
         /**
          * Put a supermassive body in the center - SupermassiveBody instances
          * will not be candidates to draw or paint methods.
          */
-        nBody.bodyMap.put(nBody.bodyMap.size(), new SupermassiveStaticBody(nBody.bodyMap.size(),
-                0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR));
+        n.getNB().put(n.getNB().size(), new SupermassiveStaticBody(
+                n.getNB().size(), 0, 0, 0, 0, 
+                1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR));
     }
 
     @Override
-    public void start(final NBody n, final int N, final NbodyCollection m) {
-        
-        this.nBody = n;
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
+
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
         
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {

@@ -1,6 +1,5 @@
 package com.jellyfish.jfgnbody.nbody.entities;
 
-import com.jellyfish.jfgnbody.nbody.BodyGraphics;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
@@ -18,7 +17,7 @@ public class Body extends AbstractBody {
     /**
      * gravitational constant. (6.673 * 10)^-11
      */
-    private static final double G = 6.673e-11;
+    private final double G = 6.673e-11;
     
     /**
      * Solor mass. (1.98892 * 10)^30
@@ -125,7 +124,7 @@ public class Body extends AbstractBody {
     }
 
     @Override
-    public void addForce(final Body b) {
+    public void addForce(final Body b) {      
         double EPS = 3E4; // softening parameter (just to avoid infinities)
         double dx = b.rx - this.rx;
         double dy = b.ry - this.ry;

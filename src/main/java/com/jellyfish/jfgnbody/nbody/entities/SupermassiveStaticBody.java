@@ -26,14 +26,4 @@ public class SupermassiveStaticBody extends SupermassiveBody {
     @Override
     public void update(double dt) { }
     
-    @Override
-    public void swallow(final Body toSwallow) {
-        
-        if (toSwallow instanceof MassiveBody) return;
-        
-        this.mass += toSwallow.mass;
-        this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
-        toSwallow.setSwallowed(true);
-    }
-    
 }

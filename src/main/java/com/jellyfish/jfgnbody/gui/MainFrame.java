@@ -1,9 +1,9 @@
 package com.jellyfish.jfgnbody.gui;
 
+import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
-import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
@@ -21,13 +21,13 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Panel for graphic display.
      */
-    private final NBody nBodyPanel;
+    private final NBodyDrawable nBodyPanel;
 
     /**
      * Creates new form MainFrame
      * @param nBodyPanel
      */
-    public MainFrame(final NBody nBodyPanel) {
+    public MainFrame(final NBodyDrawable nBodyPanel) {
         
         initComponents();
         this.setBackground(NBodyConst.BG_COLOR);
@@ -36,9 +36,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.setIconImage(icon);
         this.nBodyPanel = nBodyPanel;
         this.setLayout(new BorderLayout());
-        this.add(this.nBodyPanel, BorderLayout.CENTER);
+        this.add(this.nBodyPanel.getPanel(), BorderLayout.CENTER);
         this.pack();
-        this.nBodyPanel.spatialArea = new SpatialArea(0, 0, this.nBodyPanel.getWidth(), this.nBodyPanel.getHeight());
+        this.nBodyPanel.setSpatialArea(new SpatialArea(0, 0, 
+                this.nBodyPanel.getPanel().getWidth(), this.nBodyPanel.getPanel().getHeight()));
         this.setLocationRelativeTo(null);
         this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
@@ -159,7 +160,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_start1MenuItemActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-        this.nBodyPanel.spatialArea.updateSize(this.nBodyPanel.getWidth(), this.nBodyPanel.getHeight());
+        this.nBodyPanel.getSpatialArea().updateSize(this.nBodyPanel.getPanel().getWidth(), 
+                this.nBodyPanel.getPanel().getHeight());
     }//GEN-LAST:event_formWindowStateChanged
 
     private void bruteForceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bruteForceMenuItemActionPerformed
@@ -182,13 +184,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_pauseSimulationCheckBoxMenuItemActionPerformed
 
     private void clearMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearMenuItemActionPerformed
-        this.nBodyPanel.bodyMap.clear();
-        this.nBodyPanel.N = 0;
-        this.nBodyPanel.stopWatch.stop();
-        this.nBodyPanel.getParent().repaint();
+        this.nBodyPanel.clear();
     }//GEN-LAST:event_clearMenuItemActionPerformed
     
-    public NBody getnBodyPanel() {
+    public NBodyDrawable getnBodyPanel() {
         return this.nBodyPanel;
     }
     

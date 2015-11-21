@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jellyfish.jfgnbody.gui;
 
+import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.interfaces.Writable;
-import com.jellyfish.jfgnbody.nbody.NBody;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -20,7 +15,7 @@ public class DataSimulationDisplayer extends javax.swing.JFrame implements Writa
     /**
      * Parent panel.
      */
-    private NBody nb = null;
+    private NBodyDrawable nb = null;
     
     /**
      * Creates new form DataSimulationDisplayer
@@ -106,7 +101,7 @@ public class DataSimulationDisplayer extends javax.swing.JFrame implements Writa
     }
 
     @Override
-    public void setParent(final NBody nb) {
+    public void setParent(final NBodyDrawable nb) {
         this.nb = nb;
     }
     

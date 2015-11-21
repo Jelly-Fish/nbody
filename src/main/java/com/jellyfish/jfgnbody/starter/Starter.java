@@ -32,6 +32,7 @@
 package com.jellyfish.jfgnbody.starter;
 
 import com.jellyfish.jfgnbody.gui.MainFrame;
+import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.NBodyOpt;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
@@ -48,7 +49,6 @@ public class Starter {
     /**
      * @param args the command line arguments
      */
-    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void main(String[] args) {
         
         // <editor-fold defaultstate="collapsed" desc="UI Manager">    
@@ -62,9 +62,9 @@ public class Starter {
         //</editor-fold>
         
         final int n = 4000;
-        final NBody nB = new NBody(n, 10, new Simulation1());
+        final NBodyDrawable nB = new NBody(n, 10, new Simulation1());
         //nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies);
-        new MainFrame(nB);
+        final MainFrame mf = new MainFrame(nB);
     }
     
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 

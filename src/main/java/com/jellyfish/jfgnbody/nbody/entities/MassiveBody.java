@@ -1,6 +1,5 @@
 package com.jellyfish.jfgnbody.nbody.entities;
 
-import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import java.awt.Color;
 
 /**
@@ -18,5 +17,5 @@ public class MassiveBody extends Body {
     public boolean isSwallowed() {
         return false;
     }
-
+    
 }

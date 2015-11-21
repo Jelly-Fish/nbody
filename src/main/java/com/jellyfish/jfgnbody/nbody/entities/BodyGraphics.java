@@ -1,4 +1,4 @@
-package com.jellyfish.jfgnbody.nbody;
+package com.jellyfish.jfgnbody.nbody.entities;
 
 import java.awt.Color;
 

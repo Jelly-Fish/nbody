@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.gui.GUIDTO;
+import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
@@ -15,19 +16,15 @@ import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.LinkedHashMap;
+import javax.swing.JPanel;
 
 /**
  *
  * @author thw
  */
-public class NBody extends javax.swing.JPanel implements ComponentListener {
+public class NBody extends javax.swing.JPanel implements ComponentListener, NBodyDrawable {
 
-    //<editor-fold defaultstate="collapsed" desc="vars">
-    /**
-     * Nbody collection of bodies instance.
-     */
-    public NbodyCollection nBodies;
-    
+    //<editor-fold defaultstate="collapsed" desc="vars">    
     /**
      * Count of Body classes to instanciate.
      */
@@ -158,7 +155,8 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
     /**
      * Remove all bodies that have collided with more massiv bodies.
      */
-    void cleanBodyMap() {
+    @Override
+    public void cleanBodyMap() {
 
         final int[] keys = new int[this.bodyMap.size()];
         int i = 1;
@@ -181,6 +179,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      * @param iSpeed
      * @param sim
      */
+    @Override
     public void restart(int n, int iSpeed, final AbstractSimulation sim) {
         NBodyData.bodyCount = 0;
         NBodyData.iterationCount = 0;
@@ -192,8 +191,9 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
-
-    boolean performPaint() {
+    
+    @Override
+    public boolean performPaint() {
 
         if (NBody.DRAW_COUNTER > this.drawCount) {
             this.drawCount++;
@@ -210,21 +210,63 @@ public class NBody extends javax.swing.JPanel implements ComponentListener {
      *
      * @param fu
      */
+    @Override
     public void swapForceUpdater(final NBodyForceComputable fu) {
         this.fu = fu;
     }
 
+    @Override
     public void setWriter(final Writable w) {
         this.writer = w;
     }
 
+    @Override
     public Writable getWriter() {
         return this.writer;
     }
+    
+    @Override
+    public JPanel getPanel() {
+        return this;
+    }
+
+    @Override
+    public SpatialArea getSpatialArea() {
+        return this.spatialArea;
+    }
+
+    @Override
+    public void setSpatialArea(final SpatialArea s) {
+        this.spatialArea = s;
+    }
+
+    @Override
+    public void clear() {
+        this.bodyMap.clear();
+        this.N = 0;
+        this.stopWatch.stop();
+        this.getParent().repaint();
+    }
+    
+    @Override
+    public NbodyCollection<Body> getNCollection() {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void setNCollection(final NbodyCollection n) {
+        throw new UnsupportedOperationException();
+    }
     //</editor-fold>
 
+    @Override
     public AbstractSimulation getSim() {
         return sim;
+    }
+    
+    @Override
+    public LinkedHashMap<Integer, Body> getNB() {
+        return this.bodyMap;
     }
     //</editor-fold>
     

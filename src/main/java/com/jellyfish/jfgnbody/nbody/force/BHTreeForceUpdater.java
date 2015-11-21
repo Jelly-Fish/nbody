@@ -64,7 +64,9 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
             
             if (m.c[i] == null) continue;
             
-            if (m.c[i] instanceof MassiveBody) this.mb.add(m.c[i]);
+            if (m.c[i] instanceof MassiveBody) {
+                this.mb.add(m.c[i]);
+            }
             
             if (m.c[i].in(q)) {
                 bhT.insert(m.c[i]); // If body still on screen, add to tree.

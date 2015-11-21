@@ -1,7 +1,5 @@
 package com.jellyfish.jfgnbody.interfaces;
 
-import com.jellyfish.jfgnbody.nbody.NBody;
-
 /**
  *
  * @author thw
@@ -14,6 +12,6 @@ public interface Writable {
     
     void appendData(final String data);
 
-    public void setParent(final NBody nb);
+    public void setParent(final NBodyDrawable nb);
     
 }

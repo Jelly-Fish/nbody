@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jellyfish.jfgnbody.nbody.simulations;
 
-import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
@@ -17,10 +12,11 @@ import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
 public class Simulation4 extends AbstractSimulation {
     
     @Override
-    public void start(final int N, final NBody nBody) {
-        new Simulation1().start(N, nBody);
-        final int k = nBody.bodyMap.size();
-        nBody.bodyMap.put(k, new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
+    public void start(final int N, final NBodyDrawable n) {
+        
+        new Simulation1().start(N, n);
+        final int k = n.getNB().size();
+        n.getNB().put(k, new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
                 -28617.639985581613, 
                 -1787.297295869821, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
@@ -28,7 +24,7 @@ public class Simulation4 extends AbstractSimulation {
     }
 
     @Override
-    public void start(final NBody n, final int N, final NbodyCollection m) {
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
         new Simulation1().start(n, N - 1, m);
         m.add(new MassiveBody(m.c.length - 1, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
                 -28617.639985581613, 
