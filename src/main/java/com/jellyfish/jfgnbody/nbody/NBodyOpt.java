@@ -1,5 +1,6 @@
 package com.jellyfish.jfgnbody.nbody;
 
+import com.jellyfish.jfgnbody.exceptions.NBodyException;
 import com.jellyfish.jfgnbody.gui.GUIDTO;
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
@@ -16,6 +17,8 @@ import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.LinkedHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -86,7 +89,7 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     public NBodyOpt(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         this.N = n;
         this.sim = sim;
-        this.stopWatch = new StopWatch(iterationSpeed);
+        //this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
         this.setBackground(NBodyConst.BG_COLOR);
         this.nBodies = new NbodyCollection(n);
@@ -109,15 +112,13 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     @Override
     public void paint(Graphics g) {
 
-        if (nBodies == null) return;
-
         NBodyData.bodyCount = 0;
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
         int i = 0;
-        while (i < this.nBodies.size() && this.nBodies.c[i] != null) {
+        while (this.nBodies.perform(i)) {
 
             NBodyData.bodyCount++;
             g.setColor(nBodies.c[i].graphics.color);
@@ -137,13 +138,13 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
 
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;
-            this.cleanBodyMap();
+            //this.cleanBodyMap();
             fu.addForces(getWidth(), getHeight(), q, nBodies);
             if (this.stopWatch != null) {
                 this.stopWatch.start();
             }
         }
-
+        
         // Always repaint.
         super.repaint();
     }
@@ -153,17 +154,19 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
 
         final int[] keys = new int[this.nBodies.size()];
         int k = 1;
-        for (int i = 0; i < this.nBodies.size(); i++) {
-            if (this.nBodies.c[i] == null) continue;
+        int i = 0;
+        while (this.nBodies.perform(i)) {
             if (this.nBodies.c[i].isSwallowed()) {
-                keys[i] = this.nBodies.c[i].graphics.key;
-                ++k;
+                //keys[i] = this.nBodies.c[i].graphics.key;
+                //++k;
+                this.nBodies.discard(i); //keys[j]);
             }
+            ++i;
         }
-
+        /*
         for (int j = 0; j < k; j++) {
             this.nBodies.discard(keys[j]);
-        }
+        }*/
     }
 
     @Override
@@ -186,7 +189,7 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
         this.N = n;
         this.sim = sim;
         sim.start(this, N, nBodies);
-        this.stopWatch = new StopWatch(iSpeed);
+        //this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
     

@@ -4,7 +4,7 @@ import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Map;
 public class ForceUpdater implements NBodyForceComputable {
 
     @Override
-    public void addForces(final int w, final int h, final Quadrant q, final LinkedHashMap<Integer, Body> m) {
+    public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
         
         for (Map.Entry<Integer, Body> eA : m.entrySet()) {
             eA.getValue().resetForce();

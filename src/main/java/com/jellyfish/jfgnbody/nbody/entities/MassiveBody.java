@@ -9,7 +9,7 @@ import java.awt.Color;
 public class MassiveBody extends Body {
 
     public MassiveBody(final int key, final double rx, final double ry, final double vx,
-            final double vy, final double mass, final Color color) {
+        final double vy, final double mass, final Color color) {
         super(key, rx, ry, vx, vy, mass, color);
     }
 

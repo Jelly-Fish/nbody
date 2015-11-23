@@ -15,7 +15,7 @@ import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
@@ -33,7 +33,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     /**
      * Collection of Body instances.
      */
-    public LinkedHashMap<Integer, Body> bodyMap = new LinkedHashMap<>();
+    public HashMap<Integer, Body> bodyMap = new HashMap<>();
 
     /**
      * Stop watch util.
@@ -109,46 +109,39 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     @Override
     public void paint(Graphics g) {
 
-        if (performPaint() && this.stopWatch.hasReachedMaxElapsedMS()) {
+        if (!performPaint()) {
+            super.repaint();
+            return;
+        } 
 
-            NBodyData.bodyCount = 0;
-            g.clearRect(0, 0, this.getWidth(), this.getHeight());
-            // Originally the origin is in the top right. Put it in its normal place :
-            g.translate(this.getWidth() / 2, this.getHeight() / 2);
+        NBodyData.bodyCount = 0;
+        g.clearRect(0, 0, this.getWidth(), this.getHeight());
+        // Originally the origin is in the top right. Put it in its normal place :
+        g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-            if (this.bodyMap.size() <= 0) { 
-                return; 
+        for (Body b : this.bodyMap.values()) {
+
+            NBodyData.bodyCount++;
+            g.setColor(b.graphics.color);
+            if (b instanceof SupermassiveBody) {
+                g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
+                        b.graphics.graphicSize);
             } else {
-
-                for (Body b : this.bodyMap.values()) {
-
-                    NBodyData.bodyCount++;
-                    g.setColor(b.graphics.color);
-                    if (b instanceof SupermassiveBody) {
-                        g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
-                                b.graphics.graphicSize);
-                    } else {
-                        g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
-                                b.graphics.graphicSize);
-                    }
-                }
-
-                if (!GUIDTO.pause) {
-                    NBodyData.iterationCount++;
-                    cleanBodyMap();
-                    fu.addForces(getWidth(), getHeight(), q, bodyMap);
-                    if (this.stopWatch != null) {
-                        this.stopWatch.start();
-                    }
-
-                    if (this.writer != null && GUIDTO.displayOutput) {
-                        this.writer.appendData(NBodyData.getFormattedData());
-                    }
-                }
+                g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
+                        b.graphics.graphicSize);
             }
         }
 
-        // Always repaint.
+        if (!GUIDTO.pause) {
+            NBodyData.iterationCount++;
+            cleanBodyMap();
+            fu.addForces(getWidth(), getHeight(), q, bodyMap);
+            if (this.writer != null && GUIDTO.displayOutput) {
+                this.writer.appendData(NBodyData.getFormattedData());
+            }
+        }
+
+        // Always repaint here.
         super.repaint();
     }
 
@@ -159,7 +152,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     public void cleanBodyMap() {
 
         final int[] keys = new int[this.bodyMap.size()];
-        int i = 1;
+        int i = 0;
         for (Body b : this.bodyMap.values()) {
             if (b.isSwallowed()) {
                 keys[i] = b.graphics.key;
@@ -265,7 +258,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     }
     
     @Override
-    public LinkedHashMap<Integer, Body> getNB() {
+    public HashMap<Integer, Body> getNB() {
         return this.bodyMap;
     }
     //</editor-fold>

@@ -18,7 +18,7 @@ public class Simulation2 extends AbstractSimulation {
         
         new Simulation1().start(N, n);
         final int k = n.getNB().size();
-        n.getNB().put(k, new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
+        n.getNB().put(k, new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * 1.4, 1, 
                 -28617.639985581613, 
                 -1787.297295869821, 
                 1e6 * (NBodyConst.SOLARMASS / 4), 

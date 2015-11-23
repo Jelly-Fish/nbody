@@ -125,7 +125,7 @@ public class Body extends AbstractBody {
 
     @Override
     public void addForce(final Body b) {      
-        double EPS = 3E4; // softening parameter (just to avoid infinities)
+        double EPS = 3E4; // softening parameter (just to avoid infinities).
         double dx = b.rx - this.rx;
         double dy = b.ry - this.ry;
         double dist = Math.sqrt(dx * dx + dy * dy);

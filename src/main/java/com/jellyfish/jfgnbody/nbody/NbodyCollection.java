@@ -35,5 +35,9 @@ public class NbodyCollection<E extends Body> {
     public int size() {
         return c.length;
     }
+
+    public boolean perform(final int i) {
+        return i < c.length && c[i] != null;
+    }
       
 }
