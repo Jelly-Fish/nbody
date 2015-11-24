@@ -4,6 +4,7 @@ import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,11 @@ public class ForceUpdater implements NBodyForceComputable {
 
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public ArrayList<Body> getMbs() {
         throw new UnsupportedOperationException();
     }
     

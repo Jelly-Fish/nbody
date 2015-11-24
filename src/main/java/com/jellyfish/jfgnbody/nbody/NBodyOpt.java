@@ -1,6 +1,5 @@
 package com.jellyfish.jfgnbody.nbody;
 
-import com.jellyfish.jfgnbody.exceptions.NBodyException;
 import com.jellyfish.jfgnbody.gui.GUIDTO;
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
@@ -17,8 +16,6 @@ import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.LinkedHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -201,6 +198,11 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     @Override
     public AbstractSimulation getSim() {
         return sim;
+    }
+    
+    @Override
+    public NBodyForceComputable getForceUpdater() {
+        return this.fu;
     }
     //</editor-fold>
     

@@ -26,6 +26,8 @@ public interface NBodyDrawable {
     
     AbstractSimulation getSim();
     
+    NBodyForceComputable getForceUpdater();
+    
     javax.swing.JPanel getPanel();
     
     SpatialArea getSpatialArea();

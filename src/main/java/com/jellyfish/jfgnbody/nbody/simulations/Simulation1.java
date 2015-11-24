@@ -39,9 +39,10 @@ public class Simulation1 extends AbstractSimulation {
          * Put a supermassive body in the center - SupermassiveBody instances
          * will not be candidates to draw or paint methods.
          */
-        n.getNB().put(n.getNB().size(), new SupermassiveStaticBody(
-                n.getNB().size(), 0, 0, 0, 0, 
-                1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR));
+        final SupermassiveStaticBody smsb = new SupermassiveStaticBody(n.getNB().size(), 
+                0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
+        n.getNB().put(n.getNB().size(), smsb);
+        n.getForceUpdater().getMbs().add(smsb);
     }
 
     @Override

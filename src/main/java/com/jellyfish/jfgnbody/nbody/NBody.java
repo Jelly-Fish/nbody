@@ -118,7 +118,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
-
+        
         for (Body b : this.bodyMap.values()) {
 
             NBodyData.bodyCount++;
@@ -261,6 +261,11 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     public HashMap<Integer, Body> getNB() {
         return this.bodyMap;
     }
+    
+    @Override
+    public NBodyForceComputable getForceUpdater() {
+        return this.fu;
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="javax.swing.JPanel overrides">
@@ -283,5 +288,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     public void componentHidden(ComponentEvent e) {
     }
     //</editor-fold>
+
+    
 
 }
