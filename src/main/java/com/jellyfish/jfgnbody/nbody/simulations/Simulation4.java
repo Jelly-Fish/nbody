@@ -21,7 +21,6 @@ public class Simulation4 extends AbstractSimulation {
                 -1787.297295869821, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
                 NBodyConst.M_BODY_COLOR);
-        n.getNB().put(k, mb); 
         n.getForceUpdater().getMbs().add(mb);
     }
 

@@ -12,10 +12,5 @@ public class MassiveBody extends Body {
         final double vy, final double mass, final Color color) {
         super(key, rx, ry, vx, vy, mass, color);
     }
-
-    @Override
-    public boolean isSwallowed() {
-        return false;
-    }
     
 }

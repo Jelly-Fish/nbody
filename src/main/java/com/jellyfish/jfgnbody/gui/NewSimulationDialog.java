@@ -171,6 +171,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
          */
         
         if (((MainFrame) this.getParent()).getnBodyPanel() instanceof NBody) {
+            ((MainFrame) this.getParent()).getnBodyPanel().getForceUpdater().getMbs().clear();
             final AbstractSimulation sim = 
                 (AbstractSimulation) this.simulationComboBox.getItemAt(this.simulationComboBox.getSelectedIndex());
             Starter.start((MainFrame) this.getParent(), (int) this.nbodyCountSpinner.getValue(),

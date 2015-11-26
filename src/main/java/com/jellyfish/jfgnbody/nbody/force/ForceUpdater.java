@@ -4,9 +4,9 @@ import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
+import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -14,23 +14,30 @@ import java.util.Map;
  */
 public class ForceUpdater implements NBodyForceComputable {
 
+    /**
+     * Massive body list.
+     */
+    private final ArrayList<Body> mb = new ArrayList<>();
+    
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
         
-        for (Map.Entry<Integer, Body> eA : m.entrySet()) {
-            eA.getValue().resetForce();
-            // N^2 complexity...
-            for (Map.Entry<Integer, Body> eB : m.entrySet()) {
-                if (!eA.getKey().equals(eB.getKey())) {
-                    eA.getValue().addForce(eB.getValue());
-                    eA.getValue().checkCollision(eB.getValue());   
+        for (Body b : m.values()) {
+            
+            b.resetForce();
+            for (Body mB : this.mb) {
+                b.addForce(mB);
+                b.checkCollision(mB); 
+                if (b instanceof SupermassiveStaticBody) {
+                    mB.addForce(b);
+                    mB.checkCollision(b);
+                    mB.update(1e11);
+                }
+                if (!b.isOutOfBounds(w, h)) {
+                    mB.setSwallowed(true);
                 }
             }
-        }
-        
-        // Loop again and update the bodies using timestep param if tehy are still
-        // in the bounds of 0,0,w,h quadrant.
-        for (Body b : m.values()) {
+            
             if (!b.isOutOfBounds(w, h)) {
                 b.update(1e11);
             } else {
@@ -46,7 +53,20 @@ public class ForceUpdater implements NBodyForceComputable {
     
     @Override
     public ArrayList<Body> getMbs() {
-        throw new UnsupportedOperationException();
+        return this.mb;
+    }
+
+    @Override
+    public void cleanBodyCollection() {
+        /**
+         * FIXME : Exception in thread "AWT-EventQueue-0" java.util.ConcurrentModificationException
+	 * at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:901)
+	 * at java.util.ArrayList$Itr.next(ArrayList.java:851)
+         * ...
+        for (Body b : this.mb) {
+            if (b.isSwallowed()) this.mb.remove(b);
+        }
+        */
     }
     
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public interface NBodyDrawable {
     
-    void cleanBodyMap();
+    void cleanBodyCollection();
 
     boolean performPaint();
 

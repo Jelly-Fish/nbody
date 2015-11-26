@@ -147,7 +147,7 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     }
     
     @Override
-    public void cleanBodyMap() {
+    public void cleanBodyCollection() {
 
         final int[] keys = new int[this.nBodies.size()];
         int k = 1;

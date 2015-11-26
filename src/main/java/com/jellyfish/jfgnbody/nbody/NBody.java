@@ -8,7 +8,7 @@ import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
-import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
+import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import com.jellyfish.jfgnbody.utils.StopWatch;
@@ -64,7 +64,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     /**
      * Interface for updating forces.
      */
-    protected NBodyForceComputable fu = new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new ForceUpdater(); //new BHTreeForceUpdater();
 
     /**
      * Data output writer.
@@ -114,33 +114,22 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
             return;
         } 
 
-        NBodyData.bodyCount = 0;
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
+
+        NBodyHelper.draw(g, this.bodyMap.values(), this.fu.getMbs());
         
-        for (Body b : this.bodyMap.values()) {
-
-            NBodyData.bodyCount++;
-            g.setColor(b.graphics.color);
-            if (b instanceof SupermassiveBody) {
-                g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
-                        b.graphics.graphicSize);
-            } else {
-                g.fillOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
-                        b.graphics.graphicSize);
-            }
-        }
-
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;
-            cleanBodyMap();
+            this.cleanBodyCollection();
+            this.fu.cleanBodyCollection();
             fu.addForces(getWidth(), getHeight(), q, bodyMap);
             if (this.writer != null && GUIDTO.displayOutput) {
                 this.writer.appendData(NBodyData.getFormattedData());
             }
         }
-
+        
         // Always repaint here.
         super.repaint();
     }
@@ -149,7 +138,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
      * Remove all bodies that have collided with more massiv bodies.
      */
     @Override
-    public void cleanBodyMap() {
+    public void cleanBodyCollection() {
 
         final int[] keys = new int[this.bodyMap.size()];
         int i = 0;

@@ -90,5 +90,10 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
             }
         }
     }
+
+    @Override
+    public void cleanBodyCollection() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

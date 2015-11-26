@@ -18,4 +18,6 @@ public interface NBodyForceComputable {
     
     ArrayList<Body> getMbs();
     
+    void cleanBodyCollection();
+    
 }
