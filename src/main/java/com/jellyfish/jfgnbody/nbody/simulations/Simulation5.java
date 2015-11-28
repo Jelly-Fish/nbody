@@ -15,8 +15,8 @@ public class Simulation5 extends AbstractSimulation {
     private double velocityY = 0.0;
     
     @Override
-    public void start(final int N, final NBodyDrawable n) {
-        new Simulation1().start(N, n);
+    public void start(final int N, final NBodyDrawable n, final boolean bhTree) {
+        new Simulation1().start(N, n, bhTree);
         this.velocityX = -28617.0 / 50.0;
         this.velocityY = -1787.0 / 50.0;
         final int k = n.getNB().size();
@@ -24,16 +24,18 @@ public class Simulation5 extends AbstractSimulation {
                 this.velocityX, this.velocityY, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
                 NBodyConst.M_BODY_COLOR);
-        n.getForceUpdater().getMbs().add(smb);
+        n.getForceUpdater().getMbs().put(smb.graphics.key, smb);
+        if (bhTree) n.getNB().put(smb.graphics.key, smb);
     }
 
     @Override
     public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
         new Simulation1().start(n, N - 1, m);
-        m.add(new SupermassiveBody(m.c.length - 1, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
+        final SupermassiveBody smb = new SupermassiveBody(m.c.length - 1, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
                 this.velocityX, this.velocityY, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
-                NBodyConst.M_BODY_COLOR));
+                NBodyConst.M_BODY_COLOR);
+        n.getForceUpdater().getMbs().put(smb.graphics.key, smb);
     }
     
     @Override

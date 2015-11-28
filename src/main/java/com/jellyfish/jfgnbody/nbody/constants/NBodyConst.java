@@ -28,17 +28,17 @@ public class NBodyConst {
     /**
      * Simulation background color.
      */
-    public static final Color BG_COLOR = new Color(8,19,35);
+    public static final Color BG_COLOR = new Color(250,248,246);//new Color(8,19,35);
     
     /**
      * Body color.
      */
-    public static final Color BODY_COLOR = new Color(255,255,225);
+    public static final Color BODY_COLOR = new Color(35,35,35);//new Color(255,255,225);
     
     /**
      * Masisive body color.
      */
-    public static final Color M_BODY_COLOR = Color.CYAN;
+    public static final Color M_BODY_COLOR = Color.BLUE;//Color.CYAN;
     
     /**
      * Super massive Body color.

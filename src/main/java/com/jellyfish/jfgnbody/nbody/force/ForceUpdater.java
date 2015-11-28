@@ -5,7 +5,6 @@ import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,18 +16,20 @@ public class ForceUpdater implements NBodyForceComputable {
     /**
      * Massive body list.
      */
-    private final ArrayList<Body> mb = new ArrayList<>();
+    private final HashMap<Integer, Body> mb = new HashMap<>();
     
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
-        
+               
         for (Body b : m.values()) {
             
             b.resetForce();
-            for (Body mB : this.mb) {
+            for (Body mB : this.mb.values()) {
                 b.addForce(mB);
                 b.checkCollision(mB); 
-                if (b instanceof SupermassiveStaticBody) {
+                if (b instanceof SupermassiveStaticBody) { 
+                    // Optional : if resetForce unused, MB will speed up under SMSB's pull.
+                    mB.resetForce();
                     mB.addForce(b);
                     mB.checkCollision(b);
                     mB.update(1e11);
@@ -52,21 +53,31 @@ public class ForceUpdater implements NBodyForceComputable {
     }
     
     @Override
-    public ArrayList<Body> getMbs() {
+    public HashMap<Integer, Body> getMbs() {
         return this.mb;
     }
 
     @Override
     public void cleanBodyCollection() {
+        throw new UnsupportedOperationException();
         /**
-         * FIXME : Exception in thread "AWT-EventQueue-0" java.util.ConcurrentModificationException
-	 * at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:901)
-	 * at java.util.ArrayList$Itr.next(ArrayList.java:851)
-         * ...
-        for (Body b : this.mb) {
-            if (b.isSwallowed()) this.mb.remove(b);
+         * FIXME : called one first loops, not with collision between smsb & mb.
+         */
+        /*final int[] keys = new int[mb.size()];
+        int i = 0;
+        for (Body b : mb.values()) {
+            if (b.isSwallowed()) {
+                keys[i] = b.graphics.key;
+                ++i;
+            }
         }
-        */
+
+        for (int j = 0; j < i; j++) mb.remove(keys[j]);*/      
+    }
+
+    @Override
+    public boolean isBHtree() {
+        return false;
     }
     
 }

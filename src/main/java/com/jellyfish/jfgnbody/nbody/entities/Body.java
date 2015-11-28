@@ -5,7 +5,7 @@ import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.utils.CollisionUtils;
 import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -158,7 +158,7 @@ public class Body extends AbstractBody {
     }
     
     @Override
-    public void checkCollision(final ArrayList<Body> bList) {
+    public void checkCollision(final Collection<Body> bList) {
         
         for (Body b : bList) {
             this.checkCollision(b);

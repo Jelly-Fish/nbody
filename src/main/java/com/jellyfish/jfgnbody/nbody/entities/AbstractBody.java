@@ -2,6 +2,7 @@ package com.jellyfish.jfgnbody.nbody.entities;
 
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -58,7 +59,7 @@ abstract class AbstractBody {
      * Check for a collision between a super massive body with this.
      * @param bList
      */
-    public abstract void checkCollision(final ArrayList<Body> bList);
+    public abstract void checkCollision(final Collection<Body> bList);
     
     
     /**

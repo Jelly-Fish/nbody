@@ -8,7 +8,6 @@ package com.jellyfish.jfgnbody.nbody;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -17,7 +16,7 @@ import java.util.Collection;
  */
 public class NBodyHelper {
 
-    static void draw(Graphics g, final Collection<Body> bc, final ArrayList<Body> mb) {
+    static void draw(Graphics g, final Collection<Body> bc, final Collection<Body> mb) {
         
         NBodyData.bodyCount = 0;
         
@@ -32,7 +31,24 @@ public class NBodyHelper {
         }
     }
     
+    static void draw(Graphics g, final NbodyCollection nc, final Collection<Body> mb) {
+        
+        NBodyData.bodyCount = 0;
+        int i = 0;
+        while (nc.perform(i)) {
+            NBodyData.bodyCount++;
+            NBodyHelper.draw(g, nc.c[i]);
+            ++i;
+        }
+        
+        for (Body b : mb) {
+            NBodyData.bodyCount++;
+            NBodyHelper.draw(g, b);
+        }
+    }
+    
     private static void draw(Graphics g, final Body b) {
+        
         g.setColor(b.graphics.color);
         if (b instanceof SupermassiveBody) {
             g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,

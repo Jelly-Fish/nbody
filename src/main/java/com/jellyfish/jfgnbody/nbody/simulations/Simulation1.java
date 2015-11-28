@@ -15,7 +15,7 @@ public class Simulation1 extends AbstractSimulation {
     private static final int M_COUNT = 1;
     
     @Override
-    public void start(final int N, final NBodyDrawable n) {
+    public void start(final int N, final NBodyDrawable n, final boolean bhTree) {
         
         double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
         
@@ -42,7 +42,7 @@ public class Simulation1 extends AbstractSimulation {
         final SupermassiveStaticBody smsb = new SupermassiveStaticBody(n.getNB().size(), 
                 0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
         n.getNB().put(n.getNB().size(), smsb);
-        n.getForceUpdater().getMbs().add(smsb);
+        n.getForceUpdater().getMbs().put(smsb.graphics.key, smsb);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Simulation1 extends AbstractSimulation {
         final SupermassiveStaticBody smsb = new SupermassiveStaticBody(N - Simulation1.M_COUNT,
                 0, 0, 0, 0, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
         m.add(smsb);
-        n.getForceUpdater().getMbs().add(smsb);
+        n.getForceUpdater().getMbs().put(smsb.graphics.key, smsb);
     }
     
     @Override

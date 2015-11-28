@@ -3,7 +3,6 @@ package com.jellyfish.jfgnbody.interfaces;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,8 +15,10 @@ public interface NBodyForceComputable {
     
     void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m);
     
-    ArrayList<Body> getMbs();
+    HashMap<Integer, Body> getMbs();
     
     void cleanBodyCollection();
+    
+    boolean isBHtree();
     
 }

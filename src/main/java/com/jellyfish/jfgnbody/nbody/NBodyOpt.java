@@ -7,7 +7,6 @@ import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
@@ -114,32 +113,15 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-        int i = 0;
-        while (this.nBodies.perform(i)) {
-
-            NBodyData.bodyCount++;
-            g.setColor(nBodies.c[i].graphics.color);
-            if (nBodies.c[i] instanceof SupermassiveBody) {
-                g.drawOval(nBodies.c[i].graphics.graphicX, 
-                        nBodies.c[i].graphics.graphicY, 
-                        nBodies.c[i].graphics.graphicSize,
-                        nBodies.c[i].graphics.graphicSize);
-            } else {
-                g.fillOval(nBodies.c[i].graphics.graphicX, 
-                        nBodies.c[i].graphics.graphicY, 
-                        nBodies.c[i].graphics.graphicSize,
-                        nBodies.c[i].graphics.graphicSize);
-            }
-            ++i;
-        }
+        NBodyHelper.draw(g, nBodies, fu.getMbs().values());
 
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;
-            //this.cleanBodyMap();
             fu.addForces(getWidth(), getHeight(), q, nBodies);
             if (this.stopWatch != null) {
                 this.stopWatch.start();
             }
+            this.cleanBodyCollection();
         }
         
         // Always repaint.
@@ -152,18 +134,13 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
         final int[] keys = new int[this.nBodies.size()];
         int k = 1;
         int i = 0;
+        
         while (this.nBodies.perform(i)) {
             if (this.nBodies.c[i].isSwallowed()) {
-                //keys[i] = this.nBodies.c[i].graphics.key;
-                //++k;
-                this.nBodies.discard(i); //keys[j]);
+                this.nBodies.discard(i);
             }
             ++i;
         }
-        /*
-        for (int j = 0; j < k; j++) {
-            this.nBodies.discard(keys[j]);
-        }*/
     }
 
     @Override
@@ -245,6 +222,7 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     @Override
     public void clear() {
         this.nBodies.c = new Body[0];
+        this.fu.getMbs().clear();
         this.N = 0;
         this.stopWatch.stop();
         this.getParent().repaint();

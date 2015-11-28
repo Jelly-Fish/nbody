@@ -33,7 +33,7 @@ package com.jellyfish.jfgnbody.starter;
 
 import com.jellyfish.jfgnbody.gui.MainFrame;
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
-import com.jellyfish.jfgnbody.nbody.NBody;
+import com.jellyfish.jfgnbody.nbody.*;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.simulations.Simulation1;
 import javax.swing.UIManager;

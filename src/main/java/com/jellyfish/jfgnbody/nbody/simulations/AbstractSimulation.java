@@ -12,8 +12,9 @@ public abstract class AbstractSimulation {
     /**
      * @param N body count.
      * @param n main handler instance.
+     * @param bhTree BHTree algorithm used ?
      */
-    public abstract void start(final int N, final NBodyDrawable n);
+    public abstract void start(final int N, final NBodyDrawable n, final boolean bhTree);
     
     /**
      * @param n

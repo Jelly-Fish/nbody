@@ -67,18 +67,18 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         newSimulationSubtitleLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         newSimulationSubtitleLabel.setText("Please submit a body amout (N = solor mass count) and iteration\\nspeed for a new simulation.");
 
-        newSimulationStartButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        newSimulationStartButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         newSimulationStartButton.setText("Start simulation");
-        newSimulationStartButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        newSimulationStartButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         newSimulationStartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newSimulationStartButtonActionPerformed(evt);
             }
         });
 
-        newSimulationCancelButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        newSimulationCancelButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         newSimulationCancelButton.setText("Cancel");
-        newSimulationCancelButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        newSimulationCancelButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         newSimulationCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newSimulationCancelButtonActionPerformed(evt);
@@ -187,6 +187,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         }
         
         if (((MainFrame) this.getParent()).getnBodyPanel() instanceof NBodyOpt) {
+            ((MainFrame) this.getParent()).getnBodyPanel().getForceUpdater().getMbs().clear();
             final AbstractSimulation sim = 
                 (AbstractSimulation) this.simulationComboBox.getItemAt(this.simulationComboBox.getSelectedIndex());
 

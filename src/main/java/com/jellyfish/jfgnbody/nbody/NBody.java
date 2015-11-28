@@ -7,8 +7,7 @@ import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
-import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
+import com.jellyfish.jfgnbody.nbody.force.*;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import com.jellyfish.jfgnbody.utils.StopWatch;
@@ -63,8 +62,10 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
 
     /**
      * Interface for updating forces.
+     * @see ForceUpdater
+     * @see BHTreeForceUpdater
      */
-    protected NBodyForceComputable fu = new ForceUpdater(); //new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new BHTreeForceUpdater();
 
     /**
      * Data output writer.
@@ -86,7 +87,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     public NBody(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         this.N = n;
         this.sim = sim;
-        this.sim.start(N, this);
+        this.sim.start(N, this, this.fu.isBHtree());
         this.stopWatch = new StopWatch(iterationSpeed);
         this.addComponentListener(this);
         this.setBackground(NBodyConst.BG_COLOR);
@@ -118,15 +119,14 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-        NBodyHelper.draw(g, this.bodyMap.values(), this.fu.getMbs());
+        NBodyHelper.draw(g, bodyMap.values(), fu.getMbs().values());
         
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;
-            this.cleanBodyCollection();
-            this.fu.cleanBodyCollection();
             fu.addForces(getWidth(), getHeight(), q, bodyMap);
-            if (this.writer != null && GUIDTO.displayOutput) {
-                this.writer.appendData(NBodyData.getFormattedData());
+            cleanBodyCollection();
+            if (writer != null && GUIDTO.displayOutput) {
+                writer.appendData(NBodyData.getFormattedData());
             }
         }
         
@@ -140,18 +140,16 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     @Override
     public void cleanBodyCollection() {
 
-        final int[] keys = new int[this.bodyMap.size()];
+        final int[] keys = new int[bodyMap.size()];
         int i = 0;
-        for (Body b : this.bodyMap.values()) {
+        for (Body b : bodyMap.values()) {
             if (b.isSwallowed()) {
                 keys[i] = b.graphics.key;
                 ++i;
             }
         }
 
-        for (int j = 0; j < i; j++) {
-            this.bodyMap.remove(keys[j]);
-        }
+        for (int j = 0; j < i; j++) bodyMap.remove(keys[j]);
     }
 
     /**
@@ -169,7 +167,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
         this.N = n;
         this.bodyMap.clear();
         this.sim = sim;
-        sim.start(N, this);
+        sim.start(N, this, this.fu.isBHtree());
         this.stopWatch = new StopWatch(iSpeed);
         this.spatialArea.updateSize(this.getWidth(), this.getHeight());
     }
@@ -225,6 +223,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     @Override
     public void clear() {
         this.bodyMap.clear();
+        this.fu.getMbs().clear();
         this.N = 0;
         this.stopWatch.stop();
         this.getParent().repaint();
@@ -277,7 +276,5 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     public void componentHidden(ComponentEvent e) {
     }
     //</editor-fold>
-
-    
 
 }
