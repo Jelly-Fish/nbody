@@ -17,7 +17,7 @@ public class Body extends AbstractBody {
     /**
      * gravitational constant. (6.673 * 10)^-11
      */
-    private final double G = 6.673e-11;
+    protected final double G = 6.673e-11;
     
     /**
      * Solor mass. (1.98892 * 10)^30

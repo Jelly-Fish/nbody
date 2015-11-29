@@ -138,7 +138,7 @@ public class BarnesHutTree {
      * @param b Body to update.
      */
     public void updateForce(final Body b) {
-        
+
         if (this.isExternal(this)) {
             if (this.b != b) b.addForce(this.b);
         } else if (this.quadrant.l / (this.b.distanceTo(b)) < 2) {

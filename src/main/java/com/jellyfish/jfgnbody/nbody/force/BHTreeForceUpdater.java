@@ -36,10 +36,7 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          */
         for (Body b : m.values()) {
             b.resetForce();
-            /**
-             * FIXME : MB is not pulled by SMSB.
-             */
-            if (b.in(q) && !(b instanceof MassiveBody)) {
+            if (b.in(q)) {
                 b.checkCollision(this.mb.values());
                 bhT.updateForce(b);
             }

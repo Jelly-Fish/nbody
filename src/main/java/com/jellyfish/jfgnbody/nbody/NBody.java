@@ -65,7 +65,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
      * @see ForceUpdater
      * @see BHTreeForceUpdater
      */
-    protected NBodyForceComputable fu = new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new ForceUpdater();
 
     /**
      * Data output writer.
