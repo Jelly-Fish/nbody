@@ -100,6 +100,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
 
         simulationComboBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         simulationComboBox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        simulationComboBox.setMaximumSize(new java.awt.Dimension(431, 32767));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

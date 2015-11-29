@@ -16,12 +16,14 @@ public class MassiveBody extends Body {
     @Override
     public void checkCollision(final Collection<Body> bList) {
     }
+    
+    @Override
+    public void swallow(final Body toSwallow) {
+        toSwallow.swallowed = true;
+    }
 
     @Override
     public void addForce(final Body b) {
-        /**
-         * FIXME : with > 40000 body count MB bugs :S
-         */
         if (this.mass < b.mass) super.addForce(b);
     }
 

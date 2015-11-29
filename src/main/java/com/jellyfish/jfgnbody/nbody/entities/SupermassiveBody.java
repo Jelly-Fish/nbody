@@ -1,5 +1,6 @@
 package com.jellyfish.jfgnbody.nbody.entities;
 
+import com.jellyfish.jfgnbody.utils.MassUtils;
 import java.awt.Color;
 
 /**

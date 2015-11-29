@@ -67,7 +67,7 @@ public class Body extends AbstractBody {
     /**
      * Has this been swallowed by another body.
      */
-    private boolean swallowed = false;
+    boolean swallowed = false;
 
     /**
      * This body's graphical data.
@@ -175,9 +175,6 @@ public class Body extends AbstractBody {
 
     @Override
     public void swallow(final Body toSwallow) {
-        
-        if (toSwallow instanceof MassiveBody) return;
-        
         this.mass += toSwallow.mass;
         this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
         toSwallow.swallowed = true;

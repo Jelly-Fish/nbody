@@ -40,7 +40,7 @@ public class Simulation5 extends AbstractSimulation {
     
     @Override
     public String toString() {
-        return "N + 1 supermassive body (solarmass/1.2) on slow collision course";
+        return "N + 1 supermassive body [m=1e6(solarmass/1.2)]";
     }
     
 }

@@ -24,7 +24,7 @@ public class MassUtils {
     /**
      * Minimum virtual mass for performing drawing or paint methods.
      */
-    public static final int MIN_VMASS = 3;
+    public static final int MIN_VMASS = 2;
     
     /**
      * @param m Body's instance physical mass.

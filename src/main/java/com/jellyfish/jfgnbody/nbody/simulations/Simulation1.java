@@ -78,7 +78,7 @@ public class Simulation1 extends AbstractSimulation {
     
     @Override
     public String toString() {
-        return "Initialize N bodies with random positions and circular velocities";
+        return "N bodies with random positions & circular velocities";
     }
     
 }

@@ -7,7 +7,9 @@ package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
+import java.awt.BasicStroke;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Collection;
 
 /**
@@ -51,6 +53,7 @@ public class NBodyHelper {
         
         g.setColor(b.graphics.color);
         if (b instanceof SupermassiveBody) {
+            ((Graphics2D) g).setStroke(new BasicStroke(1.5f));
             g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
                     b.graphics.graphicSize);
         } else {

@@ -39,7 +39,7 @@ public class Simulation3 extends AbstractSimulation {
         
     @Override
     public String toString() {
-        return "N bodies + 1 colliding massive body (solormass/2)";
+        return "N bodies + 1 colliding massive body [m=1e6(solormass/2)]";
     }
     
 }

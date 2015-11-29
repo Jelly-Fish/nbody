@@ -5,7 +5,6 @@ import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.BarnesHutTree;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
-import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
 import java.util.HashMap;
 
 /**
