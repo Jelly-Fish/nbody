@@ -12,6 +12,7 @@ import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.HashMap;
@@ -110,16 +111,17 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     @Override
     public void paint(Graphics g) {
 
+        final Graphics2D g2d = (Graphics2D) g;
+        
         if (!performPaint()) {
             super.repaint();
             return;
         } 
-
-        g.clearRect(0, 0, this.getWidth(), this.getHeight());
+        
+        g2d.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
-        g.translate(this.getWidth() / 2, this.getHeight() / 2);
-
-        NBodyHelper.draw(g, bodyMap.values(), fu.getMbs().values());
+        g2d.translate(this.getWidth() / 2, this.getHeight() / 2);
+        NBodyDrawingHelper.draw(g2d, bodyMap.values(), fu.getMbs().values());
         
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;

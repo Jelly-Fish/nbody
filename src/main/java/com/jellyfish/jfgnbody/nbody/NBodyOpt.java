@@ -113,7 +113,7 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
         // Originally the origin is in the top right. Put it in its normal place :
         g.translate(this.getWidth() / 2, this.getHeight() / 2);
 
-        NBodyHelper.draw(g, nBodies, fu.getMbs().values());
+        NBodyDrawingHelper.draw(g, nBodies, fu.getMbs().values());
 
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;

@@ -150,5 +150,17 @@ public class BarnesHutTree {
             if (this.NE != null) this.NE.updateForce(b);
         }
     }
+
+    /**
+     * @param b Body to check for collision with this.b.
+     */
+    public void checkCollision(final Body b) {
+        
+        if (this.isExternal(this)) {
+            if (this.b != b) b.checkCollision(this.b);
+        } else if (this.quadrant.l / (this.b.distanceTo(b)) < 2) {
+            b.checkCollision(this.b);
+        }
+    }
     
 }

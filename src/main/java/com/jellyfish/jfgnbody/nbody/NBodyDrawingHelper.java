@@ -8,52 +8,60 @@ package com.jellyfish.jfgnbody.nbody;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import java.awt.BasicStroke;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.Collection;
 
 /**
  *
  * @author thw
  */
-public class NBodyHelper {
+public class NBodyDrawingHelper {
+    
+    private static final RenderingHints REND_1 = new RenderingHints(
+             RenderingHints.KEY_TEXT_ANTIALIASING,
+             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-    static void draw(Graphics g, final Collection<Body> bc, final Collection<Body> mb) {
+    static void draw(Graphics2D g, final Collection<Body> bc, final Collection<Body> mb) {
         
         NBodyData.bodyCount = 0;
         
         for (Body b : bc) {
             NBodyData.bodyCount++;
-            NBodyHelper.draw(g, b);
+            NBodyDrawingHelper.draw(g, b);
         }
         
         for (Body b : mb) {
             NBodyData.bodyCount++;
-            NBodyHelper.draw(g, b);
+            NBodyDrawingHelper.draw(g, b);
         }
     }
     
-    static void draw(Graphics g, final NbodyCollection nc, final Collection<Body> mb) {
+    static void draw(Graphics2D g, final NbodyCollection nc, final Collection<Body> mb) {
+        
+        //g.setRenderingHint(Graphics2D.ANTIALIASING, Graphics2D.ANTIALIAS_ON);
+        //g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
         
         NBodyData.bodyCount = 0;
         int i = 0;
         while (nc.perform(i)) {
             NBodyData.bodyCount++;
-            NBodyHelper.draw(g, nc.c[i]);
+            NBodyDrawingHelper.draw(g, nc.c[i]);
             ++i;
         }
         
         for (Body b : mb) {
             NBodyData.bodyCount++;
-            NBodyHelper.draw(g, b);
+            NBodyDrawingHelper.draw(g, b);
         }
     }
     
-    private static void draw(Graphics g, final Body b) {
+    private static void draw(Graphics2D g, final Body b) {
         
         g.setColor(b.graphics.color);
         if (b instanceof SupermassiveBody) {
-            ((Graphics2D) g).setStroke(new BasicStroke(1.5f));
+            g.setStroke(new BasicStroke(1.5f));
             g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
                     b.graphics.graphicSize);
         } else {

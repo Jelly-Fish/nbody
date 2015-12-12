@@ -37,6 +37,7 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
             b.resetForce();
             if (b.in(q)) {
                 b.checkCollision(this.mb.values());
+                //bhT.checkCollision(b); Use for collision between all bodies.
                 bhT.updateForce(b);
             }
             b.update(1e11); // Calculate new positions on time step dt (1e11 here).
