@@ -2,7 +2,6 @@ package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.interfaces.Writable;
-import com.jellyfish.jfgnbody.nbody.NBody;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
@@ -44,7 +43,6 @@ public class MainFrame extends javax.swing.JFrame {
                 this.nBodyPanel.getPanel().getWidth(), 
                 this.nBodyPanel.getPanel().getHeight()));
         this.setLocationRelativeTo(null);
-        this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
     }
 
@@ -82,9 +80,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         menuBar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        menuBar.setDoubleBuffered(true);
 
         simulationMenu.setBorder(null);
         simulationMenu.setText("Simulation");
+        simulationMenu.setDoubleBuffered(true);
 
         start1MenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         start1MenuItem.setText("Start a new simulation");

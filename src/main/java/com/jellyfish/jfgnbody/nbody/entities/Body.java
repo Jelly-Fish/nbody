@@ -169,7 +169,8 @@ public class Body extends AbstractBody {
         
         final int bx = this.getGraphicX();
         final int by = this.getGraphicY();
-        return bx + (width / 2) < 0 || bx > width || by + (height / 2) < 0 || by > height;
+        return bx + (width / 2) < 0 || bx + (width / 2) > width || 
+                by + (height / 2) < 0 || by + (height / 2) > height;
     }
     
     @Override

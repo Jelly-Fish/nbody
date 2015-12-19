@@ -4,9 +4,10 @@ import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
-import com.jellyfish.jfgnbody.nbody.entities.RandPXPY;
+import com.jellyfish.jfgnbody.nbody.entities.Rand2DC;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
-import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
+import com.jellyfish.jfgnbody.utils.SimulationGenerationUtils;
 
 /**
  * @author thw
@@ -22,9 +23,9 @@ public class Simulation1 extends AbstractSimulation {
         
         for (int i = 0; i < N; i++) {
 
-            px = NBodyConst.NBODY_MASS_CONST * BodySimulationGenUtils.exp(-1.8) * (.5 - Math.random());
-            py = NBodyConst.NBODY_MASS_CONST * BodySimulationGenUtils.exp(-1.8) * (.5 - Math.random());
-            magv = BodySimulationGenUtils.circleV(px, py);
+            px = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
+            py = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
+            magv = SimulationGenerationUtils.circleV(px, py);
 
             absangle = Math.atan(Math.abs(py / px));
             thetav = Math.PI / 2 - absangle;
@@ -49,11 +50,11 @@ public class Simulation1 extends AbstractSimulation {
     @Override
     public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
 
-        double magv, absangle, thetav, phiv, vx, vy, mass; //px, py;
-        final RandPXPY[] pXY = RandPXPY.build(N);
-        
+        double magv, absangle, thetav, phiv, vx, vy, mass;
+        final Rand2DC[] pXY = Rand2DCUtils.build(N, 3.0, 10000);
+
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {
-            magv = BodySimulationGenUtils.circleV(pXY[i].px, pXY[i].py);
+            magv = SimulationGenerationUtils.circleV(pXY[i].px, pXY[i].py);
 
             absangle = Math.atan(Math.abs(pXY[i].py / pXY[i].px));
             thetav = Math.PI / 2 - absangle;

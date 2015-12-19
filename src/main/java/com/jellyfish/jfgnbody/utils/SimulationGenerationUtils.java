@@ -4,7 +4,7 @@ package com.jellyfish.jfgnbody.utils;
  *
  * @author thw
  */
-public class BodySimulationGenUtils {
+public class SimulationGenerationUtils {
 
     /**
      * 
@@ -30,7 +30,7 @@ public class BodySimulationGenUtils {
     public static double circleV(final double rx, final double ry) {
 
         double r2 = Math.sqrt(rx * rx + ry * ry);
-        double numerator = (6.67e-11) * 1e6 * BodySimulationGenUtils.SOLARMASS;
+        double numerator = (6.67e-11) * 1e6 * SimulationGenerationUtils.SOLARMASS;
         return Math.sqrt(numerator / r2);
     }
     

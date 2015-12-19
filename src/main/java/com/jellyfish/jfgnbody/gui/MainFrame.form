@@ -9,6 +9,7 @@
             <LineBorder/>
           </Border>
         </Property>
+        <Property name="doubleBuffered" type="boolean" value="true"/>
       </Properties>
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="simulationMenu">
@@ -17,6 +18,7 @@
               <Border info="null"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Simulation"/>
+            <Property name="doubleBuffered" type="boolean" value="true"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="start1MenuItem">
