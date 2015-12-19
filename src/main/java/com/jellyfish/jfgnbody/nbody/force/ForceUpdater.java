@@ -27,7 +27,7 @@ public class ForceUpdater implements NBodyForceComputable {
             for (Body mB : this.mb.values()) {
                 b.addForce(mB);
                 b.checkCollision(mB); 
-                if (b instanceof SupermassiveStaticBody) { 
+                if (b.isMassive()) { 
                     // Optional : if resetForce unused, MB will speed up under SMSB's pull.
                     mB.resetForce();
                     mB.addForce(b);

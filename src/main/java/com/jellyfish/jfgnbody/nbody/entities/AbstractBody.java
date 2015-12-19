@@ -1,7 +1,6 @@
 package com.jellyfish.jfgnbody.nbody.entities;
 
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -74,5 +73,25 @@ abstract class AbstractBody {
      * @param toSwallow the Body to swallow.
      */
     public abstract void swallow(final Body toSwallow);
+    
+    /**
+     * @return true if mass is considered massive or super massive.
+     */
+    public abstract boolean isMassive();
+    
+    /**
+     * @return true if mass is considered super massive static (not in motion).
+     */
+    public abstract boolean isSuperMassiveStatic();
+    
+    /**
+     * @return Body's graphical X position for drawing purposes.
+     */
+    public abstract int getGraphicX();
+    
+    /**
+     * @return Body's graphical Y position for drawing purposes.
+     */
+    public abstract int getGraphicY();
     
 }

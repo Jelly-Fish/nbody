@@ -1,6 +1,8 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.nbody.entities.Body;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -38,6 +40,26 @@ public class NbodyCollection<E extends Body> {
 
     public boolean perform(final int i) {
         return i < c.length && c[i] != null;
+    }
+    
+    private void shuffle(final int n) {
+        
+        int count = 0;
+        do {
+            final Random rand = ThreadLocalRandom.current();
+            for (int i = c.length - 1; i > 0; i--) {
+                int index = rand.nextInt(i + 1);
+                // Simple swap
+                Body a = c[index];
+                c[index] = c[i];
+                c[i] = a;
+            }
+            ++count;
+        } while (count < n);
+    }
+    
+    private void shuffle() {
+        this.shuffle(0);
     }
       
 }

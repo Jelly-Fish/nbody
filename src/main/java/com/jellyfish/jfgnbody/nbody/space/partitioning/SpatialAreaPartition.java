@@ -23,7 +23,7 @@ public class SpatialAreaPartition extends PartitionableSpatialArea {
     }
 
     @Override
-    public void updateSize(final int w, final int h) {}
+    public void updateSize(final int x, final int y, final int w, final int h) {}
 
     @Override
     public void partition(final int pSize, final int motherX, final int motherY) {}

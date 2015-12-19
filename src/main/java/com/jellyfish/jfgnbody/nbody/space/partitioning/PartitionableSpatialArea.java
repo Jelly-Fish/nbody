@@ -57,17 +57,19 @@ public abstract class PartitionableSpatialArea {
     
     /**
      * Update area dimensions.
+     * @param x
+     * @param y
      * @param w
      * @param h 
      */
-    public abstract void updateSize(final int w, final int h);
+    public abstract void updateSize(final int x, final int y, final int w, final int h);
     
     /**
-     * Partition space
-     * @param pSize 
+     * Partition space 
+     * @param partitionSize
      * @param motherX 
      * @param motherY 
      */
-    public abstract void partition(final int pSize, final int motherX, final int motherY);
+    public abstract void partition(final int partitionSize, final int motherX, final int motherY);
     
 }

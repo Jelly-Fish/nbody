@@ -94,8 +94,7 @@ public class Body extends AbstractBody {
         this.mass = mass;
         this.key = key;
         this.graphics = new BodyGraphics(MassUtils.getVirtualIntegerMass(mass), 
-                (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST),
-                (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST), color, key);
+                this.getGraphicX(), this.getGraphicY(), color, key);
     }
     //</editor-fold>
     
@@ -106,8 +105,8 @@ public class Body extends AbstractBody {
         vy += dt * fy / mass;
         rx += dt * vx;
         ry += dt * vy;
-        this.graphics.graphicX = (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
-        this.graphics.graphicY = (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
+        this.graphics.graphicX = this.getGraphicX();
+        this.graphics.graphicY = this.getGraphicY();
     }
 
     @Override
@@ -168,16 +167,32 @@ public class Body extends AbstractBody {
     @Override
     public boolean isOutOfBounds(final int width, final int height) {
         
-        final int bx = (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
-        final int by = (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
-        return bx + (width / 2) < 0 || bx > width * 2 || by + (height / 2) < 0 || by > height * 2;
+        final int bx = this.getGraphicX();
+        final int by = this.getGraphicY();
+        return bx + (width / 2) < 0 || bx > width || by + (height / 2) < 0 || by > height;
+    }
+    
+    @Override
+    public final int getGraphicX() {
+        return (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
     }
 
     @Override
-    public void swallow(final Body toSwallow) {
-        this.mass += toSwallow.mass;
-        this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
-        toSwallow.swallowed = true;
+    public final int getGraphicY() {
+        return (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
+    }
+
+    @Override
+    public void swallow(final Body toSwallow) { }
+    
+    @Override
+    public boolean isMassive() {
+        return false;
+    }
+    
+    @Override
+    public boolean isSuperMassiveStatic() {
+        return false;
     }
     //</editor-fold>
     

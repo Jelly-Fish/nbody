@@ -61,8 +61,8 @@ public class Starter {
         //</editor-fold>
         
         final int n = 4000;
-        final NBodyDrawable nB = new NBody(n, 10, new Simulation1());
-        //nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies);
+        final NBodyDrawable nB = new NBodyOpt(n, 10, new Simulation1());
+        nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies);
         final MainFrame mf = new MainFrame(nB);
     }
     

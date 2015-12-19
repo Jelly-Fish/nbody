@@ -43,12 +43,6 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
             b.update(1e11); // Calculate new positions on time step dt (1e11 here).
         }
     }
-    
-    
-    @Override
-    public HashMap<Integer, Body> getMbs() {
-        return mb;
-    }
 
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
@@ -73,6 +67,12 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
          * instances - Only work for and if there is only 1 SupermassiveBody instance.
          */
         for (int j : keys) {
+            
+            if (m.c[j].isOutOfBounds(w, h)) {
+                m.c[j].setSwallowed(true);
+                continue;
+            }
+            
             m.c[j].resetForce();
             m.c[j].checkCollision(this.mb.values());
             if (m.c[j].in(q)) {
@@ -80,6 +80,11 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
                 m.c[j].update(1e11); // Calculate new positions on time step dt (1e11 here).
             }
         }
+    }
+        
+    @Override
+    public HashMap<Integer, Body> getMbs() {
+        return mb;
     }
 
     @Override

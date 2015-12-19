@@ -19,9 +19,9 @@ import java.util.HashMap;
 import javax.swing.JPanel;
 
 /**
- *
  * @author thw
  */
+@Deprecated
 public class NBody extends javax.swing.JPanel implements ComponentListener, NBodyDrawable {
 
     //<editor-fold defaultstate="collapsed" desc="vars">    
@@ -171,7 +171,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
         this.sim = sim;
         sim.start(N, this, this.fu.isBHtree());
         this.stopWatch = new StopWatch(iSpeed);
-        this.spatialArea.updateSize(this.getWidth(), this.getHeight());
+        this.spatialArea.updateSize(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
     
     @Override
@@ -262,7 +262,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
     @Override
     public void componentResized(ComponentEvent evt) {
         if (this.spatialArea != null) {
-            this.spatialArea.updateSize(this.getWidth(), this.getHeight());
+            this.spatialArea.updateSize(this.getX(), this.getY(), this.getWidth(), this.getHeight());
         }
     }
 

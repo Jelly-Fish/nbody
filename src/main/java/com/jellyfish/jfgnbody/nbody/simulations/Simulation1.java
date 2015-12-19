@@ -4,6 +4,7 @@ import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
+import com.jellyfish.jfgnbody.nbody.entities.RandPXPY;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import com.jellyfish.jfgnbody.utils.BodySimulationGenUtils;
 
@@ -48,22 +49,20 @@ public class Simulation1 extends AbstractSimulation {
     @Override
     public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
 
-        double px, py, magv, absangle, thetav, phiv, vx, vy, mass;
+        double magv, absangle, thetav, phiv, vx, vy, mass; //px, py;
+        final RandPXPY[] pXY = RandPXPY.build(N);
         
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {
+            magv = BodySimulationGenUtils.circleV(pXY[i].px, pXY[i].py);
 
-            px = NBodyConst.NBODY_MASS_CONST * BodySimulationGenUtils.exp(-1.8) * (.5 - Math.random());
-            py = NBodyConst.NBODY_MASS_CONST * BodySimulationGenUtils.exp(-1.8) * (.5 - Math.random());
-            magv = BodySimulationGenUtils.circleV(px, py);
-
-            absangle = Math.atan(Math.abs(py / px));
+            absangle = Math.atan(Math.abs(pXY[i].py / pXY[i].px));
             thetav = Math.PI / 2 - absangle;
             phiv = Math.random() * Math.PI;
-            vx = -1 * Math.signum(py) * Math.cos(thetav) * magv;
-            vy = Math.signum(px) * Math.sin(thetav) * magv;
+            vx = -1 * Math.signum(pXY[i].py) * Math.cos(thetav) * magv;
+            vy = Math.signum(pXY[i].px) * Math.sin(thetav) * magv;
 
             mass = Math.random() * NBodyConst.SOLARMASS;
-            m.add(new Body(i, px, py, vx, vy, mass, NBodyConst.BODY_COLOR));
+            m.add(new Body(i, pXY[i].px, pXY[i].py, vx, vy, mass, NBodyConst.BODY_COLOR));
         }
 
         /**

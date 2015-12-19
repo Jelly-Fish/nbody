@@ -35,6 +35,7 @@ public class Simulation5 extends AbstractSimulation {
                 this.velocityX, this.velocityY, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),
                 NBodyConst.M_BODY_COLOR);
+        m.add(smb);
         n.getForceUpdater().getMbs().put(smb.graphics.key, smb);
     }
     

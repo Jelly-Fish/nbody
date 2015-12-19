@@ -19,12 +19,24 @@ public class MassiveBody extends Body {
     
     @Override
     public void swallow(final Body toSwallow) {
+        //this.mass += toSwallow.mass;
+        //this.graphics.graphicSize = MassUtils.getVirtualIntegerMass(this.mass);
         toSwallow.swallowed = true;
     }
 
     @Override
     public void addForce(final Body b) {
         if (this.mass < b.mass) super.addForce(b);
+    }
+    
+    @Override
+    public void setSwallowed(final boolean swallowed) {
+        this.swallowed = swallowed;
+    }
+    
+    @Override
+    public boolean isMassive() {
+        return true;
     }
 
 }

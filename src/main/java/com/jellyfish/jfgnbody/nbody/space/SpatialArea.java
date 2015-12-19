@@ -64,7 +64,7 @@ public class SpatialArea extends PartitionableSpatialArea {
     }
 
     @Override
-    public void updateSize(final int w, final int h) {
+    public void updateSize(final int x, final int y, final int w, final int h) {
         
         this.area.setSize(w, h);
         this.grid.clear();

@@ -31,5 +31,15 @@ public class SupermassiveStaticBody extends SupermassiveBody {
     public boolean isSwallowed() {
         return false;
     }
+    
+    @Override
+    public boolean isSuperMassiveStatic() {
+        return true;
+    }
+    
+    @Override
+    public boolean isMassive() {
+        return false;
+    }
 
 }

@@ -38,8 +38,11 @@ public class MainFrame extends javax.swing.JFrame {
         this.setLayout(new BorderLayout());
         this.add(this.nBodyPanel.getPanel(), BorderLayout.CENTER);
         this.pack();
-        this.nBodyPanel.setSpatialArea(new SpatialArea(0, 0, 
-                this.nBodyPanel.getPanel().getWidth(), this.nBodyPanel.getPanel().getHeight()));
+        this.nBodyPanel.setSpatialArea(new SpatialArea(
+                this.nBodyPanel.getPanel().getX(),
+                this.nBodyPanel.getPanel().getY(), 
+                this.nBodyPanel.getPanel().getWidth(), 
+                this.nBodyPanel.getPanel().getHeight()));
         this.setLocationRelativeTo(null);
         this.setExtendedState(this.getExtendedState() | javax.swing.JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
@@ -160,7 +163,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_start1MenuItemActionPerformed
 
     private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
-        this.nBodyPanel.getSpatialArea().updateSize(this.nBodyPanel.getPanel().getWidth(), 
+        this.nBodyPanel.getSpatialArea().updateSize(
+                this.nBodyPanel.getPanel().getX(),
+                this.nBodyPanel.getPanel().getY(), 
+                this.nBodyPanel.getPanel().getWidth(), 
                 this.nBodyPanel.getPanel().getHeight());
     }//GEN-LAST:event_formWindowStateChanged
 

@@ -7,6 +7,11 @@ package com.jellyfish.jfgnbody.utils;
 public class BodySimulationGenUtils {
 
     /**
+     * 
+     */
+    private static final double SOLARMASS = 1.98892e30;
+    
+    /**
      * @param lambda
      * @return
      */
@@ -20,13 +25,12 @@ public class BodySimulationGenUtils {
      *
      * @param rx
      * @param ry
-     * @return
+     * @return initialized in circular orbit value for V x & y.
      */
     public static double circleV(final double rx, final double ry) {
 
-        final double solarmass = 1.98892e30;
         double r2 = Math.sqrt(rx * rx + ry * ry);
-        double numerator = (6.67e-11) * 1e6 * solarmass;
+        double numerator = (6.67e-11) * 1e6 * BodySimulationGenUtils.SOLARMASS;
         return Math.sqrt(numerator / r2);
     }
     

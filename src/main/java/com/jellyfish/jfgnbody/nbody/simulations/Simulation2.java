@@ -36,6 +36,7 @@ public class Simulation2 extends AbstractSimulation {
                 -1787.297295869821, 
                 1e6 * (NBodyConst.SOLARMASS / 4), 
                 NBodyConst.M_BODY_COLOR);
+        m.add(mb);
         n.getForceUpdater().getMbs().put(mb.graphics.key, mb);
     }
         

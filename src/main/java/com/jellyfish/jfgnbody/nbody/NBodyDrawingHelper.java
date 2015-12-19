@@ -6,7 +6,6 @@
 package com.jellyfish.jfgnbody.nbody;
 
 import com.jellyfish.jfgnbody.nbody.entities.Body;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -38,11 +37,7 @@ public class NBodyDrawingHelper {
     }
     
     static void draw(Graphics2D g, final NbodyCollection nc, final Collection<Body> mb) {
-        
-        //g.setRenderingHint(Graphics2D.ANTIALIASING, Graphics2D.ANTIALIAS_ON);
-        //g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        //g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
-        
+
         NBodyData.bodyCount = 0;
         int i = 0;
         while (nc.perform(i)) {
@@ -59,8 +54,11 @@ public class NBodyDrawingHelper {
     
     private static void draw(Graphics2D g, final Body b) {
         
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+
         g.setColor(b.graphics.color);
-        if (b instanceof SupermassiveBody) {
+        if (b.isSuperMassiveStatic()) {
             g.setStroke(new BasicStroke(1.5f));
             g.drawOval(b.graphics.graphicX, b.graphics.graphicY, b.graphics.graphicSize,
                     b.graphics.graphicSize);

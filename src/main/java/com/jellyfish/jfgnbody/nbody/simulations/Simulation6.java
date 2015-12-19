@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jellyfish.jfgnbody.nbody.simulations;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
@@ -41,8 +36,28 @@ public class Simulation6  extends AbstractSimulation {
     }
 
     @Override
-    public void start(final NBodyDrawable n, final int N, final NbodyCollection nBody) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
+        
+        new Simulation1().start(n, N - 2, m);
+        int k = n.getForceUpdater().getMbs().size();
+        final MassiveBody mb1 = new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * 1.4, 1, 
+                -28617.639985581613, 
+                -1787.297295869821, 
+                1e6 * (NBodyConst.SOLARMASS / 2), 
+                NBodyConst.M_BODY_COLOR);
+        n.getForceUpdater().getMbs().put(mb1.graphics.key, mb1);
+        m.add(mb1);
+        
+        ++k;
+        final MassiveBody mb2 = new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * -0.4, 2.2, 
+                15000.0, 
+                -12000.0, 
+                1e6 * (NBodyConst.SOLARMASS / 8), 
+                NBodyConst.M_BODY_COLOR);
+        mb2.graphics.color = Color.GREEN;
+        mb2.graphics.graphicSize = 8;
+        n.getForceUpdater().getMbs().put(mb2.graphics.key, mb2);
+        m.add(mb2);
     }
     
     @Override
