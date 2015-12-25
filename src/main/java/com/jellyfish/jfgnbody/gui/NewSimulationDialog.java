@@ -7,6 +7,7 @@ import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodySimulations;
 import com.jellyfish.jfgnbody.nbody.simulations.*;
 import com.jellyfish.jfgnbody.starter.Starter;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner.DefaultEditor;
 
@@ -29,6 +30,8 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         this.simulationComboBox.setModel(new DefaultComboBoxModel(NBodySimulations.sims));
         this.simulationComboBox.setEditable(false);
         this.simulationComboBox.setSelectedIndex(0);
+        this.randStyleComboBox.setModel(new DefaultComboBoxModel<>(Rand2DCUtils.Layout.values()));
+        this.randStyleComboBox.setSelectedIndex(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -49,8 +52,10 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         newSimulationCancelButton = new javax.swing.JButton();
         nbodyCountSpinner = new javax.swing.JSpinner();
         iSpeedSpinner = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
+        simulationLabel = new javax.swing.JLabel();
         simulationComboBox = new javax.swing.JComboBox();
+        randStyleComboBox = new javax.swing.JComboBox();
+        randStyleLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New NBody simulation");
@@ -95,12 +100,18 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         iSpeedSpinner.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         iSpeedSpinner.setDoubleBuffered(true);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Select simulation :");
+        simulationLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        simulationLabel.setText("Select simulation :");
 
         simulationComboBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         simulationComboBox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         simulationComboBox.setMaximumSize(new java.awt.Dimension(431, 32767));
+
+        randStyleComboBox.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        randStyleComboBox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        randStyleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        randStyleLabel.setText("Select random generation style :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,28 +120,32 @@ public class NewSimulationDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newSimulationSubtitleLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(376, 376, 376)
                         .addComponent(newSimulationCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(newSimulationStartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(newSimulationSubtitleLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(simulationComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(nbodyCountLabel)
-                                    .addComponent(iterationSpeddLabel))
-                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(iterationSpeddLabel)
+                                    .addComponent(nbodyCountLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(nbodyCountSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                    .addComponent(iSpeedSpinner))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(nbodyCountSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                                    .addComponent(iSpeedSpinner)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(randStyleLabel)
+                                    .addComponent(simulationLabel))
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(simulationComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(randStyleComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,9 +162,13 @@ public class NewSimulationDialog extends javax.swing.JDialog {
                     .addComponent(iSpeedSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(simulationLabel)
                     .addComponent(simulationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(randStyleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(randStyleLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newSimulationStartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(newSimulationCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -195,7 +214,8 @@ public class NewSimulationDialog extends javax.swing.JDialog {
             ((MainFrame) this.getParent()).getnBodyPanel().setNCollection( 
                     new NbodyCollection((int) this.nbodyCountSpinner.getValue()));
             sim.start(((MainFrame) this.getParent()).getnBodyPanel(), (int) this.nbodyCountSpinner.getValue(),
-                ((MainFrame) this.getParent()).getnBodyPanel().getNCollection());
+                ((MainFrame) this.getParent()).getnBodyPanel().getNCollection(), 
+                (Rand2DCUtils.Layout) this.randStyleComboBox.getItemAt(this.randStyleComboBox.getSelectedIndex()));
 
             this.setVisible(false);
             final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();
@@ -211,13 +231,15 @@ public class NewSimulationDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner iSpeedSpinner;
     private javax.swing.JLabel iterationSpeddLabel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel nbodyCountLabel;
     private javax.swing.JSpinner nbodyCountSpinner;
     private javax.swing.JButton newSimulationCancelButton;
     private javax.swing.JButton newSimulationStartButton;
     private javax.swing.JLabel newSimulationSubtitleLabel;
+    private javax.swing.JComboBox randStyleComboBox;
+    private javax.swing.JLabel randStyleLabel;
     private javax.swing.JComboBox simulationComboBox;
+    private javax.swing.JLabel simulationLabel;
     // End of variables declaration//GEN-END:variables
 
 }

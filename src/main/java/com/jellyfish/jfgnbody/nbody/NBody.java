@@ -10,6 +10,7 @@ import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.force.*;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import com.jellyfish.jfgnbody.utils.StopWatch;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -162,7 +163,7 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
      * @param sim
      */
     @Override
-    public void restart(int n, int iSpeed, final AbstractSimulation sim) {
+    public void restart(int n, int iSpeed, final AbstractSimulation sim, final Rand2DCUtils.Layout l) {
         NBodyData.bodyCount = 0;
         NBodyData.iterationCount = 0;
         NBodyData.superMassiveBodyMass = 0.0;

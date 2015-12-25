@@ -2,6 +2,7 @@ package com.jellyfish.jfgnbody.nbody.simulations;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 
 /**
  *
@@ -20,7 +21,9 @@ public abstract class AbstractSimulation {
      * @param n
      * @param N 
      * @param nBody 
+     * @param l random layout style.
      */
-    public abstract void start(final NBodyDrawable n, final int N, final NbodyCollection nBody);
+    public abstract void start(final NBodyDrawable n, final int N, final NbodyCollection nBody,
+        final Rand2DCUtils.Layout l);
     
 }

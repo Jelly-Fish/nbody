@@ -48,10 +48,11 @@ public class Simulation1 extends AbstractSimulation {
     }
 
     @Override
-    public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m, 
+            final Rand2DCUtils.Layout l) {
 
         double magv, absangle, thetav, phiv, vx, vy, mass;
-        final Rand2DC[] pXY = Rand2DCUtils.build(N, 3.0, 10000);
+        final Rand2DC[] pXY = Rand2DCUtils.build(N, l);
 
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {
             magv = SimulationGenerationUtils.circleV(pXY[i].px, pXY[i].py);

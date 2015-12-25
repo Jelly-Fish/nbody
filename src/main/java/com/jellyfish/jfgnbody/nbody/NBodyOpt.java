@@ -10,6 +10,7 @@ import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
@@ -148,13 +149,13 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     }
 
     @Override
-    public void restart(int n, int iSpeed, final AbstractSimulation sim) {
+    public void restart(int n, int iSpeed, final AbstractSimulation sim, final Rand2DCUtils.Layout l) {
         NBodyData.bodyCount = 0;
         NBodyData.iterationCount = 0;
         NBodyData.superMassiveBodyMass = 0.0;
         this.N = n;
         this.sim = sim;
-        sim.start(this, N, nBodies);
+        sim.start(this, N, nBodies, l);
         this.spatialArea.updateSize(this.getX(), this.getY(), this.getWidth(), this.getHeight());
     }
     

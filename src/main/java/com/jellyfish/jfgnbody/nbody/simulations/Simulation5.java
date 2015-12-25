@@ -4,6 +4,7 @@ import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.SupermassiveBody;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 
 /**
  *
@@ -29,8 +30,8 @@ public class Simulation5 extends AbstractSimulation {
     }
 
     @Override
-    public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
-        new Simulation1().start(n, N - 1, m);
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m, final Rand2DCUtils.Layout l) {
+        new Simulation1().start(n, N - 1, m, l);
         final SupermassiveBody smb = new SupermassiveBody(m.c.length - 1, NBodyConst.NBODY_MASS_CONST * (1.4), 1, 
                 this.velocityX, this.velocityY, 
                 1e6 * (NBodyConst.SOLARMASS / 1.2),

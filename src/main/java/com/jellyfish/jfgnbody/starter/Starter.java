@@ -36,6 +36,7 @@ import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.*;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.simulations.Simulation1;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -62,13 +63,13 @@ public class Starter {
         
         final int n = 4000;
         final NBodyDrawable nB = new NBodyOpt(n, 10, new Simulation1());
-        nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies);
+        nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies, Rand2DCUtils.Layout.FLAT);
         final MainFrame mf = new MainFrame(nB);
     }
     
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 
             final AbstractSimulation sim) {
-        mainFrame.resetSimulation(n, iSpeed, sim);
+        mainFrame.resetSimulation(n, iSpeed, sim, Rand2DCUtils.Layout.FLAT);
     }
     
 }

@@ -10,12 +10,41 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Rand2DCUtils {
     
+    public static enum Layout {
+        
+        FLAT("Random, flat layout."), 
+        STAR("Grouped galxy style layout");
+        
+        private final String desc;
+        
+        Layout(final String desc) {
+            this.desc = desc;
+        }
+        
+        @Override
+        public String toString() {
+            return this.desc;
+        }
+    }
+    
+    public static Rand2DC[] build(final int n, Rand2DCUtils.Layout layout) {
+     
+        switch(layout) {
+            case FLAT:
+                return Rand2DCUtils.build(n, 3.0, 10000);
+            case STAR:
+                return Rand2DCUtils.build(n);
+        }
+        
+        throw new UnsupportedOperationException();
+    }
+    
     /**
      * Star shape layout of random positions.
      * @param n
      * @return Rand2DC[] instance containing px & py values.
      */
-    public static Rand2DC[] build(final int n) {
+    private static Rand2DC[] build(final int n) {
         
         final Rand2DC[] c = new Rand2DC[n];
         double[] fX = new double[n];
@@ -49,13 +78,13 @@ public class Rand2DCUtils {
     }
     
     /**
-     * Random layout.
+     * Random, flat layout.
      * @param n body count.
      * @param M maximum value / must be smaller than 3.0d / will define minimum value = -M.
      * @param factor random accruracy factor, must be > 100.
      * @return Rand2DC[] instance containing px & py values.
      */
-    public static Rand2DC[] build(final int n, final double M, final int factor) {
+    private static Rand2DC[] build(final int n, final double M, final int factor) {
         
         double[] xV = new double[n];
         double[] yV = new double[n];

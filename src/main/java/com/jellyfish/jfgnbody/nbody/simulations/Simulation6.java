@@ -4,6 +4,7 @@ import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.entities.MassiveBody;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import java.awt.Color;
 
 /**
@@ -36,9 +37,9 @@ public class Simulation6  extends AbstractSimulation {
     }
 
     @Override
-    public void start(final NBodyDrawable n, final int N, final NbodyCollection m) {
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m, final Rand2DCUtils.Layout l) {
         
-        new Simulation1().start(n, N - 2, m);
+        new Simulation1().start(n, N - 2, m, l);
         int k = n.getForceUpdater().getMbs().size();
         final MassiveBody mb1 = new MassiveBody(k, NBodyConst.NBODY_MASS_CONST * 1.4, 1, 
                 -28617.639985581613, 

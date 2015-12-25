@@ -7,6 +7,7 @@ import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import com.jellyfish.jfgnbody.nbody.force.ForceUpdater;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -197,8 +198,8 @@ public class MainFrame extends javax.swing.JFrame {
         return this.nBodyPanel;
     }
     
-    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim) {
-        this.nBodyPanel.restart(n, iSpeed, sim);
+    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim, final Rand2DCUtils.Layout l) {
+        this.nBodyPanel.restart(n, iSpeed, sim, l);
     }
      
     // Variables declaration - do not modify//GEN-BEGIN:variables

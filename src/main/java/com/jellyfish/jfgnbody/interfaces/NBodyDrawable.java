@@ -4,6 +4,7 @@ import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import com.jellyfish.jfgnbody.nbody.space.SpatialArea;
+import com.jellyfish.jfgnbody.utils.Rand2DCUtils;
 import java.util.HashMap;
 
 /**
@@ -16,7 +17,7 @@ public interface NBodyDrawable {
 
     boolean performPaint();
 
-    void restart(int n, int iSpeed, final AbstractSimulation sim);
+    void restart(int n, int iSpeed, final AbstractSimulation sim, final Rand2DCUtils.Layout l);
     
     HashMap<Integer, Body> getNB();
     
