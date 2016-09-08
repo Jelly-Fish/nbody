@@ -17,32 +17,6 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
      * Massive body list.
      */
     private final HashMap<Integer, Body> mb = new HashMap<>();
-    
-    @Override
-    public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
-
-        final BarnesHutTree bhT = new BarnesHutTree(q);
-
-        // If the body is still on the screen, add it to the tree
-        for (Body b : m.values()) {
-            if (b.in(q)) bhT.insert(b);
-        }
-            
-        /**
-         * Use out methods in BarnesHutTree for updating forces traveling
-         * recursively through the tree - Only check collisions with MassiveBody 
-         * instances.
-         */
-        for (Body b : m.values()) {
-            b.resetForce();
-            if (b.in(q)) {
-                b.checkCollision(this.mb.values());
-                //bhT.checkCollision(b); Use for collision between all bodies.
-                bhT.updateForce(b);
-            }
-            b.update(1e11); // Calculate new positions on time step dt (1e11 here).
-        }
-    }
 
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {

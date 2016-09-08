@@ -10,9 +10,7 @@ import java.util.HashMap;
  * @author thw
  */
 public interface NBodyForceComputable {
-    
-    void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m);
-    
+
     void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m);
     
     HashMap<Integer, Body> getMbs();

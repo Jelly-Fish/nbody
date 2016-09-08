@@ -4,7 +4,6 @@ import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import java.util.HashMap;
 
 /**
@@ -17,11 +16,13 @@ public class ForceUpdater implements NBodyForceComputable {
      * Massive body list.
      */
     private final HashMap<Integer, Body> mb = new HashMap<>();
-    
+
     @Override
-    public void addForces(final int w, final int h, final Quadrant q, final HashMap<Integer, Body> m) {
-               
-        for (Body b : m.values()) {
+    public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
+        
+        for (Body b : m.c) {
+            
+            if (b == null) continue;
             
             b.resetForce();
             for (Body mB : this.mb.values()) {
@@ -46,11 +47,6 @@ public class ForceUpdater implements NBodyForceComputable {
             }
         }
     }
-
-    @Override
-    public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
-        throw new UnsupportedOperationException();
-    }
     
     @Override
     public HashMap<Integer, Body> getMbs() {
@@ -61,7 +57,7 @@ public class ForceUpdater implements NBodyForceComputable {
     public void cleanBodyCollection() {
         throw new UnsupportedOperationException();
         /**
-         * FIXME : called one first loops, not with collision between smsb & mb.
+         * FIXME : called on first loops, not with collision between smsb & mb.
          */
         /*final int[] keys = new int[mb.size()];
         int i = 0;

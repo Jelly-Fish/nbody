@@ -1,6 +1,7 @@
 package com.jellyfish.jfgnbody.gui;
 
 import com.jellyfish.jfgnbody.interfaces.NBodyDrawable;
+import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.interfaces.Writable;
 import com.jellyfish.jfgnbody.nbody.constants.NBodyConst;
 import com.jellyfish.jfgnbody.nbody.force.BHTreeForceUpdater;
