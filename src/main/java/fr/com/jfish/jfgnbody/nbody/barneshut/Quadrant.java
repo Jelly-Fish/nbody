@@ -41,6 +41,7 @@ public class Quadrant {
      * @param l 
      */
     public Quadrant(final double xM, final double yM, final double zM, final double l) {
+        
         this.xM = xM;
         this.yM = yM;
         this.zM = zM;

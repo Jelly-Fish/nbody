@@ -30,11 +30,11 @@ public class ForceUpdater implements NBodyForceComputable {
                     // Optional : if resetForce unused, MB will speed up under SMSB's pull.
                     mB.resetForce();
                     mB.addForce(m.c[i]);
-                    mB.checkCollision(m.c[i]);
+                    //mB.checkCollision(m.c[i]);
                     mB.update(1e11);
                 } else {
                     m.c[i].addForce(mB);
-                    m.c[i].checkCollision(mB); 
+                    //m.c[i].checkCollision(mB); 
                 }
                 
                 if (!m.c[i].isOutOfBounds(w, h)) {
