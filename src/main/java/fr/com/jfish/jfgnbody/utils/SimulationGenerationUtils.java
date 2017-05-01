@@ -25,11 +25,12 @@ public class SimulationGenerationUtils {
      *
      * @param rx
      * @param ry
+     * @param rz
      * @return initialized in circular orbit value for V x & y.
      */
-    public static double circleV(final double rx, final double ry) {
+    public static double circleV(final double rx, final double ry, final double rz) {
 
-        double r2 = Math.sqrt(rx * rx + ry * ry);
+        double r2 = Math.sqrt(rx * rx + ry * ry + rz * rz);
         double numerator = (6.67e-11) * 1e6 * SimulationGenerationUtils.SOLARMASS;
         return Math.sqrt(numerator / r2);
     }

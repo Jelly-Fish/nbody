@@ -26,7 +26,7 @@ public class Simulation1 extends AbstractSimulation {
             px = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
             py = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
             pz = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
-            magv = SimulationGenerationUtils.circleV(px, py);
+            magv = SimulationGenerationUtils.circleV(px, py, pz);
 
             absangle = Math.atan(Math.abs(py / px));
             thetav = Math.PI / 2 - absangle;
@@ -57,7 +57,7 @@ public class Simulation1 extends AbstractSimulation {
         final Rand2DC[] pXY = Rand2DCUtils.build(N, l);
 
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {
-            magv = SimulationGenerationUtils.circleV(pXY[i].px, pXY[i].py);
+            magv = SimulationGenerationUtils.circleV(pXY[i].px, pXY[i].py, pXY[i].pz);
 
             absangle = Math.atan(Math.abs(pXY[i].py / pXY[i].px));
             thetav = Math.PI / 2 - absangle;
