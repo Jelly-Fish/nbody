@@ -1,7 +1,6 @@
 package fr.com.jfish.jfgnbody.nbody.barneshut;
 
 /**
- *
  * @author thw
  */
 public class Quadrant {
@@ -52,9 +51,10 @@ public class Quadrant {
      * Does quadrant contains a point ?
      * @param x
      * @param y
+     * @param z
      * @return true if so.
      */
-    public boolean contains(final double x, final double y) {
+    public boolean contains(final double x, final double y, final double z) {
         return x <= xM + l / 2.0 && xM >= xM - l / 2.0 && y <= yM + l / 2.0 && y >= yM - l / 2.0;
     }
     

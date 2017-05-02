@@ -33,7 +33,7 @@ public class Simulation1 extends AbstractSimulation {
             phiv = Math.random() * Math.PI;
             vx = -1 * Math.signum(py) * Math.cos(thetav) * magv;
             vy = Math.signum(px) * Math.sin(thetav) * magv;
-            vz = Math.signum(px) * Math.sin(thetav) * magv;
+            vz = Math.signum(pz) * Math.tan(thetav) * magv;
             
             mass = Math.random() * NBodyConst.SOLARMASS;
             n.getNB().put(i, new Body(i, px, py, pz, vx, vy, vz, mass, NBodyConst.BODY_COLOR));
@@ -44,7 +44,7 @@ public class Simulation1 extends AbstractSimulation {
          * will not be candidates to draw or paint methods.
          */
         final SupermassiveStaticBody smsb = new SupermassiveStaticBody(n.getNB().size(), 
-                0d, 0d, 0d, 0d, 0d, 0d, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
+                0d, 0d, 0d, 0d, 0d, 0d, 1.0e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
         n.getNB().put(n.getNB().size(), smsb);
         n.getForceUpdater().getMbs().put(smsb.graphics.key, smsb);
     }
@@ -64,7 +64,7 @@ public class Simulation1 extends AbstractSimulation {
             phiv = Math.random() * Math.PI;
             vx = -1 * Math.signum(pXY[i].py) * Math.cos(thetav) * magv;
             vy = Math.signum(pXY[i].px) * Math.sin(thetav) * magv;
-            vz = Math.signum(pXY[i].px) * Math.sin(thetav) * magv;
+            vz = Math.signum(pXY[i].pz) * Math.tan(thetav) * magv;
             
             mass = Math.random() * NBodyConst.SOLARMASS;
             m.add(new Body(i, pXY[i].px, pXY[i].py, pXY[i].pz, vx, vy, vz, mass, 
@@ -76,7 +76,7 @@ public class Simulation1 extends AbstractSimulation {
          * will not be candidates to draw or paint methods.
          */
         final SupermassiveStaticBody smsb = new SupermassiveStaticBody(N - Simulation1.M_COUNT,
-                0d, 0d, 0d, 0d, 0d, 0d, 1e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
+                0d, 0d, 0d, 0d, 0d, 0d, 1.0e6 * NBodyConst.SOLARMASS, NBodyConst.SM_STATIC_BODY_COLOR);
         m.add(smsb);
         n.getForceUpdater().getMbs().put(smsb.graphics.key, smsb);
     }

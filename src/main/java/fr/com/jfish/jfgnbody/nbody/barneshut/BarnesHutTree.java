@@ -91,7 +91,7 @@ public class BarnesHutTree {
                         if (this.SE == null) this.SE = new BarnesHutTree(sE);
                         SE.insert(b);
                     } else {
-                        Quadrant sW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.SW);
+                        final Quadrant sW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.SW);
                         if (this.SW == null) this.SW = new BarnesHutTree(sW);
                         SW.insert(b);
                     }

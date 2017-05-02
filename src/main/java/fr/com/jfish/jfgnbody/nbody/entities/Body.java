@@ -205,7 +205,7 @@ public class Body extends AbstractBody {
 
     @Override
     public boolean in(final Quadrant q) {
-        return q.contains(this.rx, this.ry);
+        return q.contains(this.rx, this.ry, this.rz);
     }
     
     @Override

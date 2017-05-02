@@ -7,7 +7,6 @@ import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.HashMap;
 
 /**
- *
  * @author thw
  */
 public class ForceUpdater implements NBodyForceComputable {
