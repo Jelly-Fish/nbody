@@ -4,7 +4,6 @@ import com.jellyfish.jfgnbody.interfaces.NBodyForceComputable;
 import com.jellyfish.jfgnbody.nbody.NbodyCollection;
 import com.jellyfish.jfgnbody.nbody.entities.Body;
 import com.jellyfish.jfgnbody.nbody.barneshut.Quadrant;
-import com.jellyfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
 import java.util.HashMap;
 
 /**

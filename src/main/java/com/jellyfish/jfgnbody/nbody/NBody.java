@@ -59,8 +59,9 @@ public class NBody extends javax.swing.JPanel implements ComponentListener, NBod
 
     /**
      * Global space quandrant.
+     * Previously new Quadrant(0, 0, 2 * 1e18)
      */
-    protected final Quadrant q = new Quadrant(0, 0, 8 * NBodyConst.NBODY_MASS_CONST); // Previously new Quadrant(0, 0, 2 * 1e18)
+    protected final Quadrant q = new Quadrant(0, 0, 8 * NBodyConst.NBODY_MASS_CONST); 
 
     /**
      * Interface for updating forces.

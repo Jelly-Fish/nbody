@@ -41,7 +41,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- *
  * @author thw
  */
 public class Starter {
@@ -49,6 +48,7 @@ public class Starter {
     /**
      * @param args the command line arguments
      */
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void main(String[] args) {
         
         // <editor-fold defaultstate="collapsed" desc="UI Manager">    
@@ -64,7 +64,7 @@ public class Starter {
         final int n = 4000;
         final NBodyDrawable nB = new NBodyOpt(n, 10, new Simulation1());
         nB.getSim().start(nB, n, ((NBodyOpt) nB).nBodies, Rand2DCUtils.Layout.FLAT);
-        final MainFrame mf = new MainFrame(nB);
+        new MainFrame(nB);
     }
     
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 

@@ -81,28 +81,21 @@ public class NBodyOpt extends javax.swing.JPanel implements ComponentListener, N
     public NBodyOpt(final int n, final double iterationSpeed, final AbstractSimulation sim) {
         this.N = n;
         this.sim = sim;
+        this.init(this.N);
+    }
+    
+    private void init(final int n) {
         this.addComponentListener(this);
         this.setBackground(NBodyConst.BG_COLOR);
         this.nBodies = new NbodyCollection(n);
-    }
-    
-    /**
-     * @param n
-     * @param iterationSpeed
-     * @param writer
-     * @param sim
-     */
-    public NBodyOpt(final int n, final double iterationSpeed, final Writable writer, final AbstractSimulation sim) {
-        this(n, iterationSpeed, sim);
-        this.writer = writer;
-        this.writer.setParent(this);
     }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="methods">
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
 
+        super.paintComponent(g);
         NBodyData.bodyCount = 0;
         g.clearRect(0, 0, this.getWidth(), this.getHeight());
         // Originally the origin is in the top right. Put it in its normal place :
