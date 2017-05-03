@@ -18,34 +18,32 @@ public class ForceUpdater implements NBodyForceComputable {
 
     @Override
     public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
-        
+
         int i = 0;
         while (m.perform(i)) {
                         
-            m.c[i].resetForce();
+            m.c[i].resetForce();            
             for (Body mB : this.mb.values()) {
                 
                 if (m.c[i].isMassive()) { 
                     // Optional : if resetForce unused, MB will speed up under SMSB's pull.
                     mB.resetForce();
                     mB.addForce(m.c[i]);
-                    //mB.checkCollision(m.c[i]);
                     mB.update(1e11);
+                    mB.checkCollision(m.c[i]);                    
                 } else {
                     m.c[i].addForce(mB);
-                    //m.c[i].checkCollision(mB); 
+                    m.c[i].checkCollision(mB); 
                 }
                 
-                if (!m.c[i].isOutOfBounds(w, h)) {
-                    mB.setSwallowed(true);
-                }
+                //mB.update(1e11);                
+                //if (!m.c[i].isOutOfBounds(w, h)) mB.setSwallowed(true);
             }
             
-            if (!m.c[i].isOutOfBounds(w, h)) {
-                m.c[i].update(1e11);
-            } else {
-                m.c[i].setSwallowed(true);
-            }
+            if (!m.c[i].isOutOfBounds(w, h)) m.c[i].update(1e11);
+            else m.c[i].setSwallowed(true);
+            
+            ++i;
         }
     }
     

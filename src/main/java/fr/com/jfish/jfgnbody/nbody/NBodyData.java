@@ -20,26 +20,13 @@ public class NBodyData {
      * Super massive center body's updated mass.
      */
     public static double superMassiveBodyMass = 0.0;
-    
+
     /**
-     * update data.
-     * @param iterationCount
-     * @param bodyCount
-     * @param superMassiveBodyMass 
-     * @param update 
+     * @return formatted data.
      */
-    public static void update(final int iterationCount, final long bodyCount, final double superMassiveBodyMass, 
-            final boolean update) {
-        if (!update) return;
-        NBodyData.iterationCount = iterationCount;
-        NBodyData.bodyCount = bodyCount;
-        NBodyData.superMassiveBodyMass = superMassiveBodyMass;
-    }
-    
-    @SuppressWarnings("MalformedFormatString")
     public static String getFormattedData() {
-        return String.format("interation n° %d - body count = %d - super massive body mass = %f", 
-            NBodyData.iterationCount, NBodyData.bodyCount, NBodyData.superMassiveBodyMass);
+        return String.format("interation n° %d - body count = %d", 
+            NBodyData.iterationCount, NBodyData.bodyCount);
     }
-    
+
 }

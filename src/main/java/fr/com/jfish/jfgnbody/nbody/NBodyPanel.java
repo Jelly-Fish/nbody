@@ -7,7 +7,7 @@ import fr.com.jfish.jfgnbody.interfaces.Writable;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
-import fr.com.jfish.jfgnbody.nbody.force.BHTreeForceUpdater;
+import fr.com.jfish.jfgnbody.nbody.force.ForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.space.SpatialArea;
 import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
@@ -60,7 +60,7 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
     /**
      * Interface for updating forces.
      */
-    protected NBodyForceComputable fu = new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new ForceUpdater(); // new BHTreeForceUpdater();
 
     /**
      * Data output writer.
@@ -106,7 +106,9 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
         if (!GUIDTO.pause) {
             NBodyData.iterationCount++;
             fu.addForces(getWidth(), getHeight(), q, nBodies);
-            cleanBodyCollection();
+            cleanBodyCollection();            
+            if (writer != null && GUIDTO.displayOutput) writer.appendData(
+                NBodyData.getFormattedData());
         }
         
         // Always repaint.
@@ -173,12 +175,10 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
      * @param fu
      */
     @Override
-    public void swapForceUpdater(final NBodyForceComputable fu) {
-        
+    public void swapForceUpdater(final NBodyForceComputable fu) {        
         fu.getMbs().clear();
         fu.getMbs().putAll(this.fu.getMbs());
-        this.fu.getMbs().clear();
-        
+        this.fu.getMbs().clear();        
         this.fu = fu;
     }
 

@@ -219,31 +219,21 @@ public class Body extends AbstractBody {
 
     @Override
     public void checkCollision(final Body b) {
-
-        if (CollisionUtils.collidesWith(b, this)) {
-            b.swallow(this);
-        }
+        if (CollisionUtils.collidesWith(b, this)) b.swallow(this);
     }
     
     @Override
-    public void checkCollision(final Collection<Body> bList) {
-        
-        for (Body b : bList) {
-            this.checkCollision(b);
-        }
+    public void checkCollision(final Collection<Body> bList) {        
+        for (Body b : bList) this.checkCollision(b);
     }
     
     @Override
-    public void checkCollision(final Body[] bList) {
-        
-        for (Body b : bList) {
-            this.checkCollision(b);
-        }
+    public void checkCollision(final Body[] bList) {        
+        for (Body b : bList) this.checkCollision(b);
     }
 
     @Override
-    public boolean isOutOfBounds(final int width, final int height) {
-        
+    public boolean isOutOfBounds(final int width, final int height) {        
         final int bx = this.getGraphicX();
         final int by = this.getGraphicY();
         return bx + (width / 2) < 0 || bx + (width / 2) > width || 
