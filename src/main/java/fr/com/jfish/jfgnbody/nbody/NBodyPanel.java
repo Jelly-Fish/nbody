@@ -7,7 +7,7 @@ import fr.com.jfish.jfgnbody.interfaces.Writable;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
-import fr.com.jfish.jfgnbody.nbody.force.ForceUpdater;
+import fr.com.jfish.jfgnbody.nbody.force.BruteForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.space.SpatialArea;
 import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
@@ -60,7 +60,7 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
     /**
      * Interface for updating forces.
      */
-    protected NBodyForceComputable fu = new ForceUpdater(); // new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new BruteForceUpdater(); // new BHTreeForceUpdater();
 
     /**
      * Data output writer.

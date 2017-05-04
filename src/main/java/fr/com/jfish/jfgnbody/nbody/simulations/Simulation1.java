@@ -57,6 +57,7 @@ public class Simulation1 extends AbstractSimulation {
         final Rand2DC[] pXY = Rand2DCUtils.build(N, l);
 
         for (int i = 0; i < N - Simulation1.M_COUNT; i++) {
+            
             magv = SimulationGenerationUtils.circleV(pXY[i].px, pXY[i].py, pXY[i].pz);
 
             absangle = Math.atan(Math.abs(pXY[i].py / pXY[i].px));

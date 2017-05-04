@@ -53,9 +53,7 @@ public class BarnesHutTree {
      * start at the current tree and recursively travel through the branches.
      * 
      * Barnes–Hut simulation :
-     * 
-     * 
-     * @param b
+     * @param b body.
      */
     public void insert(final Body b) {
         
@@ -67,16 +65,13 @@ public class BarnesHutTree {
             /**
              * If there's already a body there, but it's not an external node,
              * combine the two bodies and figure out which quadrant of the 
-             * tree it should be located in - 
-             * then recursively update the nodes below it.
+             * tree it should be located in - then recursively update the 
+             * nodes below it.
              */
             
-            this.b = b.add(this.b, b);
-            
-            final Quadrant nW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NW);
-                    
-            if (b.in(nW)) {
-                
+            this.b = b.add(this.b, b);            
+            final Quadrant nW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NW);                    
+            if (b.in(nW)) {                
                 if (this.NW == null) this.NW = new BarnesHutTree(nW);
                 NW.insert(b);
             } else {
@@ -97,6 +92,7 @@ public class BarnesHutTree {
                     }
                 }
             }
+            
         } else if (this.isExternal(this)) {
             
             /**
@@ -126,6 +122,7 @@ public class BarnesHutTree {
                     }
                 }
             }
+            
             this.insert(b);
         }
     }

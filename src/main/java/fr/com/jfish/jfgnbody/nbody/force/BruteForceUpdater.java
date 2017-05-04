@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * @author thw
  */
-public class ForceUpdater implements NBodyForceComputable {
+public class BruteForceUpdater implements NBodyForceComputable {
 
     /**
      * Massive body list.

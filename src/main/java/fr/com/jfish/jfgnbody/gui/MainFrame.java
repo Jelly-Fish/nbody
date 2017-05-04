@@ -4,7 +4,7 @@ import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.interfaces.Writable;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.force.BHTreeForceUpdater;
-import fr.com.jfish.jfgnbody.nbody.force.ForceUpdater;
+import fr.com.jfish.jfgnbody.nbody.force.BruteForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.space.SpatialArea;
 import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
@@ -172,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowStateChanged
 
     private void bruteForceMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bruteForceMenuItemActionPerformed
-        this.nBodyPanel.swapForceUpdater(new ForceUpdater());
+        this.nBodyPanel.swapForceUpdater(new BruteForceUpdater());
     }//GEN-LAST:event_bruteForceMenuItemActionPerformed
 
     private void bhtreeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bhtreeMenuItemActionPerformed
