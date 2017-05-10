@@ -2,9 +2,9 @@ package fr.com.jfish.jfgnbody.nbody.force;
 
 import fr.com.jfish.jfgnbody.interfaces.NBodyForceComputable;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
+import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
 import fr.com.jfish.jfgnbody.nbody.barneshut.BarnesHutTree;
-import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.HashMap;
 
 /**
@@ -19,16 +19,17 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
     private final HashMap<Integer, Body> mb = new HashMap<>();
 
     @Override
-    public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
+    public void addForces(final int w, final int h, final BHTCube bhtcube, final NbodyCollection m) {
         
-        final BarnesHutTree bhT = new BarnesHutTree(q);
-        final int[] keys = new int[m.size()];
+        final BarnesHutTree bhT = new BarnesHutTree(bhtcube);
+        final int[] keys = new int[m.size() + this.mb.size()];
         int k = 0;
         int i = 0;
         
         while (m.perform(i)) {
+
              // If body still on screen (main quadrant) & not swallowed, add to tree.
-            if (!m.c[i].isSwallowed() && m.c[i].in(q)) {
+            if (!m.c[i].isSwallowed() && m.c[i].in(bhtcube)) {
                 bhT.insert(m.c[i]);
                 keys[k] = i;
                 ++k;
@@ -50,10 +51,8 @@ public class BHTreeForceUpdater implements NBodyForceComputable {
             
             m.c[j].resetForce();
             m.c[j].checkCollision(this.mb.values());
-            if (m.c[j].in(q)) {
-                bhT.updateForce(m.c[j]);
-                m.c[j].update(1e11); // Calculate new positions on time step dt (1e11 here).
-            }
+            if (m.c[j].in(bhtcube)) bhT.updateForce(m.c[j]);
+            m.c[j].update(1e11); // Calculate new positions on time step dt (1e11 here).
         }
     }
         

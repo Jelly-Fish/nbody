@@ -1,5 +1,6 @@
 package fr.com.jfish.jfgnbody.nbody.entities;
 
+import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.utils.CollisionUtils;
@@ -120,7 +121,7 @@ public class Body extends AbstractBody {
         this.mass = mass;
         this.key = key;
         this.graphics = new BodyGraphics(MassUtils.getVirtualIntegerMass(mass), 
-                this.getGraphicX(), this.getGraphicY(), color, key);
+                this.getGraphicX(), this.getGraphicY(), this.getGraphicZ(), color, key);
     }
     
     /**
@@ -146,7 +147,7 @@ public class Body extends AbstractBody {
         this.mass = mass;
         this.key = key;
         this.graphics = new BodyGraphics(MassUtils.getVirtualIntegerMass(mass), 
-                this.getGraphicX(), this.getGraphicY(), color, key);
+                this.getGraphicX(), this.getGraphicY(), this.getGraphicZ(), color, key);
         this.negate = negate ? -1 : 1;
     }
     //</editor-fold>
@@ -168,7 +169,7 @@ public class Body extends AbstractBody {
             vz += (dt * fz / mass);
             rx += dt * vx;
             ry += dt * vy;
-            rz += -(dt * vz);
+            rz += (dt * vz);
         }
         
         this.graphics.graphicX = this.getGraphicX();
@@ -205,8 +206,13 @@ public class Body extends AbstractBody {
 
     @Override
     public boolean in(final Quadrant q) {
-        return q.contains(this.rx, this.ry, this.rz);
+        return q.contains(this.rx, this.ry);
     }
+    
+    @Override
+    public boolean in(final BHTCube bhtcube) {
+        return bhtcube.contains(this.rx, this.ry, this.rz);
+    }    
     
     @Override
     public Body add(final Body a, final Body b) {
@@ -250,6 +256,11 @@ public class Body extends AbstractBody {
         return (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
     }
 
+    @Override
+    public final int getGraphicZ() {
+        return (int) Math.round(this.rz * 250 / NBodyConst.NBODY_MASS_CONST);
+    }
+    
     @Override
     public void swallow(final Body toSwallow) { 
         this.mass += toSwallow.mass;

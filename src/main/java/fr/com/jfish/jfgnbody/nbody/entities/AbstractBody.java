@@ -1,5 +1,6 @@
 package fr.com.jfish.jfgnbody.nbody.entities;
 
+import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.Collection;
 
@@ -37,9 +38,15 @@ abstract class AbstractBody {
 
     /**
      * @param q
-     * @return does Quaddrant contain this ?
+     * @return does Quadrant contain this ?
      */
     public abstract boolean in(final Quadrant q);
+    
+    /**
+     * @param bhtcube
+     * @return does BHTCube contain this ?
+     */
+    public abstract boolean in(final BHTCube bhtcube);
       
     /**
      * @param a
@@ -98,5 +105,10 @@ abstract class AbstractBody {
      * @return Body's graphical Y position for drawing purposes.
      */
     public abstract int getGraphicY();
+    
+    /**
+     * @return Body's graphical Z position for drawing purposes.
+     */
+    public abstract int getGraphicZ();
     
 }

@@ -2,8 +2,8 @@ package fr.com.jfish.jfgnbody.nbody.force;
 
 import fr.com.jfish.jfgnbody.interfaces.NBodyForceComputable;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
+import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
-import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import java.util.HashMap;
 
 /**
@@ -17,7 +17,7 @@ public class BruteForceUpdater implements NBodyForceComputable {
     private final HashMap<Integer, Body> mb = new HashMap<>();
 
     @Override
-    public void addForces(final int w, final int h, final Quadrant q, final NbodyCollection m) {
+    public void addForces(final int w, final int h, final BHTCube bhtcube, final NbodyCollection m) {
 
         int i = 0;
         while (m.perform(i)) {

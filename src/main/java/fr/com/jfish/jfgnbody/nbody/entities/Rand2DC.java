@@ -15,5 +15,10 @@ public class Rand2DC {
         this.py = py;
         this.pz = pz;
     }  
+    
+    @Override
+    public String toString() {
+        return String.format("x:%f y:%f, z:%f", px, py, pz);
+    }
        
 }

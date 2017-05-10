@@ -4,9 +4,11 @@ import fr.com.jfish.jfgnbody.gui.GUIDTO;
 import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.interfaces.NBodyForceComputable;
 import fr.com.jfish.jfgnbody.interfaces.Writable;
+import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
+import fr.com.jfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.force.BruteForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.space.SpatialArea;
@@ -55,12 +57,19 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
      * Global space quandrant.
      * // Previously new Quadrant(0, 0, 2 * 1e18)
      */
-    protected final Quadrant q = new Quadrant(.0d, .0d, .0d, 8 * NBodyConst.NBODY_MASS_CONST);
+    protected final Quadrant q = new Quadrant(.0d, .0d, 8 * NBodyConst.NBODY_MASS_CONST);
 
+    /**
+     * Global space BHTCube.
+     * // Previously new Quadrant(0, 0, 2 * 1e18)
+     */
+    protected final BHTCube bhtc = new BHTCube(.0d, .0d, .0d, 8 * NBodyConst.NBODY_MASS_CONST);
+    
     /**
      * Interface for updating forces.
      */
-    protected NBodyForceComputable fu = new BruteForceUpdater(); // new BHTreeForceUpdater();
+    //protected NBodyForceComputable fu = new BHTreeForceUpdater();
+    protected NBodyForceComputable fu = new BruteForceUpdater();
 
     /**
      * Data output writer.
@@ -104,8 +113,9 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
         NBodyDrawingHelper.draw((Graphics2D) g, nBodies, fu.getMbs().values());
 
         if (!GUIDTO.pause) {
+            
             NBodyData.iterationCount++;
-            fu.addForces(getWidth(), getHeight(), q, nBodies);
+            fu.addForces(getWidth(), getHeight(), bhtc, nBodies);
             cleanBodyCollection();            
             if (writer != null && GUIDTO.displayOutput) writer.appendData(
                 NBodyData.getFormattedData());

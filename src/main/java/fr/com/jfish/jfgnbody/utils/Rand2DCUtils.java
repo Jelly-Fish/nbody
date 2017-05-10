@@ -27,11 +27,12 @@ public class Rand2DCUtils {
         }
     }
     
-    public static Rand2DC[] build(final int n, Rand2DCUtils.Layout layout) {
+    public static Rand2DC[] build(final int n, final boolean neg, Rand2DCUtils.Layout layout) {
      
         switch(layout) {
             case FLAT:
-                return Rand2DCUtils.build(n, 3.0, 10000);
+                return neg ? Rand2DCUtils.buildNegPos(n, 3.0, 10000) : 
+                    Rand2DCUtils.build(n, 3.0, 10000);
             case STAR:
                 return Rand2DCUtils.build(n);
         }
@@ -90,13 +91,14 @@ public class Rand2DCUtils {
     }
     
     /**
-     * Random, flat layout.
+     * Random, flat layout. Builsd half N for positivie values, then half N for 
+     * negative values. Finnaly, shuffles all values.
      * @param n body count.
      * @param M maximum value / must be smaller than 3.0d / will define minimum value = -M.
      * @param factor random accruracy factor, must be > 100.
      * @return Rand2DC[] instance containing px, py & pz values.
      */
-    private static Rand2DC[] build(final int n, final double M, final int factor) {
+    private static Rand2DC[] buildNegPos(final int n, final double M, final int factor) {
         
         double[] xV = new double[n];
         double[] yV = new double[n];
@@ -120,11 +122,52 @@ public class Rand2DCUtils {
         shuffleArray(yV);
         shuffleArray(zV);
 
+        /*printArray("x", xV);
+        printArray("y", yV);
+        printArray("z", zV);*/
+        
         for (int i = 0; i < n; i++) {
             c[i] = new Rand2DC(xV[i], yV[i], zV[i]);
         }
         
         return c;
+    }
+    
+    /**
+     * Random, flat layout. Builsd all N with positivie values. 
+     * Finnaly, shuffles all values.
+     * @param n body count.
+     * @param M maximum value / must be smaller than 3.0d / will define minimum value = -M.
+     * @param factor random accruracy factor, must be > 100.
+     * @return Rand2DC[] instance containing px, py & pz values.
+     */
+    private static Rand2DC[] build(final int n, final double M, final int factor) {
+        
+        double[] xP = new double[n];
+        double[] yP = new double[n];
+        double[] zP = new double[n];
+        final Rand2DC[] c = new Rand2DC[n];
+        final int max = (int) M * factor;
+        
+        for (int i = 0; i < n; i++) {
+            xP[i] = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
+            yP[i] = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
+            zP[i] = NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-1.8) * (.5 - Math.random());
+        }
+        
+        shuffleArray(xP);
+        shuffleArray(yP);
+        shuffleArray(zP);
+        
+        for (int i = 0; i < n; i++) {
+            c[i] = new Rand2DC(xP[i], yP[i], zP[i]);
+        }
+        
+        return c;
+    }
+    
+    private static void printArray(final String c, double[] a) {
+        for (double d : a) System.out.println(String.format("%s: %f", c, d));
     }
     
     private static double randDouble(final int m, final int M) {

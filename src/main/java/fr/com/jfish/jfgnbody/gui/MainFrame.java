@@ -13,7 +13,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**
- *
  * @author thw
  */
 public class MainFrame extends javax.swing.JFrame {

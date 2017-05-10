@@ -16,11 +16,6 @@ public class Quadrant {
     public final double yM;
     
     /**
-     * y midddle point of this quadrant.
-     */
-    public final double zM;
-    
-    /**
      * Length of this quadrant.
      */
     public final double l;
@@ -36,14 +31,11 @@ public class Quadrant {
      * Constructor.
      * @param xM
      * @param yM
-     * @param zM
      * @param l 
      */
-    public Quadrant(final double xM, final double yM, final double zM, final double l) {
-        
+    public Quadrant(final double xM, final double yM, final double l) {        
         this.xM = xM;
         this.yM = yM;
-        this.zM = zM;
         this.l = l;
     }
     
@@ -51,10 +43,9 @@ public class Quadrant {
      * Does quadrant contains a point ?
      * @param x
      * @param y
-     * @param z
      * @return true if so.
      */
-    public boolean contains(final double x, final double y, final double z) {
+    public boolean contains(final double x, final double y) {
         return x <= xM + l / 2.0 && xM >= xM - l / 2.0 && y <= yM + l / 2.0 && y >= yM - l / 2.0;
     }
     
@@ -67,13 +58,13 @@ public class Quadrant {
         
         switch (c) {
             case NW:
-                return new Quadrant(xM - l / 4.0, yM + l / 4.0, .0d, l / 2.0);
+                return new Quadrant(xM - l / 4.0, yM + l / 4.0, l / 2.0);
             case NE:
-                return new Quadrant(xM + l / 4.0, yM + l / 4.0, .0d, l / 2.0);
+                return new Quadrant(xM + l / 4.0, yM + l / 4.0, l / 2.0);
             case SW:
-                return new Quadrant(xM - l / 4.0, yM - l / 4.0, .0d, l / 2.0);
+                return new Quadrant(xM - l / 4.0, yM - l / 4.0, l / 2.0);
             case SE:
-                return new Quadrant(xM + l / 4.0, yM - l / 4.0, .0d, l / 2.0);
+                return new Quadrant(xM + l / 4.0, yM - l / 4.0, l / 2.0);
             default:
                 return null;
         }

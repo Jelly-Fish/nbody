@@ -19,10 +19,15 @@ public class BodyGraphics {
     public int graphicX;
     
     /**
-     * Graphic X location for drawing.
+     * Graphic Y location for drawing.
      */
     public int graphicY;
 
+    /**
+     * Graphic Z location for drawing.
+     */
+    public int graphicZ;
+    
     /**
      * Color for drawing or painting purposes.
      */
@@ -38,14 +43,16 @@ public class BodyGraphics {
      * @param graphicSize
      * @param graphicX
      * @param graphicY
+     * @param graphicZ
      * @param color
      * @param key 
      */
     public BodyGraphics(final int graphicSize, final int graphicX, 
-            final int graphicY, final Color color, final int key) {
+            final int graphicY, final int graphicZ, final Color color, final int key) {
         this.graphicSize = graphicSize;
         this.graphicX = graphicX;
         this.graphicY = graphicY;
+        this.graphicZ = graphicZ;
         this.color = color;
         this.key = key;
     }

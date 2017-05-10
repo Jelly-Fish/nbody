@@ -16,114 +16,133 @@ public class BarnesHutTree {
     /**
      * square region that the tree represents.
      */
-    private final Quadrant quadrant;
+    private final BHTCube bhtcube;
     
-    // BarnerHut trees.
-    BarnesHutTree NW;
-    BarnesHutTree NE;
-    BarnesHutTree SW;
-    BarnesHutTree SE;
-
+    // BarnerHut 3D trees.
+    BarnesHutTree NWly;
+    BarnesHutTree NEly;
+    BarnesHutTree SWly;
+    BarnesHutTree SEly;
+    BarnesHutTree NWhy;
+    BarnesHutTree NEhy;
+    BarnesHutTree SWhy;
+    BarnesHutTree SEhy;   
+    
     /**
      * Create and initialize a new bhtree - Initially, all nodes are null and will be filled by recursion,
-     * each BHTree represents a quadrant and a body that represents all bodies inside the quadrant.
-     * @param q Quadrant
+     * each BHTree represents a bhtcube and a body that represents all bodies inside the bhtcube.
+     * @param bhtc BHTCube
      */
-    public BarnesHutTree(final Quadrant q) {
-        this.quadrant = q;
+    public BarnesHutTree(final BHTCube bhtc) {
+        this.bhtcube = bhtc;
         this.b = null;
-        this.NW = null;
-        this.NE = null;
-        this.SW = null;
-        this.SE = null;
+        this.NWly = null;
+        this.NEly = null;
+        this.SWly = null;
+        this.SEly = null;
+        this.NWhy = null;
+        this.NEhy = null;
+        this.SWhy = null;
+        this.SEhy = null;
     }
 
     /**
-     * If all nodes of the BHTree are null, then the quadrant represents a 
+     * If all nodes of the BHTree are null, then the bhtcube represents a 
      * single body and it is "external".
      * @param t
      * @return true if so.
      */
     public Boolean isExternal(final BarnesHutTree t) {
-        return t.NW == null && t.NE == null && t.SW == null && t.SE == null;
+        return t.NWly == null && t.NEly == null && t.SWly == null && t.SEly == null &&
+            t.NWhy == null && t.NEhy == null && t.SWhy == null && t.SEhy == null;
     }
-
+    
     /**
      * We have to populate the tree with bodies,
      * start at the current tree and recursively travel through the branches.
-     * 
+     * 3Dv.
      * Barnes–Hut simulation :
-     * @param b body.
+     * @param body body.
      */
-    public void insert(final Body b) {
+    public void insert(final Body body) {
+        
+        Body c = null;
+        boolean external = false;
         
         // If there's not a body there already, put the body there.
         if (this.b == null) {
-            this.b = b;
-        } else if (!this.isExternal(this)) {
+            this.b = body;
+        } else {
             
-            /**
-             * If there's already a body there, but it's not an external node,
-             * combine the two bodies and figure out which quadrant of the 
-             * tree it should be located in - then recursively update the 
-             * nodes below it.
-             */
+            external = this.isExternal(this);
             
-            this.b = b.add(this.b, b);            
-            final Quadrant nW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NW);                    
-            if (b.in(nW)) {                
-                if (this.NW == null) this.NW = new BarnesHutTree(nW);
-                NW.insert(b);
+            if (external) {
+                
+                /**
+                 * If there's already a body there, but it's not an external node,
+                 * combine the two bodies and figure out which bhtcube of the 
+                 * tree it should be located in - then recursively update the 
+                 * nodes below it.
+                 */                
+                this.b = body.add(this.b, body);
+                
             } else {
                 
-                final Quadrant nE = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NE);
-                if (b.in(nE)) {
-                    if (this.NE == null) this.NE = new BarnesHutTree(nE);
-                    NE.insert(b);
-                } else {
-                    final Quadrant sE = this.quadrant.getSubQuadrant(Quadrant.Cardinality.SE);
-                    if (b.in(sE)) {
-                        if (this.SE == null) this.SE = new BarnesHutTree(sE);
-                        SE.insert(b);
-                    } else {
-                        final Quadrant sW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.SW);
-                        if (this.SW == null) this.SW = new BarnesHutTree(sW);
-                        SW.insert(b);
-                    }
-                }
+                /**
+                 * If the node is external and contains another body, create BHTrees
+                 * where the bodies should go, update the node, and end (do not do anything recursively).
+                 */
+                c = this.b;
+                
             }
             
-        } else if (this.isExternal(this)) {
-            
-            /**
-             * If the node is external and contains another body, create BHTrees
-             * where the bodies should go, update the node, and end (do not do anything recursively).
-             */
-            
-            Body c = this.b;
-            final Quadrant nW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NW);
-            if (c.in(nW)) {
-                if (this.NW == null) this.NW = new BarnesHutTree(nW);
-                NW.insert(c);
-            } else {
-                final Quadrant nE = this.quadrant.getSubQuadrant(Quadrant.Cardinality.NE);
-                if (c.in(nE)) {
-                    if (this.NE == null) this.NE = new BarnesHutTree(nE);
-                    NE.insert(c);
+            final BHTCube nWly = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.NW_LOW_Y);                    
+            if (body.in(nWly)) {                
+                if (this.NWly == null) this.NWly = new BarnesHutTree(nWly);
+                NWly.insert(external ? c : body);
+            } else {                
+                final BHTCube nEly = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.NE_LOW_Y);
+                if (body.in(nEly)) {
+                    if (this.NEly == null) this.NEly = new BarnesHutTree(nEly);
+                    NEly.insert(external ? c : body);
                 } else {
-                    final Quadrant sE = this.quadrant.getSubQuadrant(Quadrant.Cardinality.SE);
-                    if (c.in(sE)) {
-                        if (this.SE == null) this.SE = new BarnesHutTree(sE);
-                        SE.insert(c);
+                    final BHTCube sEly = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.SE_LOW_Y);
+                    if (body.in(sEly)) {
+                        if (this.SEly == null) this.SEly = new BarnesHutTree(sEly);
+                        SEly.insert(external ? c : body);
                     } else {
-                        final Quadrant sW = this.quadrant.getSubQuadrant(Quadrant.Cardinality.SW);
-                        if (this.SW == null) this.SW = new BarnesHutTree(sW);
-                        SW.insert(c);
+                        final BHTCube sWly = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.SW_LOW_Y);                        
+                        if (body.in(sWly)) {
+                            if (this.SWly == null) this.SWly = new BarnesHutTree(sWly);
+                            SWly.insert(external ? c : body);
+                        } else {
+                            final BHTCube nWhy = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.NW_HIGH_Y);
+                            if (body.in(nWhy)) {
+                                if (this.NWhy == null) this.NWhy = new BarnesHutTree(nWhy);
+                                NWhy.insert(external ? c : body);
+                            } else {
+                                final BHTCube nEhy = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.NE_HIGH_Y);
+                                if (body.in(nEhy)) {
+                                    if (this.NEhy == null) this.NEhy = new BarnesHutTree(nEhy);
+                                    NEhy.insert(external ? c : body);
+                                } else {
+                                    final BHTCube sEhy = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.SE_HIGH_Y);
+                                    if (body.in(sEhy)) {
+                                        if (this.SEhy == null) this.SEhy = new BarnesHutTree(sEhy);
+                                        SEhy.insert(external ? c : body);
+                                    } else {
+                                        final BHTCube sWhy = this.bhtcube.getSubBHTCube(BHTCube.Cardinality.SW_HIGH_Y);
+                                        if (this.SWhy == null) this.SWhy = new BarnesHutTree(sWhy);
+                                        SWhy.insert(external ? c : body);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            }
+            }            
             
-            this.insert(b);
+            if (external) this.insert(body);
         }
     }
     
@@ -137,13 +156,17 @@ public class BarnesHutTree {
 
         if (this.isExternal(this)) {
             if (this.b != b) b.addForce(this.b);
-        } else if (this.quadrant.l / (this.b.distanceTo(b)) < 2) {
+        } else if (this.bhtcube.l / (this.b.distanceTo(b)) < 2) {
             b.addForce(this.b);
         } else {
-            if (this.NW != null) this.NW.updateForce(b);
-            if (this.SW != null) this.SW.updateForce(b);
-            if (this.SE != null) this.SE.updateForce(b);
-            if (this.NE != null) this.NE.updateForce(b);
+            if (this.NWly != null) this.NWly.updateForce(b);
+            if (this.SWly != null) this.SWly.updateForce(b);
+            if (this.SEly != null) this.SEly.updateForce(b);
+            if (this.NEly != null) this.NEly.updateForce(b);            
+            if (this.NWhy != null) this.NWhy.updateForce(b);
+            if (this.SWhy != null) this.SWhy.updateForce(b);
+            if (this.SEhy != null) this.SEhy.updateForce(b);
+            if (this.NEhy != null) this.NEhy.updateForce(b);
         }
     }
 
@@ -154,7 +177,7 @@ public class BarnesHutTree {
         
         if (this.isExternal(this)) {
             if (this.b != b) b.checkCollision(this.b);
-        } else if (this.quadrant.l / (this.b.distanceTo(b)) < 2) {
+        } else if (this.bhtcube.l / (this.b.distanceTo(b)) < 2) {
             b.checkCollision(this.b);
         }
     }
