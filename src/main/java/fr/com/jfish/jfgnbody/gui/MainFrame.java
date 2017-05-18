@@ -7,7 +7,7 @@ import fr.com.jfish.jfgnbody.nbody.force.BHTreeForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.force.BruteForceUpdater;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.space.SpatialArea;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -197,7 +197,7 @@ public class MainFrame extends javax.swing.JFrame {
         return this.nBodyPanel;
     }
     
-    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim, final Rand2DCUtils.Layout l) {
+    public void resetSimulation(final int n, final int iSpeed, final AbstractSimulation sim, final RandUtils.Layout l) {
         this.nBodyPanel.restart(n, iSpeed, sim, l);
     }
      

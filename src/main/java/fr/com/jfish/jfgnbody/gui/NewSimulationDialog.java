@@ -4,7 +4,7 @@ import fr.com.jfish.jfgnbody.interfaces.Writable;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodySimulations;
 import fr.com.jfish.jfgnbody.nbody.simulations.*;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner.DefaultEditor;
 
@@ -27,7 +27,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
         this.simulationComboBox.setModel(new DefaultComboBoxModel(NBodySimulations.sims));
         this.simulationComboBox.setEditable(false);
         this.simulationComboBox.setSelectedIndex(0);
-        this.randStyleComboBox.setModel(new DefaultComboBoxModel<>(Rand2DCUtils.Layout.values()));
+        this.randStyleComboBox.setModel(new DefaultComboBoxModel<>(RandUtils.Layout.values()));
         this.randStyleComboBox.setSelectedIndex(0);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -191,7 +191,7 @@ public class NewSimulationDialog extends javax.swing.JDialog {
                 new NbodyCollection((int) this.nbodyCountSpinner.getValue()));
         sim.start(((MainFrame) this.getParent()).getnBodyPanel(), (int) this.nbodyCountSpinner.getValue(),
             ((MainFrame) this.getParent()).getnBodyPanel().getNCollection(), 
-            (Rand2DCUtils.Layout) this.randStyleComboBox.getItemAt(this.randStyleComboBox.getSelectedIndex()));
+            (RandUtils.Layout) this.randStyleComboBox.getItemAt(this.randStyleComboBox.getSelectedIndex()));
 
         this.setVisible(false);
         final Writable w = ((MainFrame) this.getParent()).getnBodyPanel().getWriter();

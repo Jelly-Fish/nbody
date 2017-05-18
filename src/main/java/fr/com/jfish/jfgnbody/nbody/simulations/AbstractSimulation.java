@@ -2,7 +2,7 @@ package fr.com.jfish.jfgnbody.nbody.simulations;
 
 import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 
 /**
  *
@@ -24,6 +24,6 @@ public abstract class AbstractSimulation {
      * @param l random layout style.
      */
     public abstract void start(final NBodyDrawable n, final int N, final NbodyCollection nBody,
-        final Rand2DCUtils.Layout l);
+        final RandUtils.Layout l);
     
 }

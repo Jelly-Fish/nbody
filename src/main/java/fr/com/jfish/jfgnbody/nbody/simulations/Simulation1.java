@@ -4,9 +4,9 @@ import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
-import fr.com.jfish.jfgnbody.nbody.entities.Rand2DC;
+import fr.com.jfish.jfgnbody.nbody.entities.Rand3DC;
 import fr.com.jfish.jfgnbody.nbody.entities.SupermassiveStaticBody;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import fr.com.jfish.jfgnbody.utils.SimulationGenerationUtils;
 
 /**
@@ -18,10 +18,10 @@ public class Simulation1 extends AbstractSimulation {
   
     @Override
     public void start(final NBodyDrawable n, final int N, final NbodyCollection m, 
-            final Rand2DCUtils.Layout l) {
+            final RandUtils.Layout l) {
 
         double magv, absangle, thetav, phiv, vx, vy, vz, mass;
-        final Rand2DC[] pos = Rand2DCUtils.build(N, false, l);
+        final Rand3DC[] pos = RandUtils.build(N, false, l);
 
         /**
          * Put a supermassive body in the center - SupermassiveBody instances
@@ -41,7 +41,7 @@ public class Simulation1 extends AbstractSimulation {
             phiv = Math.random() * Math.PI;
             vx = -1 * Math.signum(pos[i].py) * Math.cos(thetav) * magv;
             vy = Math.signum(pos[i].px) * Math.sin(thetav) * magv;
-            vz = Math.signum(pos[i].pz) * Math.sin(thetav) * magv;
+            vz = RandUtils.randDouble(10); // Math.signum(pos[i].pz) * Math.sin(thetav) * magv;
             
             mass = Math.random() * NBodyConst.SOLARMASS;
             
@@ -49,7 +49,7 @@ public class Simulation1 extends AbstractSimulation {
              * To obtain clockwise and counter-clockwise velocities,
              * use Rand2DCUtils.randBool(). Here, all bodies will spin clockwise.
              */
-            m.add(new Body(i, pos[i].px, pos[i].py, pos[i].pz, vx, vy, vz, mass, 
+            m.add(new Body(i, pos[i].px, pos[i].py, RandUtils.randDouble(10), vx, vy, vz, mass, 
                 NBodyConst.BODY_COLOR, false));
         }
     }

@@ -1,14 +1,14 @@
 package fr.com.jfish.jfgnbody.utils;
 
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
-import fr.com.jfish.jfgnbody.nbody.entities.Rand2DC;
+import fr.com.jfish.jfgnbody.nbody.entities.Rand3DC;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author thw
  */
-public class Rand2DCUtils {
+public class RandUtils {
     
     public static enum Layout {
         
@@ -27,14 +27,18 @@ public class Rand2DCUtils {
         }
     }
     
-    public static Rand2DC[] build(final int n, final boolean neg, Rand2DCUtils.Layout layout) {
+    public static double randDouble(final double factor) {
+        return Math.random() * factor;
+    }
+    
+    public static Rand3DC[] build(final int n, final boolean neg, RandUtils.Layout layout) {
      
         switch(layout) {
             case FLAT:
-                return neg ? Rand2DCUtils.buildNegPos(n, 3.0, 10000) : 
-                    Rand2DCUtils.build(n, 3.0, 10000);
+                return neg ? RandUtils.buildNegPos(n, 3.0, 10000) : 
+                    RandUtils.build(n, 3.0, 10000);
             case STAR:
-                return Rand2DCUtils.build(n);
+                return RandUtils.build(n);
         }
         
         throw new UnsupportedOperationException();
@@ -49,9 +53,9 @@ public class Rand2DCUtils {
      * @param n
      * @return Rand2DC[] instance containing px & py values.
      */
-    private static Rand2DC[] build(final int n) {
+    private static Rand3DC[] build(final int n) {
         
-        final Rand2DC[] c = new Rand2DC[n];
+        final Rand3DC[] c = new Rand3DC[n];
         double[] fX = new double[n];
         double[] fY = new double[n];
         double[] fZ = new double[n];
@@ -62,23 +66,23 @@ public class Rand2DCUtils {
         
         for (int i = 0; i < n; i++) {
         
-            fX[i] = (Rand2DCUtils.randDouble(fFactm, fFactM) / fFactM) - (Rand2DCUtils.randDouble(1, 10000) / 10000);
-            fY[i] = (Rand2DCUtils.randDouble(fFactm, fFactM) / fFactM) - (Rand2DCUtils.randDouble(1, 10000) / 10000);
-            fZ[i] = (Rand2DCUtils.randDouble(fFactm, fFactM) / fFactM) - (Rand2DCUtils.randDouble(1, 10000) / 10000);
-            expX[i] = Rand2DCUtils.randDouble(expFactm, expFactM) / 10;
-            expY[i] = Rand2DCUtils.randDouble(expFactm, expFactM) / 10;
-            expZ[i] = Rand2DCUtils.randDouble(expFactm, expFactM) / 10;
+            fX[i] = (RandUtils.randDouble(fFactm, fFactM) / fFactM) - (RandUtils.randDouble(1, 10000) / 10000);
+            fY[i] = (RandUtils.randDouble(fFactm, fFactM) / fFactM) - (RandUtils.randDouble(1, 10000) / 10000);
+            fZ[i] = (RandUtils.randDouble(fFactm, fFactM) / fFactM) - (RandUtils.randDouble(1, 10000) / 10000);
+            expX[i] = RandUtils.randDouble(expFactm, expFactM) / 10;
+            expY[i] = RandUtils.randDouble(expFactm, expFactM) / 10;
+            expZ[i] = RandUtils.randDouble(expFactm, expFactM) / 10;
         }
 
-        Rand2DCUtils.shuffleArray(fX);
-        Rand2DCUtils.shuffleArray(fY);
-        Rand2DCUtils.shuffleArray(fZ);
-        Rand2DCUtils.shuffleArray(expX);
-        Rand2DCUtils.shuffleArray(expY);
-        Rand2DCUtils.shuffleArray(expZ);
+        RandUtils.shuffleArray(fX);
+        RandUtils.shuffleArray(fY);
+        RandUtils.shuffleArray(fZ);
+        RandUtils.shuffleArray(expX);
+        RandUtils.shuffleArray(expY);
+        RandUtils.shuffleArray(expZ);
 
         for (int i = 0; i < n; i++) {
-            c[i] = new Rand2DC(
+            c[i] = new Rand3DC(
                 NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-expX[i]) * fX[i], 
                 NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-expY[i]) * fY[i],
                 NBodyConst.NBODY_MASS_CONST * SimulationGenerationUtils.exp(-expZ[i]) * fZ[i]);
@@ -98,24 +102,24 @@ public class Rand2DCUtils {
      * @param factor random accruracy factor, must be > 100.
      * @return Rand2DC[] instance containing px, py & pz values.
      */
-    private static Rand2DC[] buildNegPos(final int n, final double M, final int factor) {
+    private static Rand3DC[] buildNegPos(final int n, final double M, final int factor) {
         
         double[] xV = new double[n];
         double[] yV = new double[n];
         double[] zV = new double[n];
-        final Rand2DC[] c = new Rand2DC[n];
+        final Rand3DC[] c = new Rand3DC[n];
         final int max = (int) M * factor;
         
         for (int i = 0; i < n / 2; i++) {
-            xV[i] = (Rand2DCUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
-            yV[i] = (Rand2DCUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
-            zV[i] = (Rand2DCUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
+            xV[i] = (RandUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
+            yV[i] = (RandUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
+            zV[i] = (RandUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
         }
         
         for (int i = n / 2; i < n; i++) {
-            xV[i] = -(Rand2DCUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
-            yV[i] = -(Rand2DCUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
-            zV[i] = -(Rand2DCUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
+            xV[i] = -(RandUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
+            yV[i] = -(RandUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
+            zV[i] = -(RandUtils.randDouble(1, max) / factor) * NBodyConst.NBODY_MASS_CONST;
         }
         
         shuffleArray(xV);
@@ -127,7 +131,7 @@ public class Rand2DCUtils {
         printArray("z", zV);*/
         
         for (int i = 0; i < n; i++) {
-            c[i] = new Rand2DC(xV[i], yV[i], zV[i]);
+            c[i] = new Rand3DC(xV[i], yV[i], zV[i]);
         }
         
         return c;
@@ -141,12 +145,12 @@ public class Rand2DCUtils {
      * @param factor random accruracy factor, must be > 100.
      * @return Rand2DC[] instance containing px, py & pz values.
      */
-    private static Rand2DC[] build(final int n, final double M, final int factor) {
+    private static Rand3DC[] build(final int n, final double M, final int factor) {
         
         double[] xP = new double[n];
         double[] yP = new double[n];
         double[] zP = new double[n];
-        final Rand2DC[] c = new Rand2DC[n];
+        final Rand3DC[] c = new Rand3DC[n];
         final int max = (int) M * factor;
         
         for (int i = 0; i < n; i++) {
@@ -160,7 +164,7 @@ public class Rand2DCUtils {
         shuffleArray(zP);
         
         for (int i = 0; i < n; i++) {
-            c[i] = new Rand2DC(xP[i], yP[i], zP[i]);
+            c[i] = new Rand3DC(xP[i], yP[i], zP[i]);
         }
         
         return c;

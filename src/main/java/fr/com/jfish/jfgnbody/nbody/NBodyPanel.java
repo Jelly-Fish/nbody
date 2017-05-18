@@ -8,11 +8,10 @@ import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.entities.Body;
-import fr.com.jfish.jfgnbody.nbody.force.BHTreeForceUpdater;
-import fr.com.jfish.jfgnbody.nbody.force.BruteForceUpdater;
+import fr.com.jfish.jfgnbody.nbody.force.*;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.space.SpatialArea;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
@@ -152,7 +151,7 @@ public class NBodyPanel extends javax.swing.JPanel implements ComponentListener,
     }
 
     @Override
-    public void restart(int n, int iSpeed, final AbstractSimulation sim, final Rand2DCUtils.Layout l) {
+    public void restart(int n, int iSpeed, final AbstractSimulation sim, final RandUtils.Layout l) {
         NBodyData.bodyCount = 0;
         NBodyData.iterationCount = 0;
         NBodyData.superMassiveBodyMass = 0.0;

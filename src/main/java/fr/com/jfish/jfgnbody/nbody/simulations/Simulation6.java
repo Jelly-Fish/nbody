@@ -4,7 +4,7 @@ import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
 import fr.com.jfish.jfgnbody.nbody.entities.MassiveBody;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import java.awt.Color;
 
 /**
@@ -39,7 +39,7 @@ public class Simulation6  extends AbstractSimulation {
     }
 
     @Override
-    public void start(final NBodyDrawable n, final int N, final NbodyCollection m, final Rand2DCUtils.Layout l) {
+    public void start(final NBodyDrawable n, final int N, final NbodyCollection m, final RandUtils.Layout l) {
         
         new Simulation1().start(n, N - 2, m, l);
         int k = n.getForceUpdater().getMbs().size();

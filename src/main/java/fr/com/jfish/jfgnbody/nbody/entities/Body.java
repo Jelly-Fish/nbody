@@ -164,16 +164,17 @@ public class Body extends AbstractBody {
             ry += -(dt * vy);
             rz += -(dt * vz);
         } else {            
-            vx += dt * fx / mass;
-            vy += dt * fy / mass;
+            vx += (dt * fx / mass);
+            vy += (dt * fy / mass);
             vz += (dt * fz / mass);
-            rx += dt * vx;
-            ry += dt * vy;
+            rx += (dt * vx);
+            ry += (dt * vy);
             rz += (dt * vz);
         }
         
         this.graphics.graphicX = this.getGraphicX();
         this.graphics.graphicY = this.getGraphicY();
+        this.graphics.graphicZ = this.getGraphicZ();
     }
 
     @Override
@@ -242,6 +243,7 @@ public class Body extends AbstractBody {
     public boolean isOutOfBounds(final int width, final int height) {        
         final int bx = this.getGraphicX();
         final int by = this.getGraphicY();
+        final int bz = this.getGraphicZ();
         return bx + (width / 2) < 0 || bx + (width / 2) > width || 
                 by + (height / 2) < 0 || by + (height / 2) > height;
     }
@@ -280,6 +282,11 @@ public class Body extends AbstractBody {
     @Override
     public String toString() {
         return String.format(">> [key°%d] x:%f y:%f z:%f mass:%f", this.key, this.vx, this.vy, this.vz, this.mass);
+    }
+    
+    public String toGraphicsString() {
+        return String.format(">> gx:%d gy:%d gz:%d", this.graphics.graphicX, 
+            this.graphics.graphicY, this.graphics.graphicZ);
     }
     //</editor-fold>
     

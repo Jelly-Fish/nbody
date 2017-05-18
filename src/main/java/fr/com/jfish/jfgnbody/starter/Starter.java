@@ -36,7 +36,7 @@ import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.nbody.*;
 import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
 import fr.com.jfish.jfgnbody.nbody.simulations.Simulation1;
-import fr.com.jfish.jfgnbody.utils.Rand2DCUtils;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -64,13 +64,13 @@ public class Starter {
         
         final int n = 4000;
         final NBodyDrawable nB = new NBodyPanel(n, 10, new Simulation1());
-        nB.getSim().start(nB, n, ((NBodyPanel) nB).nBodies, Rand2DCUtils.Layout.FLAT);
+        nB.getSim().start(nB, n, ((NBodyPanel) nB).nBodies, RandUtils.Layout.FLAT);
         new MainFrame(nB);
     }
     
     public static void start(final MainFrame mainFrame, final int n, final int iSpeed, 
             final AbstractSimulation sim) {
-        mainFrame.resetSimulation(n, iSpeed, sim, Rand2DCUtils.Layout.FLAT);
+        mainFrame.resetSimulation(n, iSpeed, sim, RandUtils.Layout.FLAT);
     }
     
 }
