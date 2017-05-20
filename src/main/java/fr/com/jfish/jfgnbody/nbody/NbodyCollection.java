@@ -38,7 +38,6 @@ public class NbodyCollection<E extends Body> {
     }
 
     public boolean perform(final int i) {
-        //if (i < c.length && c[i] != null) System.out.println(c[i].toString());
         return i < c.length && c[i] != null;
     }
     

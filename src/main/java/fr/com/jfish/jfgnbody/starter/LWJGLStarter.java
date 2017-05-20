@@ -13,7 +13,8 @@ public class LWJGLStarter {
      */
     public static void main(String[] args) {
         
-        new NBodyLWJGL3();
+        final int n = 20;
+        final NBodyLWJGL3 nb = new NBodyLWJGL3();
     }
     
 }
