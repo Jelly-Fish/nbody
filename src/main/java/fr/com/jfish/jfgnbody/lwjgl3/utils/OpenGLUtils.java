@@ -1,4 +1,4 @@
-package fr.com.jfish.jfgnbody.lwjgl3;
+package fr.com.jfish.jfgnbody.lwjgl3.utils;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryUtil.memUTF8;

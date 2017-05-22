@@ -1,4 +1,4 @@
-package fr.com.jfish.jfgnbody.lwjgl3;
+package fr.com.jfish.jfgnbody.lwjgl3.utils;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

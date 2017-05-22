@@ -1,4 +1,4 @@
-package fr.com.jfish.jfgnbody.lwjgl3;
+package fr.com.jfish.jfgnbody.lwjgl3.assets;
 
 import fr.com.jfish.jfgnbody.lwjgl3.maths.Vector3f;
 

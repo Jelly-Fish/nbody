@@ -1,4 +1,4 @@
-package fr.com.jfish.jfgnbody.lwjgl3;
+package fr.com.jfish.jfgnbody.lwjgl3.utils;
 
 import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
 import static org.lwjgl.opengl.GL20.glAttachShader;

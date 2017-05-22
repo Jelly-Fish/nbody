@@ -1,4 +1,4 @@
-package fr.com.jfish.jfgnbody.lwjgl3;
+package fr.com.jfish.jfgnbody.lwjgl3.constants;
 
 /**
  * @author thw

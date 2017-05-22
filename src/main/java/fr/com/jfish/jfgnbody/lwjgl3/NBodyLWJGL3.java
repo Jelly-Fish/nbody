@@ -1,5 +1,8 @@
 package fr.com.jfish.jfgnbody.lwjgl3;
 
+import fr.com.jfish.jfgnbody.lwjgl3.constants.FrameVars;
+import fr.com.jfish.jfgnbody.lwjgl3.assets.Light;
+import fr.com.jfish.jfgnbody.lwjgl3.factory.LightFactory;
 import fr.com.jfish.jfgnbody.lwjgl3.maths.Vector3f;
 import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
 import java.io.BufferedReader;
@@ -38,24 +41,18 @@ import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.nglfwGetFramebufferSize;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.GL_ALWAYS;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_EQUAL;
 import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL11.GL_KEEP;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_ONE;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_REPLACE;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_STENCIL_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
-import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -63,10 +60,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glColorMask;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glStencilFunc;
 import static org.lwjgl.opengl.GL11.glStencilOp;
@@ -93,7 +87,6 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.system.MemoryUtil.memAddress;
 
 /**
- *
  * @author thw
  */
 public class NBodyLWJGL3 {
@@ -111,8 +104,7 @@ public class NBodyLWJGL3 {
     private float preTime;
 
     public NBodyLWJGL3() {
-        this.lights = new ArrayList<>();
-        this.initLightsMock(10);
+        this.lights = new LightFactory().mock(10);
         this.run();
     }
     
@@ -138,9 +130,6 @@ public class NBodyLWJGL3 {
             glUseProgram(prog);
             
             glUniform2f(glGetUniformLocation(prog, "lightLocation"), l.location.x, height - l.location.y);
-            //glUniform3f(glGetUniformLocation(prog, "lightLocation"), l.location.x, 
-            //    l.location.y, l.location.z);
-            
             glUniform3f(glGetUniformLocation(prog, "lightColor"), l.red, l.green, l.blue);
             glEnable(GL_BLEND);
             glBlendFunc(GL_ONE, GL_ONE);
@@ -185,8 +174,6 @@ public class NBodyLWJGL3 {
             glfwPollEvents();
             glViewport(-FrameVars.V_WIDTH, -FrameVars.V_HEIGHT, 
                 FrameVars.ADD_VIEWPORT_WIDTH, FrameVars.ADD_VIEWPORT_HEIGHT);
-            //glViewport(0, 0, width, height);
-
             thisTime = System.nanoTime();
             dt = (thisTime - this.preTime) / 1E9f;
             preTime = thisTime;
@@ -203,21 +190,16 @@ public class NBodyLWJGL3 {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
         glfwWindowHint(GLFW_SAMPLES, 4);
 
-        //window = glfwCreateWindow(FrameVars.V_WIDTH, FrameVars.V_HEIGHT, "nbody", 0L, NULL);
-        window = glfwCreateWindow(width, height, "nbody", 0L, NULL);
+        window = glfwCreateWindow(FrameVars.V_WIDTH, FrameVars.V_HEIGHT, "nbody", 0L, NULL);
         if (window == NULL) {
             throw new AssertionError("Failed to create the GLFW window");
         }
 
-        // Primary monitor resolution :
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        // Setup window :
         glfwSetWindowPos(
             window,
             (vidmode.width() - FrameVars.V_WIDTH) / 2,
             (vidmode.height() - FrameVars.V_HEIGHT) / 2
-            //(vidmode.width() - width) / 2,
-            //(vidmode.height() - height) / 2
         );
         
         glfwSetCursor(window, glfwCreateStandardCursor(GLFW_HAND_CURSOR));
@@ -235,13 +217,10 @@ public class NBodyLWJGL3 {
         }
 
         this.debugProc = GLUtil.setupDebugMessageCallback();
-        //this.prog = this.createProg();
         this.createProgs();
-        
-        //glEnableClientState(GL_VERTEX_ARRAY);
-        //glEnable(GL_DEPTH_TEST);
-        //glEnable(GL_CULL_FACE);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+        glEnable(GL_CULL_FACE);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     }
     
     private void createProgs() {
@@ -269,27 +248,9 @@ public class NBodyLWJGL3 {
         glAttachShader(this.prog, this.fragShader);
         glLinkProgram(this.prog);
         glValidateProgram(this.prog);
-        
-        /*glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        //glOrtho(0, width, height, 0, 1, -1);
-        glMatrixMode(GL_MODELVIEW);
-        glEnable(GL_STENCIL_TEST);*/
-        glOrtho(0, width, height, 0, 1, -1);
+
+        glOrtho(0, FrameVars.V_WIDTH, FrameVars.V_HEIGHT, 0, 1, -1);
         glClearColor(0, 0, 0, 0);
-    }
-    
-    private int createProg() throws IOException {
-        
-        final int fragshd = ShaderUtils.createShader("shader.frag", GL_FRAGMENT_SHADER);
-        final int prg = ProgUtils.createProgram(fragshd);
-        glUseProgram(prg);
-        /*default_viewUniform = glGetUniformLocation(prog, "view");
-        default_projUniform = glGetUniformLocation(prog, "proj");
-        default_modelUniform = glGetUniformLocation(prog, "model");*/
-        glUseProgram(0); 
-        
-        return prog;
     }
     
     private void initLights() {
@@ -310,20 +271,5 @@ public class NBodyLWJGL3 {
             ++i;
         }
     }    
-    
-    private void initLightsMock(final int n) {
-        
-        Vector3f pos;
-        for (int i = 0; i < n; i++) {
-            pos = new Vector3f(
-                (float) Math.random() * width, (float) Math.random() * height,
-                    (float) Math.random() * height
-                // (float) Math.random(), (float) Math.random(), (float) Math.random()
-            );
-            
-            lights.add(new Light(pos, 
-                (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10));
-        }        
-    }
     
 }
