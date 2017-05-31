@@ -1,10 +1,12 @@
 package fr.com.jfish.jfgnbody.lwjgl3;
 
+import fr.com.jfish.jfgnbody.interfaces.NBodyDrawable;
 import fr.com.jfish.jfgnbody.lwjgl3.constants.FrameVars;
 import fr.com.jfish.jfgnbody.lwjgl3.assets.Light;
 import fr.com.jfish.jfgnbody.lwjgl3.factory.LightFactory;
-import fr.com.jfish.jfgnbody.lwjgl3.maths.Vector3f;
-import fr.com.jfish.jfgnbody.nbody.NbodyCollection;
+import fr.com.jfish.jfgnbody.nbody.entities.Body;
+import fr.com.jfish.jfgnbody.nbody.simulations.AbstractSimulation;
+import fr.com.jfish.jfgnbody.utils.RandUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -76,6 +78,7 @@ import static org.lwjgl.opengl.GL20.glGetShaderi;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 import static org.lwjgl.opengl.GL20.glUseProgram;
@@ -98,20 +101,19 @@ public class NBodyLWJGL3 {
     private long window;
     private GLCapabilities glCapabilities;
     private Callback debugProc;
-    private final ArrayList<Light> lights;
-    public NbodyCollection nBodies;
+    private final NBodyDrawable nbodyDrawable;
     private float dt;
     private float preTime;
 
-    public NBodyLWJGL3() {
-        this.lights = new LightFactory().mock(10);
-        this.run();
-    }
-    
-    public NBodyLWJGL3(final int n) {
-        this.lights = new ArrayList<>();
-        this.nBodies = new NbodyCollection(n);
-        this.initLights();
+    public NBodyLWJGL3(final int n, final double iterationSpeed, final AbstractSimulation sim) {
+        
+        this.nbodyDrawable = new NBodyLWJGLHelper(n, iterationSpeed, sim);        
+        sim.start(
+            this.nbodyDrawable, n, 
+            ((NBodyLWJGLHelper) this.nbodyDrawable).nBodies, 
+            RandUtils.Layout.FLAT
+        );        
+        new LightFactory().mockLightToBody(n, ((NBodyLWJGLHelper) this.nbodyDrawable).nBodies);
         this.run();
     }
     
@@ -119,7 +121,11 @@ public class NBodyLWJGL3 {
         
         glClear(GL_COLOR_BUFFER_BIT);
         
-        for (Light l : this.lights) {
+        for (Body b : nbodyDrawable.getNCollection().c) {
+            
+            if (b == null || b.isSwallowed() || b.isOutOfBounds(width, height)) {
+                continue;
+            }
             
             glColorMask(false, false, false, false);
             glStencilFunc(GL_ALWAYS, 1, 1);
@@ -128,9 +134,15 @@ public class NBodyLWJGL3 {
             glStencilFunc(GL_EQUAL, 0, 1);
             glColorMask(true, true, true, true);
             glUseProgram(prog);
-            
-            glUniform2f(glGetUniformLocation(prog, "lightLocation"), l.location.x, height - l.location.y);
-            glUniform3f(glGetUniformLocation(prog, "lightColor"), l.red, l.green, l.blue);
+
+            glUniform2f(glGetUniformLocation(prog, "lightLocation"), 
+                (float) (b.getOpenGLX(FrameVars.V_WIDTH)), 
+                (float) (b.getOpenGLY(FrameVars.V_HEIGHT))
+            );
+            glUniform3f(glGetUniformLocation(prog, "lightColor"), 
+                b.getLight().red, b.getLight().green, b.getLight().blue);
+            glUniform1f(glGetUniformLocation(prog, "mass"), 
+                b.isSuperMassiveStatic() ? 0.7f : 10f);
             glEnable(GL_BLEND);
             glBlendFunc(GL_ONE, GL_ONE);
             
@@ -147,6 +159,7 @@ public class NBodyLWJGL3 {
             glUseProgram(0);
             glClear(GL_STENCIL_BUFFER_BIT);
         }
+        
     }
     
     private void run() {
@@ -177,6 +190,7 @@ public class NBodyLWJGL3 {
             thisTime = System.nanoTime();
             dt = (thisTime - this.preTime) / 1E9f;
             preTime = thisTime;
+            nbodyDrawable.performPaint();
             render();
             glfwSwapBuffers(window);
         }
@@ -252,24 +266,5 @@ public class NBodyLWJGL3 {
         glOrtho(0, FrameVars.V_WIDTH, FrameVars.V_HEIGHT, 0, 1, -1);
         glClearColor(0, 0, 0, 0);
     }
-    
-    private void initLights() {
-        
-        int i = 0;
-        Vector3f pos;
-        while(this.nBodies.perform(i)) {
-            
-            pos = new Vector3f(
-                this.nBodies.c[i].graphics.graphicX, 
-                this.nBodies.c[i].graphics.graphicY,
-                this.nBodies.c[i].graphics.graphicZ
-            );
-                        
-            lights.add(new Light(pos, 
-                (float) Math.random() * 10, (float) Math.random() * 10, (float) Math.random() * 10));
-            
-            ++i;
-        }
-    }    
     
 }

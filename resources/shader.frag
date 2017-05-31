@@ -1,11 +1,10 @@
-// uniform vec3 lightLocation;
 uniform vec2 lightLocation;
 uniform vec3 lightColor;
-uniform float screenHeight;
+uniform float mass;
+
 void main() {
-// float distance = length(lightLocation - gl_FragCoord.xyz);
-float distance = length(lightLocation - gl_FragCoord.xy);
-float attenuation = 1.0 / distance;
-vec4 color = vec4(attenuation, attenuation, attenuation, pow(attenuation, 3)) * vec4(lightColor, 1);
-gl_FragColor = color;
+  float distance = length(lightLocation - gl_FragCoord.xy);
+  float attenuation = 1.0 / (distance * mass);
+  vec4 color = vec4(attenuation, attenuation, attenuation, pow(attenuation, 3)) * vec4(lightColor, 1);
+  gl_FragColor = color;
 }

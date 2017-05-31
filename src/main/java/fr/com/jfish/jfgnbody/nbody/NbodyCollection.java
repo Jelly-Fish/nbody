@@ -48,7 +48,6 @@ public class NbodyCollection<E extends Body> {
             final Random rand = ThreadLocalRandom.current();
             for (int i = c.length - 1; i > 0; i--) {
                 int index = rand.nextInt(i + 1);
-                // Simple swap :
                 Body a = c[index];
                 c[index] = c[i];
                 c[i] = a;

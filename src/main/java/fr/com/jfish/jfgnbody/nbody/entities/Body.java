@@ -1,5 +1,6 @@
 package fr.com.jfish.jfgnbody.nbody.entities;
 
+import fr.com.jfish.jfgnbody.lwjgl3.assets.Light;
 import fr.com.jfish.jfgnbody.nbody.barneshut.BHTCube;
 import fr.com.jfish.jfgnbody.nbody.barneshut.Quadrant;
 import fr.com.jfish.jfgnbody.nbody.constants.NBodyConst;
@@ -15,6 +16,11 @@ import java.util.Collection;
 public class Body extends AbstractBody {
 
     //<editor-fold defaultstate="collapsed" desc="vars">
+    /**
+     * OpenGL light component.
+     */
+    protected Light light = null;
+    
     /**
      * gravitational constant. (6.673 * 10)^-11
      */
@@ -151,6 +157,19 @@ public class Body extends AbstractBody {
         this.negate = negate ? -1 : 1;
     }
     //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="methods">
+    public boolean isOutOfOpenGLBounds(final int width, final int height, final int depth) {        
+        
+        // FIXME : not accurate with Frame Widht/Height.
+        
+        final int bx = this.getOpenGLX(width);
+        final int by = this.getOpenGLY(height);
+        //final int bz = this.getOpenGLZ(depth);
+        // FIXME : consider z/depth.
+        return bx < 0 || bx > width || by < 0 || by > height;
+    }
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="overriden methods">
     @Override
@@ -171,7 +190,7 @@ public class Body extends AbstractBody {
             ry += (dt * vy);
             rz += (dt * vz);
         }
-        
+
         this.graphics.graphicX = this.getGraphicX();
         this.graphics.graphicY = this.getGraphicY();
         this.graphics.graphicZ = this.getGraphicZ();
@@ -238,7 +257,7 @@ public class Body extends AbstractBody {
     public void checkCollision(final Body[] bList) {        
         for (Body b : bList) this.checkCollision(b);
     }
-
+    
     @Override
     public boolean isOutOfBounds(final int width, final int height) {        
         final int bx = this.getGraphicX();
@@ -246,6 +265,21 @@ public class Body extends AbstractBody {
         final int bz = this.getGraphicZ();
         return bx + (width / 2) < 0 || bx + (width / 2) > width || 
                 by + (height / 2) < 0 || by + (height / 2) > height;
+    }
+    
+    @Override
+    public final int getOpenGLX(final int windowWidth) {
+        return windowWidth / 2 + (int) Math.round(this.rx * 250 / NBodyConst.NBODY_MASS_CONST);
+    }
+
+    @Override
+    public final int getOpenGLY(final int windowHeight) {
+        return windowHeight / 2 + (int) Math.round(this.ry * 250 / NBodyConst.NBODY_MASS_CONST);
+    }
+
+    @Override
+    public final int getOpenGLZ(final int windowDepth) {
+        return windowDepth / 2 + (int) Math.round(this.rz * 250 / NBodyConst.NBODY_MASS_CONST);
     }
     
     @Override
@@ -297,6 +331,14 @@ public class Body extends AbstractBody {
 
     public void setSwallowed(final boolean swallowed) {
         this.swallowed = swallowed;
+    }
+    
+    public Light getLight() {
+        return this.light;
+    }
+    
+    public void setLight(final Light light) {
+        this.light = light;
     }
     //</editor-fold>
 

@@ -111,4 +111,19 @@ abstract class AbstractBody {
      */
     public abstract int getGraphicZ();
     
+    /**
+     * @return Open GL x.
+     */
+    public abstract int getOpenGLX(final int windowWidth);
+
+    /**
+     * @return Open GL y.
+     */
+    public abstract int getOpenGLY(final int windowHeight);
+
+    /**
+     * @return Open GL z.
+     */
+    public abstract int getOpenGLZ(final int windowDepth);
+    
 }

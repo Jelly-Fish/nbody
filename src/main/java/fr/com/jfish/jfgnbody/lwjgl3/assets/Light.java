@@ -15,4 +15,5 @@ public class Light {
         this.green = green;
         this.blue = blue;
     }
+    
 }

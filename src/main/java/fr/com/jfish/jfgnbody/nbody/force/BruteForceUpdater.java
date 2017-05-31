@@ -35,12 +35,10 @@ public class BruteForceUpdater implements NBodyForceComputable {
                     m.c[i].addForce(mB);
                     m.c[i].checkCollision(mB); 
                 }
-                
-                //mB.update(1e11);                
-                //if (!m.c[i].isOutOfBounds(w, h)) mB.setSwallowed(true);
             }
             
-            if (!m.c[i].isOutOfBounds(w, h)) m.c[i].update(1e11);
+            //if (!m.c[i].isOutOfBounds(w, h)) m.c[i].update(1e11);
+            if (!m.c[i].isOutOfOpenGLBounds(w, h, 0)) m.c[i].update(1e11);
             else m.c[i].setSwallowed(true);
             
             ++i;
